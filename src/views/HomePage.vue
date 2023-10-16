@@ -18,7 +18,7 @@
             Selamat datang, Pengguna
           </div>
           <div class="login">
-            <router-link to="/login">Login</router-link>
+            <router-link to="UserLogin">Login</router-link>
           </div>
         </div>
       </nav>
@@ -26,6 +26,18 @@
       <!-- Main content -->
       <div class="main-content">
         <!-- Your main content goes here -->
+        <!-- Carousel -->
+        <carousel :autoplay="2000" :wrap-around="true">
+          <slide v-for="slide in 2" :key="slide">
+            <img src="@/assets/gambar-simanja.png" alt="gambar simanja" class="inner-image" />
+            <img src="@/assets/tahapan-simanja.png" alt="tahapan simanja" class="inner-image" />
+          </slide>
+
+          <template #addons>
+            <navigation />
+            <pagination />
+          </template>
+        </carousel>
         <img src="@/assets/gambar-simanja.png" alt="gambar simanja" class="inner-image" />
         <img src="@/assets/tahapan-simanja.png" alt="tahapan simanja" class="inner-image" />
       </div>
@@ -41,10 +53,10 @@
         <div class="footer-column">
           <ul>
             <li><a class="footer-head">Link</a></li>
-            <li><a href="#">BMKG Pusat</a></li>
-            <li><a href="#">JDIH BMKG</a></li>
-            <li><a href="#">New Simas BMKG</a></li>
-            <li><a href="#">Dashboard Database Umum BMKG</a></li>
+            <li><a href="https://www.bmkg.go.id" target="_blank">BMKG Pusat</a></li>
+            <li><a href="https://jdih.bmkg.go.id" target="_blank">JDIH BMKG</a></li>
+            <li><a href="https://simas.bmkg.go.id" target="_blank">New Simas BMKG</a></li>
+            <li><a href="https://dataonline.bmkg.go.id" target="_blank">Dashboard Database Umum BMKG</a></li>
             <li><a href="#">FAQ</a></li>
             <!-- Add more links as needed -->
           </ul>
@@ -67,11 +79,20 @@
       </footer>
     </div>
 </template>
-  
+
 <script>
-    export default {
-        name: "HomePage",
-    };
+import 'vue3-carousel/dist/carousel.css'
+import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
+
+export default {
+    name: "HomePage",
+    components: {
+        Carousel,
+        Slide,
+        Pagination,
+        Navigation,
+    },
+};
 </script>
   
 <style scoped>
@@ -112,6 +133,28 @@
 
     .main-content {
         /* Style your login text or button */
+    }
+
+    .carousel__item {
+      min-height: 200px;
+      width: 100%;
+      background-color: var(--vc-clr-primary);
+      color: var(--vc-clr-white);
+      font-size: 20px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .carousel__slide {
+      
+    }
+
+    .carousel__prev,
+    .carousel__next {
+      box-sizing: content-box;
+      border: 5px solid white;
     }
 
     .inner-image {

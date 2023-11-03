@@ -1,26 +1,26 @@
 // router/index.ts
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 
 // Import your Vue components here
 import HomePage from '@/views/HomePage.vue'; // Adjust the path accordingly
 import UserLoginPage from '@/views/UserLoginPage.vue';
 import DashBoard from '@/views/DashBoard.vue';
 
-const routes: Array<RouteRecordRaw> = [
+const routes = [
   {
     path: '/',
     name: 'Home',
-    components: HomePage,
+    component: HomePage,
   },
   {
     path: '/login',
     name: 'UserLogin',
-    components: UserLoginPage,
+    component: UserLoginPage,
   },
   {
     path: '/dashboard',
     name: 'Dashboard',
-    components: DashBoard,
+    component: DashBoard,
   },
   
   // Add more routes

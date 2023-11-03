@@ -18,7 +18,7 @@
             Selamat datang, Pengguna
           </div>
           <div class="login">
-            <router-link to="UserLogin">Login</router-link>
+            <router-link :to="{ name: 'UserLogin' }">Login</router-link>
           </div>
         </div>
       </nav>

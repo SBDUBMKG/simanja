@@ -1,28 +1,62 @@
+<!-- UserLogin.vue -->
+
 <template>
-    <div>
-        <h2>User Login</h2>
-        <!-- <form @submit.prevent="login"> -->
-        <form>
-            <input v-model="username" type="text" placeholder="Username" />
-            <input v-model="password" type="password" placeholder="Password" />
-            <button type="submit">Login</button>
-        </form>
-    </div>
+  <div class="container mt-5">
+    <h2>Login</h2>
+    <form @submit.prevent="login" class="needs-validation" novalidate>
+      <div class="mb-3">
+        <label for="username" class="form-label">Username:</label>
+        <input type="text" class="form-control" v-model="username" required>
+        <div class="invalid-feedback">Username harus diisi.</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="password" class="form-label">Password:</label>
+        <input type="password" class="form-control" v-model="password" required>
+        <div class="invalid-feedback">Password harus diisi.</div>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+  </div>
 </template>
 
-<script lang="ts">
+<script>
+import axios from 'axios';
+
 export default {
-    data() {
-      return {
-        username: '',
-        password: '',
-      };
+  data() {
+    return {
+      username: '',
+      password: '',
+    };
+  },
+  methods: {
+    async login() {
+      try {
+        const response = await axios.post('http://localhost:5000/authentications', {
+          username: this.username,
+          password: this.password,
+        });
+
+        // Simpan token ke dalam local storage
+        localStorage.setItem('token', response.data.data.accessToken);
+
+        // Setel token dalam header untuk permintaan selanjutnya
+        axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.data.accessToken}`;
+        
+        // Contoh navigasi ke halaman lain setelah login
+        this.$router.push('/dashboard'); // Anda harus memiliki Vue Router untuk ini
+      } catch (error) {
+        console.error('Error saat login:', error);
+        // Tampilkan pesan kesalahan kepada pengguna jika diperlukan
+      }
     },
-    // login() {
-    //   // In a real application, perform authentication here.
-    //   // For this, we'll just redirect to a dashboard page.
-    //   // this.$router.push({name:'Dashboard'});
-    // },
+  },
 };
 </script>
-  
+
+<style scoped>
+/* Gaya CSS khusus untuk komponen ini */
+/* ... */
+</style>

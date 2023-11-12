@@ -5,10 +5,10 @@
         <!-- Left side: Logo and Website name together -->
         <div class="left-side">
           <div class="logo">
-            <img src="@/assets/logo-BMKG.png" alt="Logo"/>
+            <a href="/"><img src="@/assets/logo-BMKG.png" alt="Logo"/></a>
           </div>
           <div class="website-name">
-            Badan Meteorologi, Klimatologi dan Geofisika
+            <a style="text-decoration:none" href="/">Badan Meteorologi, Klimatologi dan Geofisika</a>
           </div>
         </div>
 
@@ -18,7 +18,7 @@
             Selamat datang, Pengguna
           </div>
           <div class="login">
-            <router-link :to="{ name: 'UserLogin' }">Login</router-link>
+            <router-link to="/login">Login</router-link>
           </div>
         </div>
       </nav>

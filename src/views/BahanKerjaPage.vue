@@ -1,4 +1,6 @@
 <template>
+    <NavbarDashboard/>
+    <SidebarMenu/>
     <div>
         <h2>Daftar Jabatan</h2>
         <table>
@@ -27,24 +29,31 @@
 </template>
 
 <script>
+import NavbarDashboard from '@/components/NavbarDashboard.vue';
+import SidebarMenu from '@/components/SidebarMenu.vue';
+
 export default {
-data() {
-    return {
-    daftarJabatan: [
-        // Contoh data jabatan (sesuaikan dengan struktur data asli)
-        { id: 1, nama: 'Manager', gaji: 8000000 },
-        { id: 2, nama: 'Staff', gaji: 5000000 },
-        // Tambah data jabatan sesuai kebutuhan
-    ],
-    };
-},
-methods: {
-    tambahJabatan() {
-    // Logika untuk menambah jabatan baru
-    // Misalnya, tampilkan dialog tambah jabatan
-    console.log('Menambah jabatan baru...');
+    components:{
+		NavbarDashboard,
+		SidebarMenu,
+	},
+    data() {
+        return {
+        daftarJabatan: [
+            // Contoh data jabatan (sesuaikan dengan struktur data asli)
+            { id: 1, nama: 'Manager', gaji: 8000000 },
+            { id: 2, nama: 'Staff', gaji: 5000000 },
+            // Tambah data jabatan sesuai kebutuhan
+        ],
+        };
     },
-},
+    methods: {
+        tambahJabatan() {
+        // Logika untuk menambah jabatan baru
+        // Misalnya, tampilkan dialog tambah jabatan
+        console.log('Menambah jabatan baru...');
+        },
+    },
 };
 </script>
 

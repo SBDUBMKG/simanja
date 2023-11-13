@@ -1,8 +1,5 @@
 <template>
 	<aside :class="`${is_expanded ? 'is-expanded' : ''}`">
-		<div class="logo">
-			<a href="/dashboard"><img src="@/assets/logo-BMKG.png" alt="Logo"/></a>
-		</div>
 
 		<div class="menu-toggle-wrap">
 			<button class="menu-toggle" @click="ToggleMenu">
@@ -12,31 +9,31 @@
 
 		<h3>Menu</h3>
 		<div class="menu">
-			<router-link to="/" class="button">
+			<router-link to="/jabatan" class="button">
 				<span class="text">Jabatan Fungsional</span>
 			</router-link>
-			<router-link to="/about" class="button">
+			<router-link to="/satker" class="button">
 				<span class="text">Satker / UPT</span>
 			</router-link>
-			<router-link to="/team" class="button">
+			<router-link to="/tugaspokok" class="button">
 				<span class="text">Tugas Pokok</span>
 			</router-link>
-			<router-link to="/" class="button">
+			<router-link to="/pendidikanformal" class="button">
 				<span class="text">Pendidikan Formal</span>
 			</router-link>
-      <router-link to="/" class="button">
+			<router-link to="/pendidikanlatihan" class="button">
 				<span class="text">Pendidikan dan Latihan</span>
 			</router-link>
-      <router-link to="/" class="button">
+			<router-link to="/bahankerja" class="button">
 				<span class="text">Bahan Kerja</span>
 			</router-link>
-      <router-link to="/" class="button">
+			<router-link to="/perangkatkerja" class="button">
 				<span class="text">Perangkat Kerja</span>
 			</router-link>
-      <router-link to="/" class="button">
+			<router-link to="/tanggungjawab" class="button">
 				<span class="text">Tanggung Jawab</span>
 			</router-link>
-      <router-link to="/" class="button">
+			<router-link to="/wewenang" class="button">
 				<span class="text">Wewenang</span>
 			</router-link>
       
@@ -80,14 +77,6 @@ aside {
 
 	.flex {
 		flex: 1 1 0%;
-	}
-
-	.logo {
-		margin-bottom: 1rem;
-
-		img {
-			width: 2rem;
-		}
 	}
 
 	.menu-toggle-wrap {
@@ -145,7 +134,7 @@ aside {
 				transition: 0.2s ease-in-out;
 			}
 			.text {
-				color: var(--dark-alt);
+				color: var(--light);
 				transition: 0.2s ease-in-out;
 			}
 
@@ -162,7 +151,7 @@ aside {
 				border-right: 5px solid var(--primary);
 
 				.material-icons, .text {
-					color: var(--primary);
+					color: var(--grey);
 				}
 			}
 		}
@@ -182,7 +171,7 @@ aside {
 		width: var(--sidebar-width);
 
 		.menu-toggle-wrap {
-			top: -3rem;
+			top: 0rem;
 		}
 
 		h3, .button .text {

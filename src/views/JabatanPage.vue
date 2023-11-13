@@ -1,50 +1,76 @@
 <template>
-    <div>
-        <h2>Daftar Jabatan</h2>
-        <table>
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nama Jabatan</th>
-                <th>Gaji</th>
-                <!-- Tambah kolom sesuai kebutuhan -->
-            </tr>
-            </thead>
-            <tbody>
-            <!-- Gunakan v-for untuk menampilkan data jabatan -->
-            <tr v-for="jabatan in daftarJabatan" :key="jabatan.id">
-                <td>{{ jabatan.id }}</td>
-                <td>{{ jabatan.nama }}</td>
-                <td>{{ jabatan.gaji }}</td>
-                <!-- Tambah sel sesuai kebutuhan -->
-            </tr>
-            </tbody>
-        </table>
-    
-        <!-- Tombol "Add" di bagian bawah kiri tabel -->
-        <button @click="tambahJabatan" class="add-button">Add</button>
+    <NavbarDashboard/>
+    <div class="container-jabatan">
+        <SidebarMenu/>
+        <div class="container-content">
+            <h2>Daftar Jabatan / UPT</h2>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID Fungsional</th>
+                        <th>Nama Jabatan</th>
+                        <!-- Tambah kolom sesuai kebutuhan -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Gunakan v-for untuk menampilkan data jabatan -->
+                    <tr v-for="(data, index) in daftarJabatan" :key="index">
+                        <td>{{ data.jabatan }}</td>
+                        <td>{{ data.jabatan }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
     </div>
 </template>
 
 <script>
+import axios from 'axios';
+import NavbarDashboard from '@/components/NavbarDashboard.vue';
+import SidebarMenu from '@/components/SidebarMenu.vue';
+
 export default {
-data() {
-    return {
-    daftarJabatan: [
-        // Contoh data jabatan (sesuaikan dengan struktur data asli)
-        { id: 1, nama: 'Manager', gaji: 8000000 },
-        { id: 2, nama: 'Staff', gaji: 5000000 },
-        // Tambah data jabatan sesuai kebutuhan
-    ],
-    };
-},
-methods: {
-    tambahJabatan() {
-    // Logika untuk menambah jabatan baru
-    // Misalnya, tampilkan dialog tambah jabatan
-    console.log('Menambah jabatan baru...');
+    components:{
+		NavbarDashboard,
+		SidebarMenu,
+	},
+    data() {
+        return {
+            daftarJabatan: [],
+        };
     },
-},
+    mounted() {
+        this.loadJabatan();
+    },
+    methods: {
+        async loadJabatan() {
+            try {
+                // Mendapatkan token dari local storage
+                const token = localStorage.getItem('token');
+
+                if (!token) {
+                    console.error('Token not available');
+                    // Handle sesuai dengan kebutuhan, seperti redirect ke halaman login
+                    return;
+                }
+
+                // Menambahkan token dalam header Authorization
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                };
+
+                // Melakukan permintaan API dengan token
+                const response = await axios.get('http://localhost:5000/master/fungsional', config);
+
+                // Menyimpan data ke dalam state
+                this.daftarjabatan = response.data.data.fungsional;
+            } catch (error) {
+                console.error('Error fetching jabatan:', error);
+            }
+        },
+    },
 };
 </script>
 
@@ -56,5 +82,13 @@ bottom: 10px;
 left: 10px;
 padding: 10px;
 }
+
+.container-jabatan{
+    display: flex;
+}
+
+.container-content{
+    flex: auto;
+    padding: 20px;
+}
 </style>
-  

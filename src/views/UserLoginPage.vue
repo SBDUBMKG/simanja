@@ -2,22 +2,26 @@
 
 <template>
   <div class="container mt-5">
-    <h2>Login</h2>
-    <form @submit.prevent="login" class="needs-validation" novalidate>
-      <div class="mb-3">
-        <label for="username" class="form-label">Username:</label>
-        <input type="text" class="form-control" v-model="username" required>
-        <div class="invalid-feedback">Username harus diisi.</div>
-      </div>
+    <div class="d-flex justify-content-center align-items-center">
+      <div>
+        <h2>Login</h2>
+        <form @submit.prevent="login" class="needs-validation" novalidate>
+          <div class="mb-3">
+            <label for="username" class="form-label">Username:</label>
+            <input type="text" class="form-control" v-model="username" required>
+            <div class="invalid-feedback">Username harus diisi.</div>
+          </div>
 
-      <div class="mb-3">
-        <label for="password" class="form-label">Password:</label>
-        <input type="password" class="form-control" v-model="password" required>
-        <div class="invalid-feedback">Password harus diisi.</div>
-      </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password:</label>
+            <input type="password" class="form-control" v-model="password" required>
+            <div class="invalid-feedback">Password harus diisi.</div>
+          </div>
 
-      <button type="submit" class="btn btn-primary">Login</button>
-    </form>
+          <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+      </div>
+    </div>
   </div>
 </template>
 

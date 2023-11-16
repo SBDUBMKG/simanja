@@ -6,5 +6,8 @@ import './assets/styles/main.scss'
 import 'font-awesome/css/font-awesome.css'
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
-createApp(App).use(store).use(router).mount('#app')
+const app = createApp(App);
+app.use(store).use(router).use(VueSweetalert2).mount('#app');

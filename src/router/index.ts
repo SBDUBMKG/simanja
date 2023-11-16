@@ -7,7 +7,10 @@ import UserLoginPage from '@/views/UserLoginPage.vue';
 import DashBoard from '@/views/DashBoard.vue';
 import JabatanPage from '@/views/JabatanPage.vue';
 import SatkerPage from '@/views/SatkerPage.vue';
-import TugasPokokPage from '@/views/TugasPokokPage.vue';
+import TugasPokokPage from '@/views/master/tugas_pokok/TugasPokokPage.vue';
+import TugasPokokDetailPage from '@/views//master/tugas_pokok/TugasPokokDetailPage.vue';
+import AddTugasPokokPage from '@/views//master/tugas_pokok/AddTugasPokokPage.vue';
+import EditTugasPokokPage from '@/views//master/tugas_pokok/EditTugasPokokPage.vue';
 import PendidikanFormalPage from '@/views/PendidikanFormalPage.vue';
 import TambahPendidikanFormalPage from '@/views/TambahPendidikanFormalPage.vue';
 import PendidikanLatihanPage from '@/views/PendidikanLatihanPage.vue';
@@ -47,6 +50,21 @@ const routes = [
     path: '/tugaspokok',
     name: 'TugasPokok',
     component: TugasPokokPage,
+  },
+  {
+    path: '/tugaspokok/detail/:fungsionalid',
+    name: 'TugasPokokDetail',
+    component: TugasPokokDetailPage,
+  },
+  {
+    path: '/tugaspokok/add/:fungsionalid',
+    name: 'AddTugasPokok',
+    component: AddTugasPokokPage,
+  },
+  {
+    path: '/tugaspokok/edit/:tugaspokokid',
+    name: 'EditTugasPokok',
+    component: EditTugasPokokPage,
   },
   {
     path: '/pendidikanformal',

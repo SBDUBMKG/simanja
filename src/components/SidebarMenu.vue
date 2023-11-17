@@ -15,19 +15,19 @@
 			<router-link to="/satker" class="button">
 				<span class="text">Satker / UPT</span>
 			</router-link>
-			<router-link to="/tugaspokok" class="button">
+			<router-link to="/tugas-pokok" class="button">
 				<span class="text">Tugas Pokok</span>
 			</router-link>
-			<router-link to="/pendidikanformal" class="button">
+			<router-link to="/pendidikan-formal" class="button">
 				<span class="text">Pendidikan Formal</span>
 			</router-link>
 			<router-link to="/diklat" class="button">
 				<span class="text">Pendidikan dan Latihan</span>
 			</router-link>
-			<router-link to="/bahankerja" class="button">
+			<router-link to="/bahan-kerja" class="button">
 				<span class="text">Bahan Kerja</span>
 			</router-link>
-			<router-link to="/perangkatkerja" class="button">
+			<router-link to="/perangkat-kerja" class="button">
 				<span class="text">Perangkat Kerja</span>
 			</router-link>
 			<router-link to="/tanggungjawab" class="button">

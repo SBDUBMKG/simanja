@@ -29,7 +29,11 @@ import BahanKerjaDetailPage from '@/views//master/bahan_kerja/BahanKerjaDetailPa
 import AddBahanKerjaPage from '@/views//master/bahan_kerja/AddBahanKerjaPage.vue';
 import EditBahanKerjaPage from '@/views//master/bahan_kerja/EditBahanKerjaPage.vue';
 
-import PerangkatKerjaPage from '@/views/PerangkatKerjaPage.vue';
+import PerangkatKerjaPage from '@/views/master/perangkat_kerja/PerangkatKerjaPage.vue';
+import PerangkatKerjaDetailPage from '@/views//master/perangkat_kerja/PerangkatKerjaDetailPage.vue';
+import AddPerangkatKerjaPage from '@/views//master/perangkat_kerja/AddPerangkatKerjaPage.vue';
+import EditPerangkatKerjaPage from '@/views//master/perangkat_kerja/EditPerangkatKerjaPage.vue';
+
 import TanggungJawabPage from '@/views/TanggungJawabPage.vue';
 import WewenangPage from '@/views/WewenangPage.vue';
 
@@ -65,44 +69,44 @@ const routes = [
 
   // Master Tugas Path
   {
-    path: '/tugaspokok',
+    path: '/tugas-pokok',
     name: 'TugasPokok',
     component: TugasPokokPage,
   },
   {
-    path: '/tugaspokok/detail/:fungsionalid',
+    path: '/tugas-pokok/detail/:fungsionalid',
     name: 'TugasPokokDetail',
     component: TugasPokokDetailPage,
   },
   {
-    path: '/tugaspokok/add/:fungsionalid',
+    path: '/tugas-pokok/add/:fungsionalid',
     name: 'AddTugasPokok',
     component: AddTugasPokokPage,
   },
   {
-    path: '/tugaspokok/edit/:tugaspokokid',
+    path: '/tugas-pokok/edit/:tugaspokokid',
     name: 'EditTugasPokok',
     component: EditTugasPokokPage,
   },
 
   // Master Pendidikan Formal Path
   {
-    path: '/pendidikanformal',
+    path: '/pendidikan-formal',
     name: 'PendidikanFormal',
     component: PendidikanFormalPage,
   },
   {
-    path: '/pendidikanformal/detail/:fungsionalid',
+    path: '/pendidikan-formal/detail/:fungsionalid',
     name: 'PendidikanFormalDetail',
     component: PendidikanFormalDetailPage,
   },
   {
-    path: '/pendidikanformal/add/:fungsionalid',
+    path: '/pendidikan-formal/add/:fungsionalid',
     name: 'AddPendidikanFormal',
     component: AddPendidikanFormalPage,
   },
   {
-    path: '/pendidikanformal/edit/:pendidikanformalid',
+    path: '/pendidikan-formal/edit/:pendidikanformalid',
     name: 'EditPendidikanFormal',
     component: EditPendidikanFormalPage,
   },
@@ -151,16 +155,28 @@ const routes = [
     component: EditBahanKerjaPage,
   },
 
+  // Master Perangkat Kerja Path
   {
-    path: '/bahankerja',
-    name: 'BahanKerja',
-    component: BahanKerjaPage,
-  },
-  {
-    path: '/perangkatkerja',
+    path: '/perangkat-kerja',
     name: 'PerangkatKerja',
     component: PerangkatKerjaPage,
   },
+  {
+    path: '/perangkat-kerja/detail/:fungsionalid',
+    name: 'PerangkatKerjaDetail',
+    component: PerangkatKerjaDetailPage,
+  },
+  {
+    path: '/perangkat-kerja/add/:fungsionalid',
+    name: 'AddPerangkatKerja',
+    component: AddPerangkatKerjaPage,
+  },
+  {
+    path: '/perangkat-kerja/edit/:perangkatkerjaid',
+    name: 'EditPerangkatKerja',
+    component: EditPerangkatKerjaPage,
+  },
+
   {
     path: '/tanggungjawab',
     name: 'TanggungJawab',

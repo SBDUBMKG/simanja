@@ -270,9 +270,5 @@ export default {
 .column-title {
     vertical-align: middle;
 }
-
-.container-add-master-tugas .form-control {
-    font-size: 12px;
-}
 </style>
   

@@ -217,9 +217,5 @@ export default {
 .column-title {
     vertical-align: middle;
 }
-
-.form-control {
-    font-size: 12px;
-}
 </style>
   

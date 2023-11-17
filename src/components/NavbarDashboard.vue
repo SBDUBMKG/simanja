@@ -16,7 +16,7 @@
           <div class="website-name">
             Selamat datang, {{ pengguna }}
           </div>
-          <div class="logout">
+          <div @click="logout" class="logout">
             <router-link to="/">Logout</router-link>
           </div>
         </div>

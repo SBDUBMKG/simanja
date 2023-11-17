@@ -7,12 +7,16 @@ import UserLoginPage from '@/views/login/UserLoginPage.vue';
 import DashBoard from '@/views/DashBoard.vue';
 import JabatanPage from '@/views/JabatanPage.vue';
 import SatkerPage from '@/views/SatkerPage.vue';
+
+// Master Menu Views
 import TugasPokokPage from '@/views/master/tugas_pokok/TugasPokokPage.vue';
 import TugasPokokDetailPage from '@/views//master/tugas_pokok/TugasPokokDetailPage.vue';
 import AddTugasPokokPage from '@/views//master/tugas_pokok/AddTugasPokokPage.vue';
 import EditTugasPokokPage from '@/views//master/tugas_pokok/EditTugasPokokPage.vue';
-import PendidikanFormalPage from '@/views/PendidikanFormalPage.vue';
-import TambahPendidikanFormalPage from '@/views/TambahPendidikanFormalPage.vue';
+import PendidikanFormalPage from '@/views/master/pendidikan_formal/PendidikanFormalPage.vue';
+import PendidikanFormalDetailPage from '@/views//master/pendidikan_formal/PendidikanFormalDetailPage.vue';
+import AddPendidikanFormalPage from '@/views//master/pendidikan_formal/AddPendidikanFormalPage.vue';
+import EditPendidikanFormalPage from '@/views//master/pendidikan_formal/EditPendidikanFormalPage.vue';
 import PendidikanLatihanPage from '@/views/PendidikanLatihanPage.vue';
 import BahanKerjaPage from '@/views/BahanKerjaPage.vue';
 import PerangkatKerjaPage from '@/views/PerangkatKerjaPage.vue';
@@ -36,6 +40,8 @@ const routes = [
     name: 'Dashboard',
     component: DashBoard,
   },
+
+  // Master Menu Path
   {
     path: '/jabatan',
     name: 'Jabatan',
@@ -46,6 +52,8 @@ const routes = [
     name: 'Satker',
     component: SatkerPage,
   },
+
+  // Master Tugas Path
   {
     path: '/tugaspokok',
     name: 'TugasPokok',
@@ -66,15 +74,27 @@ const routes = [
     name: 'EditTugasPokok',
     component: EditTugasPokokPage,
   },
+
+  // Master Pendidikan Formal Path
   {
     path: '/pendidikanformal',
     name: 'PendidikanFormal',
     component: PendidikanFormalPage,
   },
   {
-    path: '/tambahpendidikanformal',
-    name: 'TambahPendidikanFormal',
-    component: TambahPendidikanFormalPage,
+    path: '/pendidikanformal/detail/:fungsionalid',
+    name: 'PendidikanFormalDetail',
+    component: PendidikanFormalDetailPage,
+  },
+  {
+    path: '/pendidikanformal/add/:fungsionalid',
+    name: 'AddPendidikanFormal',
+    component: AddPendidikanFormalPage,
+  },
+  {
+    path: '/pendidikanformal/edit/:pendidikanformalid',
+    name: 'EditPendidikanFormal',
+    component: EditPendidikanFormalPage,
   },
   {
     path: '/pendidikanlatihan',

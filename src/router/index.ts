@@ -24,7 +24,11 @@ import DiklatDetailPage from '@/views//master/diklat/DiklatDetailPage.vue';
 import AddDiklatPage from '@/views//master/diklat/AddDiklatPage.vue';
 import EditDiklatPage from '@/views//master/diklat/EditDiklatPage.vue';
 
-import BahanKerjaPage from '@/views/BahanKerjaPage.vue';
+import BahanKerjaPage from '@/views/master/bahan_kerja/BahanKerjaPage.vue';
+import BahanKerjaDetailPage from '@/views//master/bahan_kerja/BahanKerjaDetailPage.vue';
+import AddBahanKerjaPage from '@/views//master/bahan_kerja/AddBahanKerjaPage.vue';
+import EditBahanKerjaPage from '@/views//master/bahan_kerja/EditBahanKerjaPage.vue';
+
 import PerangkatKerjaPage from '@/views/PerangkatKerjaPage.vue';
 import TanggungJawabPage from '@/views/TanggungJawabPage.vue';
 import WewenangPage from '@/views/WewenangPage.vue';
@@ -123,6 +127,28 @@ const routes = [
     path: '/diklat/edit/:diklatid',
     name: 'EditDiklat',
     component: EditDiklatPage,
+  },
+
+  // Master Bahan Kerja Path
+  {
+    path: '/bahan-kerja',
+    name: 'BahanKerja',
+    component: BahanKerjaPage,
+  },
+  {
+    path: '/bahan-kerja/detail/:fungsionalid',
+    name: 'BahanKerjaDetail',
+    component: BahanKerjaDetailPage,
+  },
+  {
+    path: '/bahan-kerja/add/:fungsionalid',
+    name: 'AddBahanKerja',
+    component: AddBahanKerjaPage,
+  },
+  {
+    path: '/bahan-kerja/edit/:bahankerjaid',
+    name: 'EditBahanKerja',
+    component: EditBahanKerjaPage,
   },
 
   {

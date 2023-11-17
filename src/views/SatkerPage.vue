@@ -63,7 +63,7 @@ export default {
                 };
 
                 // Melakukan permintaan API dengan token
-                const response = await axios.get('http://localhost:5000/master/satker', config);
+                const response = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/master/satker`, config);
 
                 // Menyimpan data ke dalam state
                 this.daftarSatker = response.data.data.satker;

@@ -92,7 +92,7 @@ export default {
                     },
                 };
 
-                const response = await axios.get(`http://localhost:5000/master/pendidikan/fungsional/${this.fungsionalId}`, config);
+                const response = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/master/pendidikan/fungsional/${this.fungsionalId}`, config);
 
                 this.daftarPendidikanFormal = response.data.data.pendidikan
                 this.pendidikanFormalLoaded = true
@@ -121,7 +121,7 @@ export default {
                     },
                 };
 
-                const response = await axios.get(`http://localhost:5000/master/fungsional/id/${this.fungsionalId}`, config);
+                const response = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/master/fungsional/id/${this.fungsionalId}`, config);
 
                 this.fungsionalData = response.data.data.fungsional[0]
                 this.dataLoaded = true
@@ -169,7 +169,7 @@ export default {
                             }
                         }
         
-                        await axios.delete(`http://localhost:5000/master/pendidikan/${id_pendidikan}`, config)
+                        await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/master/pendidikan/${id_pendidikan}`, config)
                         this.daftarPendidikanFormal = null
                         this.pendidikanFormalLoaded = false,
                         this.loadPendidikanFormal()

@@ -69,7 +69,7 @@ export default {
                     },
                 };
 
-                const response = await axios.get(`http://localhost:5000/master/bahan-kerja/id/${this.bahanKerjaId}`, config);
+                const response = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/master/bahan-kerja/id/${this.bahanKerjaId}`, config);
                 
                 this.bahanKerjaData = response.data.data.bahanKerja[0]
                 this.bahanKerjaLoaded = true
@@ -119,7 +119,7 @@ export default {
                     penggunaan: penggunaan
                 }
 
-                await axios.put(`http://localhost:5000/master/bahan-kerja/${this.bahanKerjaId}`, payload, config)
+                await axios.put(`${process.env.VUE_APP_BACKENDHOST}/master/bahan-kerja/${this.bahanKerjaId}`, payload, config)
                 console.log(payload)
 
                 this.$swal.fire({

@@ -94,7 +94,7 @@ export default {
                     },
                 };
 
-                const response = await axios.get(`http://localhost:5000/master/perangkat-kerja/fungsional/${this.fungsionalId}`, config);
+                const response = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/master/perangkat-kerja/fungsional/${this.fungsionalId}`, config);
 
                 this.daftarPerangkatKerja = response.data.data.perangkatKerja
                 this.perangkatKerjaLoaded = true
@@ -123,7 +123,7 @@ export default {
                     },
                 };
 
-                const response = await axios.get(`http://localhost:5000/master/fungsional/id/${this.fungsionalId}`, config);
+                const response = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/master/fungsional/id/${this.fungsionalId}`, config);
 
                 this.fungsionalData = response.data.data.fungsional[0]
                 this.dataLoaded = true
@@ -171,7 +171,7 @@ export default {
                             }
                         }
         
-                        await axios.delete(`http://localhost:5000/master/perangkat-kerja/${id_perangkat_kerja}`, config)
+                        await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/master/perangkat-kerja/${id_perangkat_kerja}`, config)
                         this.daftarPerangkatKerja = null
                         this.perangkatKerjaLoaded = false,
                         this.loadPerangkatKerja()

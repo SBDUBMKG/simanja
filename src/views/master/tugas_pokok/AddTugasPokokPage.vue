@@ -90,7 +90,7 @@ export default {
                     },
                 };
 
-                const response = await axios.get(`http://localhost:5000/master/fungsional/id/${this.fungsionalId}`, config);
+                const response = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/master/fungsional/id/${this.fungsionalId}`, config);
 
                 this.fungsionalData = response.data.data.fungsional[0]
                 this.dataLoaded = true
@@ -191,7 +191,7 @@ export default {
                             waktuefektif: waktuEfektifList[i]
                         }
     
-                        await axios.post(`http://localhost:5000/master/tugas`, payload, config);
+                        await axios.post(`${process.env.VUE_APP_BACKENDHOST}/master/tugas`, payload, config);
 
                     } catch (error) {
                         if (error.status === 401) {

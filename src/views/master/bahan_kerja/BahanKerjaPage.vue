@@ -73,7 +73,7 @@ export default {
                 };
 
                 // Melakukan permintaan API dengan token
-                const response = await axios.get('http://localhost:5000/master/fungsional', config);
+                const response = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/master/fungsional`, config);
 
                 // Menyimpan data ke dalam state
                 this.daftarjabatan = response.data.data.fungsional

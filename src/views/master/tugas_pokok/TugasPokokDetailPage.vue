@@ -100,7 +100,7 @@ export default {
                     },
                 };
 
-                const response = await axios.get(`http://localhost:5000/master/tugas/fungsional/${this.fungsionalId}`, config);
+                const response = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/master/tugas/fungsional/${this.fungsionalId}`, config);
 
                 this.daftarTugas = response.data.data.tugas
                 this.tugasLoaded = true
@@ -129,7 +129,7 @@ export default {
                     },
                 };
 
-                const response = await axios.get(`http://localhost:5000/master/fungsional/id/${this.fungsionalId}`, config);
+                const response = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/master/fungsional/id/${this.fungsionalId}`, config);
 
                 this.fungsionalData = response.data.data.fungsional[0]
                 this.dataLoaded = true
@@ -177,7 +177,7 @@ export default {
                             }
                         }
         
-                        await axios.delete(`http://localhost:5000/master/tugas/${id_tugas}`, config)
+                        await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/master/tugas/${id_tugas}`, config)
                         this.daftarTugas = null
                         this.tugasLoaded = false,
                         this.loadTugas()

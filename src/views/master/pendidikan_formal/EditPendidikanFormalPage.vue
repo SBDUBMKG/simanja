@@ -65,7 +65,7 @@ export default {
                     },
                 };
 
-                const response = await axios.get(`http://localhost:5000/master/pendidikan/id/${this.pendidikanFormalId}`, config);
+                const response = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/master/pendidikan/id/${this.pendidikanFormalId}`, config);
                 
                 this.pendidikanFormalData = response.data.data.pendidikan[0]
                 console.log(this.pendidikanFormalData)
@@ -114,7 +114,7 @@ export default {
                     pendidikan: pendidikanFormal
                 }
 
-                await axios.put(`http://localhost:5000/master/pendidikan/${this.pendidikanFormalId}`, payload, config)
+                await axios.put(`${process.env.VUE_APP_BACKENDHOST}/master/pendidikan/${this.pendidikanFormalId}`, payload, config)
                 console.log(payload)
 
                 this.$swal.fire({

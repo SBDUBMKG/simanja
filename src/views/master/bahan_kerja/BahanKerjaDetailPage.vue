@@ -94,7 +94,7 @@ export default {
                     },
                 };
 
-                const response = await axios.get(`http://localhost:5000/master/bahan-kerja/fungsional/${this.fungsionalId}`, config);
+                const response = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/master/bahan-kerja/fungsional/${this.fungsionalId}`, config);
 
                 this.daftarBahanKerja = response.data.data.bahanKerja
                 this.bahanKerjaLoaded = true
@@ -123,7 +123,7 @@ export default {
                     },
                 };
 
-                const response = await axios.get(`http://localhost:5000/master/fungsional/id/${this.fungsionalId}`, config);
+                const response = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/master/fungsional/id/${this.fungsionalId}`, config);
 
                 this.fungsionalData = response.data.data.fungsional[0]
                 this.dataLoaded = true
@@ -171,7 +171,7 @@ export default {
                             }
                         }
         
-                        await axios.delete(`http://localhost:5000/master/bahan-kerja/${id_bahan_kerja}`, config)
+                        await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/master/bahan-kerja/${id_bahan_kerja}`, config)
                         this.daftarBahanKerja = null
                         this.bahanKerjaLoaded = false,
                         this.loadBahanKerja()

@@ -86,7 +86,7 @@ export default {
                     },
                 };
 
-                const response = await axios.get(`http://localhost:5000/master/tugas/id/${this.tugasId}`, config);
+                const response = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/master/tugas/id/${this.tugasId}`, config);
                 
                 this.tugasData = response.data.data.tugas[0]
                 console.log(this.tugasData)
@@ -143,7 +143,7 @@ export default {
                     waktuefektif: waktuEfektif
                 }
 
-                await axios.put(`http://localhost:5000/master/tugas/${this.tugasId}`, payload, config)
+                await axios.put(`${process.env.VUE_APP_BACKENDHOST}/master/tugas/${this.tugasId}`, payload, config)
                 console.log(payload)
 
                 this.$swal.fire({

@@ -65,7 +65,7 @@ export default {
                     },
                 };
 
-                const response = await axios.get(`http://localhost:5000/master/diklat/id/${this.diklatId}`, config);
+                const response = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/master/diklat/id/${this.diklatId}`, config);
                 
                 this.diklatData = response.data.data.diklat[0]
                 console.log(this.diklatData)
@@ -114,7 +114,7 @@ export default {
                     diklat: diklat
                 }
 
-                await axios.put(`http://localhost:5000/master/diklat/${this.diklatId}`, payload, config)
+                await axios.put(`${process.env.VUE_APP_BACKENDHOST}/master/diklat/${this.diklatId}`, payload, config)
                 console.log(payload)
 
                 this.$swal.fire({

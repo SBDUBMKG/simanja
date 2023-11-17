@@ -92,7 +92,7 @@ export default {
                     },
                 };
 
-                const response = await axios.get(`http://localhost:5000/master/diklat/fungsional/${this.fungsionalId}`, config);
+                const response = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/master/diklat/fungsional/${this.fungsionalId}`, config);
 
                 this.daftarDiklat = response.data.data.diklat
                 this.diklatLoaded = true
@@ -121,7 +121,7 @@ export default {
                     },
                 };
 
-                const response = await axios.get(`http://localhost:5000/master/fungsional/id/${this.fungsionalId}`, config);
+                const response = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/master/fungsional/id/${this.fungsionalId}`, config);
 
                 this.fungsionalData = response.data.data.fungsional[0]
                 this.dataLoaded = true
@@ -169,7 +169,7 @@ export default {
                             }
                         }
         
-                        await axios.delete(`http://localhost:5000/master/diklat/${id_diklat}`, config)
+                        await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/master/diklat/${id_diklat}`, config)
                         this.daftarDiklat = null
                         this.diklatLoaded = false,
                         this.loadDiklat()

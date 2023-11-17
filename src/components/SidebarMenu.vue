@@ -21,7 +21,7 @@
 			<router-link to="/pendidikanformal" class="button">
 				<span class="text">Pendidikan Formal</span>
 			</router-link>
-			<router-link to="/pendidikanlatihan" class="button">
+			<router-link to="/diklat" class="button">
 				<span class="text">Pendidikan dan Latihan</span>
 			</router-link>
 			<router-link to="/bahankerja" class="button">

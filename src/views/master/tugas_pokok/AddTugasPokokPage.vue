@@ -24,8 +24,8 @@
                             <th class="column-title" width="30%">URAIAN HASIL KERJA</th>
                         </tr>
                     </thead>
-                    <tbody id="list-tugas">
-                        <tr class="row-tugas">
+                    <tbody id="list-table">
+                        <tr class="row-list">
                             <td><textarea class="form-control form-control-sm uraian-tugas" rows="1"></textarea></td>
                             <td>
                                 <select class="form-control form-control-sm hasil-kerja">
@@ -63,7 +63,6 @@ export default {
         return {
             fungsionalId: this.$route.params.fungsionalid,
             fungsionalData: null,
-            tugasLoaded: false,
             dataLoaded: false
         };
     },
@@ -116,7 +115,7 @@ export default {
         },
 
         addRow () {
-            const listTugas = document.getElementById("list-tugas")
+            const listTugas = document.getElementById("list-table")
 
             const row = document.createElement('tr')
             let html = `<td><textarea class="form-control form-control-sm uraian-tugas" rows="1"></textarea></td>`
@@ -132,18 +131,18 @@ export default {
             html += `<td><textarea class="form-control form-control-sm uraian-hasil-kerja" rows="1"></textarea></td>`
 
             row.innerHTML = html            
-            row.classList.add('row-tugas')
+            row.classList.add('row-list')
 
             listTugas.appendChild(row)
         },
 
         deleteRow () {
-            const listTugas = document.getElementById("list-tugas")
+            const listTugas = document.getElementById("list-table")
             listTugas.removeChild(listTugas.lastElementChild)
         },
 
         async saveTugas () {
-            const listTugas = document.getElementsByClassName('row-tugas')
+            const listTugas = document.getElementsByClassName('row-list')
             const uraianTugasList = []
             const hasilKerjaList = []
             const waktuPenyelesaianList = []

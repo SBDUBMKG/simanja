@@ -158,7 +158,7 @@ export default {
                 this.$swal.fire({
                     icon: 'warning',
                     title: 'Peringatan!!',
-                    text: 'Yakin ingin menghapus ikhtisar jabatan?',
+                    text: 'Yakin ingin menghapus keterampilan kerja?',
                     showCancelButton: true,
                 }).then(async (result) => {
                     if (result.isConfirmed) {

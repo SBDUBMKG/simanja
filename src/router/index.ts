@@ -39,8 +39,10 @@ import TanggungJawabDetailPage from '@/views//master/tanggung_jawab/TanggungJawa
 import AddTanggungJawabPage from '@/views//master/tanggung_jawab/AddTanggungJawabPage.vue';
 import EditTanggungJawabPage from '@/views//master/tanggung_jawab/EditTanggungJawabPage.vue';
 
-import WewenangPage from '@/views/WewenangPage.vue';
-
+import WewenangPage from '@/views/master/wewenang/WewenangPage.vue';
+import WewenangDetailPage from '@/views//master/wewenang/WewenangDetailPage.vue';
+import AddWewenangPage from '@/views//master/wewenang/AddWewenangPage.vue';
+import EditWewenangPage from '@/views//master/wewenang/EditWewenangPage.vue';
 
 const routes = [
   {
@@ -181,7 +183,7 @@ const routes = [
     component: EditPerangkatKerjaPage,
   },
 
-  // Master Perangkat Kerja Path
+  // Master Tanggung Jawab Path
   {
     path: '/tanggung-jawab',
     name: 'TanggungJawab',
@@ -203,10 +205,26 @@ const routes = [
     component: EditTanggungJawabPage,
   },
 
+  // Master Wewenang Path
   {
     path: '/wewenang',
     name: 'Wewenang',
     component: WewenangPage,
+  },
+  {
+    path: '/wewenang/detail/:fungsionalid',
+    name: 'WewenangDetail',
+    component: WewenangDetailPage,
+  },
+  {
+    path: '/wewenang/add/:fungsionalid',
+    name: 'AddWewenang',
+    component: AddWewenangPage,
+  },
+  {
+    path: '/wewenang/edit/:wewenangid',
+    name: 'EditWewenang',
+    component: EditWewenangPage,
   },
   
   

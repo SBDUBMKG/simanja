@@ -42,6 +42,9 @@
 			<router-link to="/wewenang" class="button">
 				<span class="text">Wewenang</span>
 			</router-link>
+			<router-link to="/keterampilan-kerja" class="button">
+				<span class="text">Keterampilan Kerja</span>
+			</router-link>
       
 		</div>
 

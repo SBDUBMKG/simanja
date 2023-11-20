@@ -54,6 +54,11 @@ import WewenangDetailPage from '@/views//master/wewenang/WewenangDetailPage.vue'
 import AddWewenangPage from '@/views//master/wewenang/AddWewenangPage.vue';
 import EditWewenangPage from '@/views//master/wewenang/EditWewenangPage.vue';
 
+import KeterampilanKerjaPage from '@/views/master/keterampilan_kerja/KeterampilanKerjaPage.vue';
+import KeterampilanKerjaDetailPage from '@/views//master/keterampilan_kerja/KeterampilanKerjaDetailPage.vue';
+import AddKeterampilanKerjaPage from '@/views//master/keterampilan_kerja/AddKeterampilanKerjaPage.vue';
+import EditKeterampilanKerjaPage from '@/views//master/keterampilan_kerja/EditKeterampilanKerjaPage.vue';
+
 const routes = [
   {
     path: '/',
@@ -281,6 +286,27 @@ const routes = [
     component: EditWewenangPage,
   },
   
+  // Master Keterampilan Kerja Path
+  {
+    path: '/keterampilan-kerja',
+    name: 'KeterampilanKerja',
+    component: KeterampilanKerjaPage,
+  },
+  {
+    path: '/keterampilan-kerja/detail/:fungsionalid',
+    name: 'KeterampilanKerjaDetail',
+    component: KeterampilanKerjaDetailPage,
+  },
+  {
+    path: '/keterampilan-kerja/add/:fungsionalid',
+    name: 'AddKeterampilanKerja',
+    component: AddKeterampilanKerjaPage,
+  },
+  {
+    path: '/keterampilan-kerja/edit/:keterampilankerjaid',
+    name: 'EditKeterampilanKerja',
+    component: EditKeterampilanKerjaPage,
+  },
   
   // Add more routes
 ];

@@ -67,6 +67,10 @@ import TemperamenKerjaPage from '@/views/master/temperamen_kerja/TemperamenKerja
 import AddTemperamenKerjaPage from '@/views//master/temperamen_kerja/AddTemperamenKerjaPage.vue';
 import EditTemperamenKerjaPage from '@/views//master/temperamen_kerja/EditTemperamenKerjaPage.vue';
 
+import MinatKerjaPage from '@/views/master/minat_kerja/MinatKerjaPage.vue';
+import AddMinatKerjaPage from '@/views//master/minat_kerja/AddMinatKerjaPage.vue';
+import EditMinatKerjaPage from '@/views//master/minat_kerja/EditMinatKerjaPage.vue';
+
 const routes = [
   {
     path: '/',
@@ -348,6 +352,23 @@ const routes = [
     path: '/temperamen-kerja/edit/:temperamenkerjaid',
     name: 'EditTemperamenKerja',
     component: EditTemperamenKerjaPage,
+  },
+
+  // Master Minat Kerja Path
+  {
+    path: '/minat-kerja',
+    name: 'MinatKerja',
+    component: MinatKerjaPage,
+  },
+  {
+    path: '/minat-kerja/add',
+    name: 'AddMinatKerja',
+    component: AddMinatKerjaPage,
+  },
+  {
+    path: '/minat-kerja/edit/:minatkerjaid',
+    name: 'EditMinatKerja',
+    component: EditMinatKerjaPage,
   },
   
   // Add more routes

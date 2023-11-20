@@ -29,6 +29,11 @@ import DiklatDetailPage from '@/views//master/diklat/DiklatDetailPage.vue';
 import AddDiklatPage from '@/views//master/diklat/AddDiklatPage.vue';
 import EditDiklatPage from '@/views//master/diklat/EditDiklatPage.vue';
 
+import PengalamanKerjaPage from '@/views/master/pengalaman_kerja/PengalamanKerjaPage.vue';
+import PengalamanKerjaDetailPage from '@/views//master/pengalaman_kerja/PengalamanKerjaDetailPage.vue';
+import AddPengalamanKerjaPage from '@/views//master/pengalaman_kerja/AddPengalamanKerjaPage.vue';
+import EditPengalamanKerjaPage from '@/views//master/pengalaman_kerja/EditPengalamanKerjaPage.vue';
+
 import BahanKerjaPage from '@/views/master/bahan_kerja/BahanKerjaPage.vue';
 import BahanKerjaDetailPage from '@/views//master/bahan_kerja/BahanKerjaDetailPage.vue';
 import AddBahanKerjaPage from '@/views//master/bahan_kerja/AddBahanKerjaPage.vue';
@@ -164,6 +169,28 @@ const routes = [
     path: '/diklat/edit/:diklatid',
     name: 'EditDiklat',
     component: EditDiklatPage,
+  },
+
+  // Master Pengalaman Kerja Path
+  {
+    path: '/pengalaman-kerja',
+    name: 'PengalamanKerja',
+    component: PengalamanKerjaPage,
+  },
+  {
+    path: '/pengalaman-kerja/detail/:fungsionalid',
+    name: 'PengalamanKerjaDetail',
+    component: PengalamanKerjaDetailPage,
+  },
+  {
+    path: '/pengalaman-kerja/add/:fungsionalid',
+    name: 'AddPengalamanKerja',
+    component: AddPengalamanKerjaPage,
+  },
+  {
+    path: '/pengalaman-kerja/edit/:pengalamankerjaid',
+    name: 'EditPengalamanKerja',
+    component: EditPengalamanKerjaPage,
   },
 
   // Master Bahan Kerja Path

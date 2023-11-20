@@ -27,6 +27,9 @@
 			<router-link to="/diklat" class="button">
 				<span class="text">Pendidikan dan Latihan</span>
 			</router-link>
+			<router-link to="/pengalaman-kerja" class="button">
+				<span class="text">Pengalaman Kerja</span>
+			</router-link>
 			<router-link to="/bahan-kerja" class="button">
 				<span class="text">Bahan Kerja</span>
 			</router-link>

@@ -34,7 +34,11 @@ import PerangkatKerjaDetailPage from '@/views//master/perangkat_kerja/PerangkatK
 import AddPerangkatKerjaPage from '@/views//master/perangkat_kerja/AddPerangkatKerjaPage.vue';
 import EditPerangkatKerjaPage from '@/views//master/perangkat_kerja/EditPerangkatKerjaPage.vue';
 
-import TanggungJawabPage from '@/views/TanggungJawabPage.vue';
+import TanggungJawabPage from '@/views/master/tanggung_jawab/TanggungJawabPage.vue';
+import TanggungJawabDetailPage from '@/views//master/tanggung_jawab/TanggungJawabDetailPage.vue';
+import AddTanggungJawabPage from '@/views//master/tanggung_jawab/AddTanggungJawabPage.vue';
+import EditTanggungJawabPage from '@/views//master/tanggung_jawab/EditTanggungJawabPage.vue';
+
 import WewenangPage from '@/views/WewenangPage.vue';
 
 
@@ -177,11 +181,28 @@ const routes = [
     component: EditPerangkatKerjaPage,
   },
 
+  // Master Perangkat Kerja Path
   {
-    path: '/tanggungjawab',
+    path: '/tanggung-jawab',
     name: 'TanggungJawab',
     component: TanggungJawabPage,
   },
+  {
+    path: '/tanggung-jawab/detail/:fungsionalid',
+    name: 'TanggungJawabDetail',
+    component: TanggungJawabDetailPage,
+  },
+  {
+    path: '/tanggung-jawab/add/:fungsionalid',
+    name: 'AddTanggungJawab',
+    component: AddTanggungJawabPage,
+  },
+  {
+    path: '/tanggung-jawab/edit/:tanggungjawabid',
+    name: 'EditTanggungJawab',
+    component: EditTanggungJawabPage,
+  },
+
   {
     path: '/wewenang',
     name: 'Wewenang',

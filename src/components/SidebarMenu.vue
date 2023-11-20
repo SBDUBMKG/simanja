@@ -30,7 +30,7 @@
 			<router-link to="/perangkat-kerja" class="button">
 				<span class="text">Perangkat Kerja</span>
 			</router-link>
-			<router-link to="/tanggungjawab" class="button">
+			<router-link to="/tanggung-jawab" class="button">
 				<span class="text">Tanggung Jawab</span>
 			</router-link>
 			<router-link to="/wewenang" class="button">

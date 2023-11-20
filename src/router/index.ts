@@ -63,6 +63,10 @@ import BakatKerjaPage from '@/views/master/bakat_kerja/BakatKerjaPage.vue';
 import AddBakatKerjaPage from '@/views//master/bakat_kerja/AddBakatKerjaPage.vue';
 import EditBakatKerjaPage from '@/views//master/bakat_kerja/EditBakatKerjaPage.vue';
 
+import TemperamenKerjaPage from '@/views/master/temperamen_kerja/TemperamenKerjaPage.vue';
+import AddTemperamenKerjaPage from '@/views//master/temperamen_kerja/AddTemperamenKerjaPage.vue';
+import EditTemperamenKerjaPage from '@/views//master/temperamen_kerja/EditTemperamenKerjaPage.vue';
+
 const routes = [
   {
     path: '/',
@@ -327,6 +331,23 @@ const routes = [
     path: '/bakat-kerja/edit/:bakatkerjaid',
     name: 'EditBakatKerja',
     component: EditBakatKerjaPage,
+  },
+
+  // Master Temperamen Kerja Path
+  {
+    path: '/temperamen-kerja',
+    name: 'TemperamenKerja',
+    component: TemperamenKerjaPage,
+  },
+  {
+    path: '/temperamen-kerja/add',
+    name: 'AddTemperamenKerja',
+    component: AddTemperamenKerjaPage,
+  },
+  {
+    path: '/temperamen-kerja/edit/:temperamenkerjaid',
+    name: 'EditTemperamenKerja',
+    component: EditTemperamenKerjaPage,
   },
   
   // Add more routes

@@ -48,6 +48,9 @@
 			<router-link to="/bakat-kerja" class="button">
 				<span class="text">Bakat Kerja</span>
 			</router-link>
+			<router-link to="/temperamen-kerja" class="button">
+				<span class="text">Temperamen Kerja</span>
+			</router-link>
       
 		</div>
 

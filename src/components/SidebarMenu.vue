@@ -54,6 +54,9 @@
 			<router-link to="/minat-kerja" class="button">
 				<span class="text">Minat Kerja</span>
 			</router-link>
+			<router-link to="/fungsi-pekerjaan" class="button">
+				<span class="text">Fungsi Pekerjaan</span>
+			</router-link>
       
 		</div>
 

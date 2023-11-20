@@ -71,6 +71,10 @@ import MinatKerjaPage from '@/views/master/minat_kerja/MinatKerjaPage.vue';
 import AddMinatKerjaPage from '@/views//master/minat_kerja/AddMinatKerjaPage.vue';
 import EditMinatKerjaPage from '@/views//master/minat_kerja/EditMinatKerjaPage.vue';
 
+import FungsiPekerjaanPage from '@/views/master/fungsi_pekerjaan/FungsiPekerjaanPage.vue';
+import AddFungsiPekerjaanPage from '@/views//master/fungsi_pekerjaan/AddFungsiPekerjaanPage.vue';
+import EditFungsiPekerjaanPage from '@/views//master/fungsi_pekerjaan/EditFungsiPekerjaanPage.vue';
+
 const routes = [
   {
     path: '/',
@@ -369,6 +373,23 @@ const routes = [
     path: '/minat-kerja/edit/:minatkerjaid',
     name: 'EditMinatKerja',
     component: EditMinatKerjaPage,
+  },
+
+  // Master Fungsi Pekerjaan Path
+  {
+    path: '/fungsi-pekerjaan',
+    name: 'FungsiPekerjaan',
+    component: FungsiPekerjaanPage,
+  },
+  {
+    path: '/fungsi-pekerjaan/add',
+    name: 'AddFungsiPekerjaan',
+    component: AddFungsiPekerjaanPage,
+  },
+  {
+    path: '/fungsi-pekerjaan/edit/:fungsipekerjaanid',
+    name: 'EditFungsiPekerjaan',
+    component: EditFungsiPekerjaanPage,
   },
   
   // Add more routes

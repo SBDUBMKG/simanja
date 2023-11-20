@@ -59,6 +59,10 @@ import KeterampilanKerjaDetailPage from '@/views//master/keterampilan_kerja/Kete
 import AddKeterampilanKerjaPage from '@/views//master/keterampilan_kerja/AddKeterampilanKerjaPage.vue';
 import EditKeterampilanKerjaPage from '@/views//master/keterampilan_kerja/EditKeterampilanKerjaPage.vue';
 
+import BakatKerjaPage from '@/views/master/bakat_kerja/BakatKerjaPage.vue';
+import AddBakatKerjaPage from '@/views//master/bakat_kerja/AddBakatKerjaPage.vue';
+import EditBakatKerjaPage from '@/views//master/bakat_kerja/EditBakatKerjaPage.vue';
+
 const routes = [
   {
     path: '/',
@@ -306,6 +310,23 @@ const routes = [
     path: '/keterampilan-kerja/edit/:keterampilankerjaid',
     name: 'EditKeterampilanKerja',
     component: EditKeterampilanKerjaPage,
+  },
+
+  // Master Bakat Kerja Path
+  {
+    path: '/bakat-kerja',
+    name: 'BakatKerja',
+    component: BakatKerjaPage,
+  },
+  {
+    path: '/bakat-kerja/add',
+    name: 'AddBakatKerja',
+    component: AddBakatKerjaPage,
+  },
+  {
+    path: '/bakat-kerja/edit/:bakatkerjaid',
+    name: 'EditBakatKerja',
+    component: EditBakatKerjaPage,
   },
   
   // Add more routes

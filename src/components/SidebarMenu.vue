@@ -45,6 +45,9 @@
 			<router-link to="/keterampilan-kerja" class="button">
 				<span class="text">Keterampilan Kerja</span>
 			</router-link>
+			<router-link to="/bakat-kerja" class="button">
+				<span class="text">Bakat Kerja</span>
+			</router-link>
       
 		</div>
 

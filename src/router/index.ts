@@ -9,6 +9,11 @@ import JabatanPage from '@/views/JabatanPage.vue';
 import SatkerPage from '@/views/SatkerPage.vue';
 
 // Master Menu Views
+import IkhtisarJabatanPage from '@/views/master/ikhtisar_jabatan/IkhtisarJabatanPage.vue';
+import IkhtisarJabatanDetailPage from '@/views//master/ikhtisar_jabatan/IkhtisarJabatanDetailPage.vue';
+import AddIkhtisarJabatanPage from '@/views//master/ikhtisar_jabatan/AddIkhtisarJabatanPage.vue';
+import EditIkhtisarJabatanPage from '@/views//master/ikhtisar_jabatan/EditIkhtisarJabatanPage.vue';
+
 import TugasPokokPage from '@/views/master/tugas_pokok/TugasPokokPage.vue';
 import TugasPokokDetailPage from '@/views//master/tugas_pokok/TugasPokokDetailPage.vue';
 import AddTugasPokokPage from '@/views//master/tugas_pokok/AddTugasPokokPage.vue';
@@ -71,6 +76,28 @@ const routes = [
     path: '/satker',
     name: 'Satker',
     component: SatkerPage,
+  },
+
+  // Master Ikhtisar Jabatan Path
+  {
+    path: '/ikhtisar-jabatan',
+    name: 'IkhtisarJabatan',
+    component: IkhtisarJabatanPage,
+  },
+  {
+    path: '/ikhtisar-jabatan/detail/:fungsionalid',
+    name: 'IkhtisarJabatanDetail',
+    component: IkhtisarJabatanDetailPage,
+  },
+  {
+    path: '/ikhtisar-jabatan/add/:fungsionalid',
+    name: 'AddIkhtisarJabatan',
+    component: AddIkhtisarJabatanPage,
+  },
+  {
+    path: '/ikhtisar-jabatan/edit/:ikhtisarjabatanid',
+    name: 'EditIkhtisarJabatan',
+    component: EditIkhtisarJabatanPage,
   },
 
   // Master Tugas Path

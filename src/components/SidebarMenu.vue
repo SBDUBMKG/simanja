@@ -15,6 +15,9 @@
 			<router-link to="/satker" class="button">
 				<span class="text">Satker / UPT</span>
 			</router-link>
+			<router-link to="/ikhtisar-jabatan" class="button">
+				<span class="text">Ikhtisar Jabatan</span>
+			</router-link>
 			<router-link to="/tugas-pokok" class="button">
 				<span class="text">Tugas Pokok</span>
 			</router-link>

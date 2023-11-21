@@ -36,11 +36,11 @@ export default {
 				{
 					href: '/',
 					title: 'Dashboard',
-					icon: 'fa fa-user'
+					icon: 'fa fa-bar-chart'
 				},
 				{
 					title: 'Master',
-					icon: 'fa fa-solid fa-ticket',
+					icon: 'fa fa-book',
 					child: [
 						{
 							href: '/jabatan',

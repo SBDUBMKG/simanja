@@ -34,7 +34,7 @@ export default {
 			sidebarCollapsed: false,
 			menu: [
 				{
-					href: '/',
+					href: '/dashboard',
 					title: 'Dashboard',
 					icon: 'fa fa-bar-chart'
 				},

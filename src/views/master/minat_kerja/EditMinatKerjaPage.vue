@@ -1,27 +1,29 @@
 <template>
     <div>
-        <NavbarDashboard/>
         <div class="container-edit-master-minat-kerja">
             <SidebarMenu/>
             <div class="container-content">
-                <button @click="goToPreviousPage" class="btn btn-secondary btn-sm back-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="19" height="19" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 6l-6 6l6 6" /></svg> 
-                    Back
-                </button>
-                <h2 id="title-content">Master Minat Kerja</h2>
-                <h6 id="subtitle-content">Edit Master Minat Kerja</h6>
-                <form v-if="minatKerjaLoaded">
-                    <div class="form-group">
-                        <label for="minat-kerja">Minat Kerja</label>
-                        <textarea v-model="minatKerjaData.minat_kerja" class="form-control" id="minat-kerja" rows="3"></textarea>
+                <NavbarDashboard/>
+                <div class="main-content shadow">
+                    <button @click="goToPreviousPage" class="btn btn-secondary btn-sm back-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="19" height="19" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 6l-6 6l6 6" /></svg> 
+                        Back
+                    </button>
+                    <h2 class="title-content">Master Minat Kerja</h2>
+                    <h6 class="subtitle-content">Edit Master Minat Kerja</h6>
+                    <form v-if="minatKerjaLoaded">
+                        <div class="form-group">
+                            <label for="minat-kerja">Minat Kerja</label>
+                            <textarea v-model="minatKerjaData.minat_kerja" class="form-control" id="minat-kerja" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="minat-kerja">Uraian</label>
+                            <textarea v-model="minatKerjaData.uraian" class="form-control" id="uraian" rows="3"></textarea>
+                        </div>
+                    </form>
+                    <div class="d-flex justify-content-end">
+                        <button @click="saveMinatKerja" class="btn btn-success">Save</button>
                     </div>
-                    <div class="form-group">
-                        <label for="minat-kerja">Uraian</label>
-                        <textarea v-model="minatKerjaData.uraian" class="form-control" id="uraian" rows="3"></textarea>
-                    </div>
-                </form>
-                <div class="d-flex justify-content-end">
-                    <button @click="saveMinatKerja" class="btn btn-success">Save</button>
                 </div>
             </div>
         </div>
@@ -147,48 +149,5 @@ export default {
 .container-edit-master-minat-kerja {
     display: flex;
 }
-
-.container-content{
-    flex: auto;
-    padding: 20px;
-}
-
-.back-button {
-    display: inline-flex;
-    align-items: center; 
-    padding-right: 15px;  
-    border-radius: 30px;
-}
-
-#title-content {
-    font-weight: bold;
-    color: #0077b6;
-    margin-top: 30px;
-    margin-bottom: 30px;
-}
-
-#subtitle-content {
-    color: #0096c7;
-    padding-bottom: 5px;
-    border-bottom-style: solid;
-    border-bottom-width: 1.5px;
-    border-bottom-color: #0096c7;
-}
-
-.row-controller .btn {
-    margin: 10px 5px 20px 0;
-}
-
-.table-head {
-    background-color: #0077b6;
-    color: #FAFAFA;
-    font-size: 12px;
-    text-align: center;
-}
-
-.column-title {
-    vertical-align: middle;
-}
-
 </style>
   

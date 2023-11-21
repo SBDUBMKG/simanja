@@ -1,51 +1,53 @@
 <template>
     <div>
-        <NavbarDashboard/>
         <div class="container-detail-master-tugas">
             <SidebarMenu/>
             <div class="container-content">
-                <button @click="goToPreviousPage" class="btn btn-secondary btn-sm back-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="19" height="19" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 6l-6 6l6 6" /></svg> 
-                    Back
-                </button>
-                <h2 id="title-content">Master Tugas Pokok</h2>
-                <h6 id="subtitle-content" v-if="dataLoaded">List Tugas Pokok {{ fungsionalData.fungsional }}</h6>
-                <div class="d-flex justify-content-start add-button">
-                    <button @click="addTugas" class="btn btn-success">Tambah Tugas</button>
+                <NavbarDashboard/>
+                <div class="main-content shadow">
+                    <button @click="goToPreviousPage" class="btn btn-secondary btn-sm back-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="19" height="19" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 6l-6 6l6 6" /></svg> 
+                        Back
+                    </button>
+                    <h2 class="title-content">Master Tugas Pokok</h2>
+                    <h6 class="subtitle-content" v-if="dataLoaded">List Tugas Pokok {{ fungsionalData.fungsional }}</h6>
+                    <div class="d-flex justify-content-start add-button">
+                        <button @click="addTugas" class="btn btn-success">Tambah Tugas</button>
+                    </div>
+                    <DataTable v-if="tugasLoaded" class="table table-bordered table-sm table-hover table-responsive-xl display">
+                        <thead>
+                            <tr class="table-head">
+                                <th width="3%" class="column-title">No.</th>
+                                <th width="35%" class="column-title">URAIAN TUGAS</th>
+                                <th width="10%" class="column-title">HASIL KERJA</th>
+                                <th width="5%" class="column-title">WAKTU PENYELESAIAN</th>
+                                <th width="5%" class="column-title">WAKTU EFEKTIF</th>
+                                <th width="30%" class="column-title">URAIAN HASIL KERJA</th>
+                                <th width="7%" class="column-title">ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(tugas, index) in daftarTugas" :key="tugas.id_tugas">
+                                <td>{{ index+1 }}</td>
+                                <td>{{ tugas.uraian_tugas }}</td>
+                                <td>{{ tugas.hasil_kerja }}</td>
+                                <td>{{ tugas.waktu_penyelesaian }}</td>
+                                <td>{{ tugas.waktu_efektif }}</td>
+                                <td>{{ tugas.uraian_hasil_kerja }}</td>
+                                <td>
+                                    <div class="d-flex justify-content-around">
+                                        <button @click="editBtn(tugas.id_tugas)" class="btn btn-warning btn-sm">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" /><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" /></svg>
+                                        </button>
+                                        <button @click="deleteBtn(tugas.id_tugas)" class="btn btn-danger btn-sm">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </DataTable>
                 </div>
-                <DataTable v-if="tugasLoaded" class="table table-bordered table-sm table-hover table-responsive-xl display">
-                    <thead>
-                        <tr class="table-head">
-                            <th width="3%" class="column-title">No.</th>
-                            <th width="35%" class="column-title">URAIAN TUGAS</th>
-                            <th width="10%" class="column-title">HASIL KERJA</th>
-                            <th width="5%" class="column-title">WAKTU PENYELESAIAN</th>
-                            <th width="5%" class="column-title">WAKTU EFEKTIF</th>
-                            <th width="30%" class="column-title">URAIAN HASIL KERJA</th>
-                            <th width="7%" class="column-title">ACTION</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(tugas, index) in daftarTugas" :key="tugas.id_tugas">
-                            <td>{{ index+1 }}</td>
-                            <td>{{ tugas.uraian_tugas }}</td>
-                            <td>{{ tugas.hasil_kerja }}</td>
-                            <td>{{ tugas.waktu_penyelesaian }}</td>
-                            <td>{{ tugas.waktu_efektif }}</td>
-                            <td>{{ tugas.uraian_hasil_kerja }}</td>
-                            <td>
-                                <div class="d-flex justify-content-around">
-                                    <button @click="editBtn(tugas.id_tugas)" class="btn btn-warning btn-sm">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" /><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" /></svg>
-                                    </button>
-                                    <button @click="deleteBtn(tugas.id_tugas)" class="btn btn-danger btn-sm">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </DataTable>
             </div>
         </div>
     </div>
@@ -204,52 +206,5 @@ export default {
 .container-detail-master-tugas {
     display: flex;
 }
-
-.container-content{
-    flex: auto;
-    padding: 20px;
-}
-
-.back-button {
-    display: inline-flex;
-    align-items: center; 
-    padding-right: 15px;  
-    border-radius: 30px;
-}
-
-#title-content {
-    font-weight: bold;
-    color: #0077b6;
-    margin-top: 30px;
-    margin-bottom: 30px;
-}
-
-#subtitle-content {
-    color: #0096c7;
-    padding-bottom: 5px;
-    border-bottom-style: solid;
-    border-bottom-width: 1.5px;
-    border-bottom-color: #0096c7;
-}
-
-.add-button {
-    margin: 30px 0 10px 0;
-}
-.table .table-head {
-    background-color: #0077b6;
-    color: #FAFAFA;
-    font-size: 12px;
-    text-align: center;
-}
-
-.table td {
-    font-size: 14px;
-}
-
-.column-title {
-    vertical-align: middle;
-    text-align: center;
-}
-
 </style>
   

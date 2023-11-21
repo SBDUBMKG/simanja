@@ -1,23 +1,25 @@
 <template>
     <div>
-        <NavbarDashboard/>
         <div class="container-edit-master-diklat">
             <SidebarMenu/>
             <div class="container-content">
-                <button @click="goToPreviousPage" class="btn btn-secondary btn-sm back-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="19" height="19" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 6l-6 6l6 6" /></svg> 
-                    Back
-                </button>
-                <h2 id="title-content">Master Pendidikan dan Pelatihan</h2>
-                <h6 id="subtitle-content">Edit Master Pendidikan dan Pelatihan</h6>
-                <form v-if="diklatLoaded">
-                    <div class="form-group">
-                        <label for="diklat">Pendidikan dan Pelatihan</label>
-                        <textarea v-model="diklatData.diklat" class="form-control" id="diklat" rows="3"></textarea>
+                <NavbarDashboard/>
+                <div class="main-content shadow">
+                    <button @click="goToPreviousPage" class="btn btn-secondary btn-sm back-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="19" height="19" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 6l-6 6l6 6" /></svg> 
+                        Back
+                    </button>
+                    <h2 class="title-content">Master Pendidikan dan Pelatihan</h2>
+                    <h6 class="subtitle-content">Edit Master Pendidikan dan Pelatihan</h6>
+                    <form v-if="diklatLoaded">
+                        <div class="form-group">
+                            <label for="diklat">Pendidikan dan Pelatihan</label>
+                            <textarea v-model="diklatData.diklat" class="form-control" id="diklat" rows="3"></textarea>
+                        </div>
+                    </form>
+                    <div class="d-flex justify-content-end">
+                        <button @click="saveDiklat" class="btn btn-success">Save</button>
                     </div>
-                </form>
-                <div class="d-flex justify-content-end">
-                    <button @click="saveDiklat" class="btn btn-success">Save</button>
                 </div>
             </div>
         </div>
@@ -68,7 +70,6 @@ export default {
                 const response = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/master/diklat/id/${this.diklatId}`, config);
                 
                 this.diklatData = response.data.data.diklat[0]
-                console.log(this.diklatData)
                 this.diklatLoaded = true
             } catch (error) {
                 if (error.response.status === 404) {
@@ -115,7 +116,6 @@ export default {
                 }
 
                 await axios.put(`${process.env.VUE_APP_BACKENDHOST}/master/diklat/${this.diklatId}`, payload, config)
-                console.log(payload)
 
                 this.$swal.fire({
                     icon: 'success',
@@ -143,48 +143,5 @@ export default {
 .container-edit-master-diklat{
     display: flex;
 }
-
-.container-content{
-    flex: auto;
-    padding: 20px;
-}
-
-.back-button {
-    display: inline-flex;
-    align-items: center; 
-    padding-right: 15px;  
-    border-radius: 30px;
-}
-
-#title-content {
-    font-weight: bold;
-    color: #0077b6;
-    margin-top: 30px;
-    margin-bottom: 30px;
-}
-
-#subtitle-content {
-    color: #0096c7;
-    padding-bottom: 5px;
-    border-bottom-style: solid;
-    border-bottom-width: 1.5px;
-    border-bottom-color: #0096c7;
-}
-
-.row-controller .btn {
-    margin: 10px 5px 20px 0;
-}
-
-.table-head {
-    background-color: #0077b6;
-    color: #FAFAFA;
-    font-size: 12px;
-    text-align: center;
-}
-
-.column-title {
-    vertical-align: middle;
-}
-
 </style>
   

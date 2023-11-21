@@ -1,35 +1,37 @@
 <template>
     <div>
-        <NavbarDashboard/>
         <div class="container-add-master-fungsi-pekerjaan">
             <SidebarMenu/>
             <div class="container-content">
-                <button @click="goToPreviousPage" class="btn btn-secondary btn-sm back-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="19" height="19" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 6l-6 6l6 6" /></svg> 
-                    Back
-                </button>
-                <h2 id="title-content">Master Fungsi Pekerjaan</h2>
-                <h6 id="subtitle-content">Tambah Master Fungsi Pekerjaan</h6>
-                <div class="row-controller d-flex justify-content-start">
-                    <button @click="addRow" class="btn btn-info btn-sm">Tambah Baris</button>
-                    <button @click="deleteRow" class="btn btn-secondary btn-sm">Kurangi Baris</button>
-                </div>
-                <table class="table table-bordered table-sm table-hover table-responsive-xl">
-                    <thead>
-                        <tr class="table-head">
-                            <th class="column-title" width="40%">FUNGSI PEKERJAAN</th>
-                            <th class="column-title" width="60%">URAIAN</th>
-                        </tr>
-                    </thead>
-                    <tbody id="list-table">
-                        <tr class="row-list">
-                            <td><textarea class="form-control form-control-sm fungsi-pekerjaan" rows="1"></textarea></td>
-                            <td><textarea class="form-control form-control-sm uraian" rows="1"></textarea></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="d-flex justify-content-end">
-                    <button @click="saveFungsiPekerjaan" class="btn btn-success">Save</button>
+                <NavbarDashboard/>
+                <div class="main-content shadow">
+                    <button @click="goToPreviousPage" class="btn btn-secondary btn-sm back-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="19" height="19" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 6l-6 6l6 6" /></svg> 
+                        Back
+                    </button>
+                    <h2 class="title-content">Master Fungsi Pekerjaan</h2>
+                    <h6 class="subtitle-content">Tambah Master Fungsi Pekerjaan</h6>
+                    <div class="row-controller d-flex justify-content-start">
+                        <button @click="addRow" class="btn btn-info btn-sm">Tambah Baris</button>
+                        <button @click="deleteRow" class="btn btn-secondary btn-sm">Kurangi Baris</button>
+                    </div>
+                    <table class="table table-bordered table-sm table-hover table-responsive-xl">
+                        <thead>
+                            <tr class="table-head">
+                                <th class="column-title" width="40%">FUNGSI PEKERJAAN</th>
+                                <th class="column-title" width="60%">URAIAN</th>
+                            </tr>
+                        </thead>
+                        <tbody id="list-table">
+                            <tr class="row-list">
+                                <td><textarea class="form-control form-control-sm fungsi-pekerjaan" rows="1"></textarea></td>
+                                <td><textarea class="form-control form-control-sm uraian" rows="1"></textarea></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="d-flex justify-content-end">
+                        <button @click="saveFungsiPekerjaan" class="btn btn-success">Save</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -149,48 +151,6 @@ export default {
 <style scoped>
 .container-add-master-fungsi-pekerjaan {
     display: flex;
-}
-
-.container-content{
-    flex: auto;
-    padding: 20px;
-}
-
-.back-button {
-    display: inline-flex;
-    align-items: center; 
-    padding-right: 15px;  
-    border-radius: 30px;
-}
-
-#title-content {
-    font-weight: bold;
-    color: #0077b6;
-    margin-top: 30px;
-    margin-bottom: 30px;
-}
-
-#subtitle-content {
-    color: #0096c7;
-    padding-bottom: 5px;
-    border-bottom-style: solid;
-    border-bottom-width: 1.5px;
-    border-bottom-color: #0096c7;
-}
-
-.row-controller .btn {
-    margin: 10px 5px 20px 0;
-}
-
-.table-head {
-    background-color: #0077b6;
-    color: #FAFAFA;
-    font-size: 12px;
-    text-align: center;
-}
-
-.column-title {
-    vertical-align: middle;
 }
 </style>
   

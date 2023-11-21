@@ -1,29 +1,31 @@
 <template>
     <div>
-        <NavbarDashboard/>
         <div class="container-master-perangkat-kerja">
             <SidebarMenu/>
             <div class="container-content">
-                <h2 id="title-content">Master Perangkat Kerja</h2>
-                <h6 id="subtitle-content">List Jabatan Fungsional</h6>
-                <DataTable v-if="loaded" class="table table-bordered table-sm table-hover table-responsive-xl display">
-                    <thead>
-                        <tr class="table-head">
-                            <th class="column-title">JABATAN FUNGSIONAL</th>
-                            <th class="column-title">DETAIL</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="jabatan in daftarjabatan" :key="jabatan.id_fungsional">
-                            <td>{{ jabatan.fungsional }}</td>
-                            <td>
-                                <router-link :to="{ name: 'PerangkatKerjaDetail', params: { fungsionalid: jabatan.id_fungsional } }">
-                                    Detail
-                                </router-link>
-                            </td>
-                        </tr>
-                    </tbody>
-                </DataTable>
+                <NavbarDashboard/>
+                <div class="main-content shadow">
+                    <h2 class="title-content">Master Perangkat Kerja</h2>
+                    <h6 class="subtitle-content">List Jabatan Fungsional</h6>
+                    <DataTable v-if="loaded" class="table table-bordered table-sm table-hover table-responsive-xl display">
+                        <thead>
+                            <tr class="table-head">
+                                <th class="column-title">JABATAN FUNGSIONAL</th>
+                                <th class="column-title">DETAIL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="jabatan in daftarjabatan" :key="jabatan.id_fungsional">
+                                <td>{{ jabatan.fungsional }}</td>
+                                <td>
+                                    <router-link :to="{ name: 'PerangkatKerjaDetail', params: { fungsionalid: jabatan.id_fungsional } }">
+                                        Detail
+                                    </router-link>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </DataTable>
+                </div>
             </div>
         </div>
     </div>
@@ -92,37 +94,6 @@ export default {
 
 .container-master-perangkat-kerja{
     display: flex;
-}
-
-.container-content{
-    flex: auto;
-    padding: 20px;
-}
-
-#title-content {
-    font-weight: bold;
-    color: #0077b6;
-    margin-top: 30px;
-    margin-bottom: 30px;
-}
-
-#subtitle-content {
-    color: #0096c7;
-    padding-bottom: 5px;
-    border-bottom-style: solid;
-    border-bottom-width: 1.5px;
-    border-bottom-color: #0096c7;
-}
-
-.table .table-head {
-    background-color: #0077b6;
-    color: #FAFAFA;
-    font-size: 12px;
-    text-align: center;
-}
-
-.table td {
-    font-size: 14px;
 }
 </style>
   

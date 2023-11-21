@@ -33,10 +33,6 @@ export default {
 	font-family: 'Fira sans', sans-serif;
 }
 
-body {
-	background: var(--light);
-}
-
 button {
 	cursor: pointer;
 	appearance: none;

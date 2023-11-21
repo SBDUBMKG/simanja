@@ -1,23 +1,25 @@
 <template>
     <div>
-        <NavbarDashboard/>
         <div class="container-edit-master-tanggung-jawab">
             <SidebarMenu/>
             <div class="container-content">
-                <button @click="goToPreviousPage" class="btn btn-secondary btn-sm back-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="19" height="19" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 6l-6 6l6 6" /></svg> 
-                    Back
-                </button>
-                <h2 id="title-content">Master Tanggung Jawab</h2>
-                <h6 id="subtitle-content">Edit Master Tanggung Jawab</h6>
-                <form v-if="tanggungJawabLoaded">
-                    <div class="form-group">
-                        <label for="tanggung-jawab">Tanggung Jawab</label>
-                        <textarea v-model="tanggungJawabData.tanggung_jawab" class="form-control" id="tanggung-jawab" rows="3"></textarea>
+                <NavbarDashboard/>
+                <div class="main-content shadow">
+                    <button @click="goToPreviousPage" class="btn btn-secondary btn-sm back-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="19" height="19" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 6l-6 6l6 6" /></svg> 
+                        Back
+                    </button>
+                    <h2 class="title-content">Master Tanggung Jawab</h2>
+                    <h6 class="subtitle-content">Edit Master Tanggung Jawab</h6>
+                    <form v-if="tanggungJawabLoaded">
+                        <div class="form-group">
+                            <label for="tanggung-jawab">Tanggung Jawab</label>
+                            <textarea v-model="tanggungJawabData.tanggung_jawab" class="form-control" id="tanggung-jawab" rows="3"></textarea>
+                        </div>
+                    </form>
+                    <div class="d-flex justify-content-end">
+                        <button @click="saveTanggungJawab" class="btn btn-success">Save</button>
                     </div>
-                </form>
-                <div class="d-flex justify-content-end">
-                    <button @click="saveTanggungJawab" class="btn btn-success">Save</button>
                 </div>
             </div>
         </div>
@@ -114,7 +116,6 @@ export default {
                 }
 
                 await axios.put(`${process.env.VUE_APP_BACKENDHOST}/master/tanggung-jawab/${this.tanggungJawabId}`, payload, config)
-                console.log(payload)
 
                 this.$swal.fire({
                     icon: 'success',

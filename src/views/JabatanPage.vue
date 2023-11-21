@@ -1,26 +1,30 @@
 <template>
-    <NavbarDashboard/>
-    <div class="container-jabatan">
-        <SidebarMenu/>
-        <div class="container-content">
-            <h2>Daftar Jabatan / UPT</h2>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>ID Fungsional</th>
-                        <th>Nama Jabatan</th>
-                        <!-- Tambah kolom sesuai kebutuhan -->
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Gunakan v-for untuk menampilkan data jabatan -->
-                    <tr v-for="(data, index) in daftarJabatan" :key="index">
-                        <td>{{ data.jabatan }}</td>
-                        <td>{{ data.jabatan }}</td>
-                    </tr>
-                </tbody>
-            </table>
+    <div>
+        <div class="container-jabatan">
+            <SidebarMenu/>
+            <div class="container-content">
+                <NavbarDashboard/>
+                <div class="main-content shadow">
+                    <h2>Daftar Jabatan / UPT</h2>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>ID Fungsional</th>
+                                <th>Nama Jabatan</th>
+                                <!-- Tambah kolom sesuai kebutuhan -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Gunakan v-for untuk menampilkan data jabatan -->
+                            <tr v-for="(data, index) in daftarJabatan" :key="index">
+                                <td>{{ data.id_fungsional }}</td>
+                                <td>{{ data.fungsional }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
+        </div>
     </div>
 </template>
 
@@ -65,7 +69,7 @@ export default {
                 const response = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/master/fungsional`, config);
 
                 // Menyimpan data ke dalam state
-                this.daftarjabatan = response.data.data.fungsional;
+                this.daftarJabatan = response.data.data.fungsional;
             } catch (error) {
                 console.error('Error fetching jabatan:', error);
             }

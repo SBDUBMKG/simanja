@@ -1,26 +1,30 @@
 <template>
-    <NavbarDashboard/>
-    <div class="container-satker">
-        <SidebarMenu/>
-        <div class="container-content">
-            <h2>Daftar Satker / UPT</h2>
-            <table class="table table-bordered">
-            <thead>
-                <tr>
-                <th>Nama Satker</th>
-                <!-- Tambah kolom sesuai kebutuhan -->
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Gunakan v-for untuk menampilkan data Satker -->
-                <tr v-for="(data, index) in daftarSatker" :key="index">
-                <td>{{ data.satker }}</td>
-                </tr>
-            </tbody>
-            </table>
-
-            <!-- Tombol "Add" di bagian bawah kiri tabel -->
-            <button @click="tambahSatker" class="btn btn-primary">Tambah Satker</button>
+    <div>
+        <div class="container-satker">
+            <SidebarMenu/>
+            <div class="container-content">
+                <NavbarDashboard/>
+                <div class="main-content shadow">
+                    <h2>Daftar Satker / UPT</h2>
+                    <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                        <th>Nama Satker</th>
+                        <!-- Tambah kolom sesuai kebutuhan -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Gunakan v-for untuk menampilkan data Satker -->
+                        <tr v-for="(data, index) in daftarSatker" :key="index">
+                        <td>{{ data.satker }}</td>
+                        </tr>
+                    </tbody>
+                    </table>
+        
+                    <!-- Tombol "Add" di bagian bawah kiri tabel -->
+                    <button @click="tambahSatker" class="btn btn-primary">Tambah Satker</button>
+                </div>
+            </div>
         </div>
     </div>
 </template>

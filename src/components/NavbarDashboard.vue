@@ -25,13 +25,16 @@
 export default {
   data() {
     return {
-      pengguna: 'Admin',
+      pengguna: localStorage.getItem("satker"),
     };
   },
   methods: {
     logout() {
       // Membersihkan token dari penyimpanan lokal atau melakukan tindakan logout lainnya
       localStorage.removeItem('token');
+      localStorage.removeItem('satker');
+      localStorage.removeItem('idsatker');
+      localStorage.removeItem('role');
       
       // Contoh navigasi ke halaman login setelah logout
       // Anda harus memiliki Vue Router untuk ini

@@ -39,7 +39,7 @@ export default {
 					icon: 'fa fa-bar-chart'
 				},
 				{
-					title: 'Master',
+					title: 'Data Master',
 					icon: 'fa fa-book',
 					child: [
 						{
@@ -107,6 +107,20 @@ export default {
 							title: 'Fungsi Pekerjaan'
 						},
 					]
+				},
+				{
+					title: 'Analisis Jabatan',
+					icon: 'fa fa-pencil-square-o',
+					child: [
+						{
+							href: '/data-jabatan',
+							title: 'Data Jabatan'
+						},
+						{
+							href: '/analisis-jabatan',
+							title: 'Analisis Jabatan'
+						},
+					]
 				}
 			]
 		}
@@ -128,12 +142,10 @@ export default {
 .org-logo {
 	width: 100%;
 	padding: 40px;
-	margin-bottom: 20px;
 }
 
 .org-logo-collapsed {
 	width: 100%;
 	padding: 20px;
-	margin-bottom: 20px;
 }
 </style>

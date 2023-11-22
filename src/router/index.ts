@@ -75,6 +75,12 @@ import FungsiPekerjaanPage from '@/views/master/fungsi_pekerjaan/FungsiPekerjaan
 import AddFungsiPekerjaanPage from '@/views//master/fungsi_pekerjaan/AddFungsiPekerjaanPage.vue';
 import EditFungsiPekerjaanPage from '@/views//master/fungsi_pekerjaan/EditFungsiPekerjaanPage.vue';
 
+// Analisis Jabatan Menu Views
+import DataJabatanPage from '@/views/analisis_jabatan/data_jabatan/DataJabatanPage.vue';
+import AddDataJabatanPage from '@/views/analisis_jabatan/data_jabatan/AddDataJabatanPage.vue';
+import EditDataJabatanPage from '@/views/analisis_jabatan/data_jabatan/EditDataJabatanPage.vue';
+
+
 const routes = [
   {
     path: '/',
@@ -392,7 +398,22 @@ const routes = [
     component: EditFungsiPekerjaanPage,
   },
   
-  // Add more routes
+  // Analisis Jabatan Menu
+  {
+    path: '/data-jabatan',
+    name: 'DataJabatan',
+    component: DataJabatanPage,
+  },
+  {
+    path: '/data-jabatan/add',
+    name: 'AddDataJabatan',
+    component: AddDataJabatanPage,
+  },
+  {
+    path: '/data-jabatan/edit/:jabatanid',
+    name: 'EditDataJabatan',
+    component: EditDataJabatanPage,
+  },
 ];
 
 const router = createRouter({

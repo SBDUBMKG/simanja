@@ -2,7 +2,9 @@
 	<sidebar-menu 
 		@update:collapsed="onToggleCollapse"
 		:menu="menu" 
-		:theme="theme" 
+		:theme="theme"
+		:showOneChild="showOneChild"
+		:width="width"
 		class="shadow">
 		<template #header>
             <img
@@ -32,6 +34,8 @@ export default {
 			theme: 'white-theme',
 			relative: true,
 			sidebarCollapsed: false,
+			showOneChild: true,
+			width: '260px',
 			menu: [
 				{
 					href: '/dashboard',
@@ -133,15 +137,32 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .v-sidebar-menu {
 	position: sticky;
 	height: 100vh;
 }
 
+.vsm--link.vsm--link_level-1, .vsm--link.vsm--link_level-2 {
+	padding: 7px 10px;
+}
+
+.vsm--icon.fa {
+	margin: 0 10px 0 0;
+}
+
+.v-sidebar-menu.vsm_white-theme .vsm--dropdown {
+	background-color: rgb(239, 239, 239);
+}
+
+.v-sidebar-menu .vsm--scroll {
+	padding-top: 20px;
+}
+
 .org-logo {
 	width: 100%;
-	padding: 40px;
+	padding: 30px 20px;
+	background-color: rgb(239, 239, 239);
 }
 
 .org-logo-collapsed {

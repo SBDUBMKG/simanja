@@ -137,9 +137,10 @@ export default {
     margin-left: 50px;
   }
 
-  /* .main-content {
-      
-  } */
+  .main-content {
+    margin-top: 0;
+    padding: 0;
+  }
 
   /* .carousel__item {
     min-height: 200px;
@@ -166,8 +167,8 @@ export default {
   .inner-image {
     max-width: 100%; /* Ensure the image fits within its container */
     display: block; /* Remove any inline spacing issues */
-    margin: 0 auto; /* Center the image horizontally within the content */
-    margin-top: auto; /* Add margin to separate the images vertically */
+    margin: 0; /* Center the image horizontally within the content */
+    margin-top: 0; /* Add margin to separate the images vertically */
     /* Add any other shared styles for the images */
 
     &:nth-child(2) {

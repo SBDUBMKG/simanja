@@ -2,23 +2,23 @@
 
 <template>
   <div class="container mt-5">
-    <div class="d-flex justify-content-center align-items-center">
-      <div>
-        <h2>Login</h2>
+    <div class="login-card d-flex justify-content-center align-items-center">
+      <div class="card p-4 d-flex flex-column align-items-center">
+        <h2 class="h2 m-1 text-dark">Simanja</h2>
+        <h3 class="h3 mt-1 mb-2 text-secondary">Sign In</h3>
+        <!-- <p class="p mt-1">Selamat datang!</p> -->
         <form @submit.prevent="login" class="needs-validation" novalidate>
           <div class="mb-3">
-            <label for="username" class="form-label">Username:</label>
-            <input type="text" class="form-control" v-model="username" required>
+            <input type="text" class="form-control" placeholder="Masukkan Username" v-model="username" required>
             <div class="invalid-feedback">Username harus diisi.</div>
           </div>
 
           <div class="mb-3">
-            <label for="password" class="form-label">Password:</label>
-            <input type="password" class="form-control" v-model="password" required>
+            <input type="password" class="form-control" placeholder="Masukkan Password" v-model="password" required>
             <div class="invalid-feedback">Password harus diisi.</div>
           </div>
 
-          <button type="submit" class="btn btn-primary">Login</button>
+          <button type="submit" class="btn btn-primary align-self-end">Login</button>
         </form>
       </div>
     </div>
@@ -64,6 +64,24 @@ export default {
 </script>
 
 <style scoped>
-/* Gaya CSS khusus untuk komponen ini */
-/* ... */
+.card {
+  max-width: 400px;
+  text-align: right;
+  background-color: white; /* Warna latar belakang bagian card */
+  margin-top: 150px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Contoh shadow untuk card */
+}
+
+
+.h3{
+  font-size: 20px;
+}
+
+/* .p{
+  font-size: 18px;
+} */
+
+input::placeholder{
+  font-style: italic;
+}
 </style>

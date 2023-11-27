@@ -6,9 +6,11 @@ import HomePage from '@/views/HomePage.vue';
 import UserLoginPage from '@/views/login/UserLoginPage.vue';
 import DashBoard from '@/views/DashBoard.vue';
 import JabatanPage from '@/views/JabatanPage.vue';
-import SatkerPage from '@/views/SatkerPage.vue';
+
 
 // Master Menu Views
+import SatkerPage from '@/views/master/satker/SatkerPage.vue';
+
 import IkhtisarJabatanPage from '@/views/master/ikhtisar_jabatan/IkhtisarJabatanPage.vue';
 import IkhtisarJabatanDetailPage from '@/views//master/ikhtisar_jabatan/IkhtisarJabatanDetailPage.vue';
 import AddIkhtisarJabatanPage from '@/views//master/ikhtisar_jabatan/AddIkhtisarJabatanPage.vue';

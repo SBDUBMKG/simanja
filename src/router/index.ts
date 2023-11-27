@@ -80,6 +80,8 @@ import DataJabatanPage from '@/views/analisis_jabatan/data_jabatan/DataJabatanPa
 import AddDataJabatanPage from '@/views/analisis_jabatan/data_jabatan/AddDataJabatanPage.vue';
 import EditDataJabatanPage from '@/views/analisis_jabatan/data_jabatan/EditDataJabatanPage.vue';
 
+import AnalisisJabatanPage from '@/views/analisis_jabatan/analisis_jabatan/AnalisisJabatanPage.vue';
+import AnalisisBiodataPage from '@/views/analisis_jabatan/analisis_jabatan/AnalisisBiodataPage.vue';
 
 const routes = [
   {
@@ -413,6 +415,16 @@ const routes = [
     path: '/data-jabatan/edit/:jabatanid',
     name: 'EditDataJabatan',
     component: EditDataJabatanPage,
+  },
+  {
+    path: '/analisis-jabatan',
+    name: 'AnalisisJabatan',
+    component: AnalisisJabatanPage,
+  },
+  {
+    path: '/analisis-jabatan/biodata/:jabatanid',
+    name: 'AnalisisBiodata',
+    component: AnalisisBiodataPage,
   },
 ];
 

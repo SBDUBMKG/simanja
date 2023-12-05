@@ -121,7 +121,7 @@ export default {
                     icon: 'success',
                     title: 'Success',
                     text: 'Pengalaman Kerja Berhasil Diperbarui'
-                }).then(this.$router.push({ name: 'PengalamanKerjaDetail', params: { fungsionalid: this.pengalamanKerjaData.id_fungsional } }))
+                }).then(this.$router.push({ name: 'PengalamanKerja' }))
                 
             } catch (error) {
                 if (error.status === 401) {

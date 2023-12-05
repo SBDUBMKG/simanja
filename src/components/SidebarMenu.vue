@@ -91,10 +91,6 @@ export default {
 							title: 'Wewenang'
 						},
 						{
-							href: '/keterampilan-kerja',
-							title: 'Keterampilan Kerja'
-						},
-						{
 							href: '/bakat-kerja',
 							title: 'Bakat Kerja'
 						},

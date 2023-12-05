@@ -121,7 +121,7 @@ export default {
                     icon: 'success',
                     title: 'Success',
                     text: 'Diklat Berhasil Diperbarui'
-                }).then(this.$router.push({ name: 'DiklatDetail', params: { fungsionalid: this.diklatData.id_fungsional } }))
+                }).then(this.$router.push({ name: 'Diklat' }))
                 
             } catch (error) {
                 if (error.status === 401) {

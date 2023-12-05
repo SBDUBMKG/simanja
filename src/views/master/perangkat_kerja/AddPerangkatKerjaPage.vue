@@ -10,7 +10,7 @@
                         Back
                     </button>
                     <h2 class="title-content">Master Perangkat Kerja</h2>
-                    <h6 class="subtitle-content" v-if="dataLoaded">Tambah Master Perangkat Kerja {{ fungsionalData.fungsional }}</h6>
+                    <h6 class="subtitle-content">Tambah Master Perangkat Kerja</h6>
                     <div class="row-controller d-flex justify-content-start">
                         <button @click="addRow" class="btn btn-info btn-sm">Tambah Baris</button>
                         <button @click="deleteRow" class="btn btn-secondary btn-sm">Kurangi Baris</button>
@@ -50,14 +50,11 @@ export default {
     },
     data() {
         return {
-            fungsionalId: this.$route.params.fungsionalid,
-            fungsionalData: null,
-            dataLoaded: false
+
         };
     },
     mounted () {
         this.checkAuthentication()
-        this.loadFungsionalData()
     },
     methods: {
         async checkAuthentication () {
@@ -66,36 +63,6 @@ export default {
             if (!token) {
                 console.error('Token not available');
                 this.$router.push({ name: 'Home' })
-            }
-        },
-
-        async loadFungsionalData() {
-            try {
-                const token = localStorage.getItem('token');
-
-                const config = {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                };
-
-                const response = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/master/fungsional/id/${this.fungsionalId}`, config);
-
-                this.fungsionalData = response.data.data.fungsional[0]
-                this.dataLoaded = true
-            } catch (error) {
-                if (error.response.status === 404) {
-                    this.dataLoaded = true
-                } else if (error.response.status === 401) {
-                    this.$router.push({ name: 'Home' })
-                } else {
-                    this.$swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: error.message
-                    })
-
-                }
             }
         },
 
@@ -154,7 +121,6 @@ export default {
                         };
 
                         const payload = {
-                            idfungsional: this.fungsionalData.id_fungsional,
                             perangkatkerja: perangkatKerjaList[i],
                             penggunaan: penggunaanList[i]
                         }
@@ -178,7 +144,7 @@ export default {
                     icon: 'success',
                     title: 'Success',
                     text: 'Perangkat Kerja Berhasil Ditambahkan'
-                }).then(this.$router.push({ name: 'PerangkatKerjaDetail', params: { fungsionalid: this.fungsionalData.id_fungsional } }))
+                }).then(this.$router.push({ name: 'PerangkatKerja' }))
 
             } else {
                 this.$swal.fire({

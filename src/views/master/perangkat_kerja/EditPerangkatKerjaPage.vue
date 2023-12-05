@@ -116,7 +116,6 @@ export default {
                 }
 
                 const payload = {
-                    idfungsional: this.perangkatKerjaData.id_fungsional,
                     perangkatkerja: perangkatKerja,
                     penggunaan: penggunaan
                 }
@@ -128,7 +127,7 @@ export default {
                     icon: 'success',
                     title: 'Success',
                     text: 'Perangkat Kerja Berhasil Diperbarui'
-                }).then(this.$router.push({ name: 'PerangkatKerjaDetail', params: { fungsionalid: this.perangkatKerjaData.id_fungsional } }))
+                }).then(this.$router.push({ name: 'PerangkatKerja' }))
                 
             } catch (error) {
                 if (error.status === 401) {

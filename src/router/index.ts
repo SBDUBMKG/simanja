@@ -27,39 +27,28 @@ import AddPendidikanFormalPage from '@/views//master/pendidikan_formal/AddPendid
 import EditPendidikanFormalPage from '@/views//master/pendidikan_formal/EditPendidikanFormalPage.vue';
 
 import DiklatPage from '@/views/master/diklat/DiklatPage.vue';
-import DiklatDetailPage from '@/views//master/diklat/DiklatDetailPage.vue';
 import AddDiklatPage from '@/views//master/diklat/AddDiklatPage.vue';
 import EditDiklatPage from '@/views//master/diklat/EditDiklatPage.vue';
 
 import PengalamanKerjaPage from '@/views/master/pengalaman_kerja/PengalamanKerjaPage.vue';
-import PengalamanKerjaDetailPage from '@/views//master/pengalaman_kerja/PengalamanKerjaDetailPage.vue';
 import AddPengalamanKerjaPage from '@/views//master/pengalaman_kerja/AddPengalamanKerjaPage.vue';
 import EditPengalamanKerjaPage from '@/views//master/pengalaman_kerja/EditPengalamanKerjaPage.vue';
 
 import BahanKerjaPage from '@/views/master/bahan_kerja/BahanKerjaPage.vue';
-import BahanKerjaDetailPage from '@/views//master/bahan_kerja/BahanKerjaDetailPage.vue';
 import AddBahanKerjaPage from '@/views//master/bahan_kerja/AddBahanKerjaPage.vue';
 import EditBahanKerjaPage from '@/views//master/bahan_kerja/EditBahanKerjaPage.vue';
 
 import PerangkatKerjaPage from '@/views/master/perangkat_kerja/PerangkatKerjaPage.vue';
-import PerangkatKerjaDetailPage from '@/views//master/perangkat_kerja/PerangkatKerjaDetailPage.vue';
 import AddPerangkatKerjaPage from '@/views//master/perangkat_kerja/AddPerangkatKerjaPage.vue';
 import EditPerangkatKerjaPage from '@/views//master/perangkat_kerja/EditPerangkatKerjaPage.vue';
 
 import TanggungJawabPage from '@/views/master/tanggung_jawab/TanggungJawabPage.vue';
-import TanggungJawabDetailPage from '@/views//master/tanggung_jawab/TanggungJawabDetailPage.vue';
 import AddTanggungJawabPage from '@/views//master/tanggung_jawab/AddTanggungJawabPage.vue';
 import EditTanggungJawabPage from '@/views//master/tanggung_jawab/EditTanggungJawabPage.vue';
 
 import WewenangPage from '@/views/master/wewenang/WewenangPage.vue';
-import WewenangDetailPage from '@/views//master/wewenang/WewenangDetailPage.vue';
 import AddWewenangPage from '@/views//master/wewenang/AddWewenangPage.vue';
 import EditWewenangPage from '@/views//master/wewenang/EditWewenangPage.vue';
-
-import KeterampilanKerjaPage from '@/views/master/keterampilan_kerja/KeterampilanKerjaPage.vue';
-import KeterampilanKerjaDetailPage from '@/views//master/keterampilan_kerja/KeterampilanKerjaDetailPage.vue';
-import AddKeterampilanKerjaPage from '@/views//master/keterampilan_kerja/AddKeterampilanKerjaPage.vue';
-import EditKeterampilanKerjaPage from '@/views//master/keterampilan_kerja/EditKeterampilanKerjaPage.vue';
 
 import BakatKerjaPage from '@/views/master/bakat_kerja/BakatKerjaPage.vue';
 import AddBakatKerjaPage from '@/views//master/bakat_kerja/AddBakatKerjaPage.vue';
@@ -187,12 +176,7 @@ const routes = [
     component: DiklatPage,
   },
   {
-    path: '/diklat/detail/:fungsionalid',
-    name: 'DiklatDetail',
-    component: DiklatDetailPage,
-  },
-  {
-    path: '/diklat/add/:fungsionalid',
+    path: '/diklat/add',
     name: 'AddDiklat',
     component: AddDiklatPage,
   },
@@ -209,12 +193,7 @@ const routes = [
     component: PengalamanKerjaPage,
   },
   {
-    path: '/pengalaman-kerja/detail/:fungsionalid',
-    name: 'PengalamanKerjaDetail',
-    component: PengalamanKerjaDetailPage,
-  },
-  {
-    path: '/pengalaman-kerja/add/:fungsionalid',
+    path: '/pengalaman-kerja/add',
     name: 'AddPengalamanKerja',
     component: AddPengalamanKerjaPage,
   },
@@ -231,12 +210,7 @@ const routes = [
     component: BahanKerjaPage,
   },
   {
-    path: '/bahan-kerja/detail/:fungsionalid',
-    name: 'BahanKerjaDetail',
-    component: BahanKerjaDetailPage,
-  },
-  {
-    path: '/bahan-kerja/add/:fungsionalid',
+    path: '/bahan-kerja/add',
     name: 'AddBahanKerja',
     component: AddBahanKerjaPage,
   },
@@ -253,12 +227,7 @@ const routes = [
     component: PerangkatKerjaPage,
   },
   {
-    path: '/perangkat-kerja/detail/:fungsionalid',
-    name: 'PerangkatKerjaDetail',
-    component: PerangkatKerjaDetailPage,
-  },
-  {
-    path: '/perangkat-kerja/add/:fungsionalid',
+    path: '/perangkat-kerja/add',
     name: 'AddPerangkatKerja',
     component: AddPerangkatKerjaPage,
   },
@@ -275,12 +244,7 @@ const routes = [
     component: TanggungJawabPage,
   },
   {
-    path: '/tanggung-jawab/detail/:fungsionalid',
-    name: 'TanggungJawabDetail',
-    component: TanggungJawabDetailPage,
-  },
-  {
-    path: '/tanggung-jawab/add/:fungsionalid',
+    path: '/tanggung-jawab/add',
     name: 'AddTanggungJawab',
     component: AddTanggungJawabPage,
   },
@@ -297,12 +261,7 @@ const routes = [
     component: WewenangPage,
   },
   {
-    path: '/wewenang/detail/:fungsionalid',
-    name: 'WewenangDetail',
-    component: WewenangDetailPage,
-  },
-  {
-    path: '/wewenang/add/:fungsionalid',
+    path: '/wewenang/add',
     name: 'AddWewenang',
     component: AddWewenangPage,
   },
@@ -310,28 +269,6 @@ const routes = [
     path: '/wewenang/edit/:wewenangid',
     name: 'EditWewenang',
     component: EditWewenangPage,
-  },
-  
-  // Master Keterampilan Kerja Path
-  {
-    path: '/keterampilan-kerja',
-    name: 'KeterampilanKerja',
-    component: KeterampilanKerjaPage,
-  },
-  {
-    path: '/keterampilan-kerja/detail/:fungsionalid',
-    name: 'KeterampilanKerjaDetail',
-    component: KeterampilanKerjaDetailPage,
-  },
-  {
-    path: '/keterampilan-kerja/add/:fungsionalid',
-    name: 'AddKeterampilanKerja',
-    component: AddKeterampilanKerjaPage,
-  },
-  {
-    path: '/keterampilan-kerja/edit/:keterampilankerjaid',
-    name: 'EditKeterampilanKerja',
-    component: EditKeterampilanKerjaPage,
   },
 
   // Master Bakat Kerja Path

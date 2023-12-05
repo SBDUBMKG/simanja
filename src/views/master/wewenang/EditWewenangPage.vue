@@ -111,7 +111,6 @@ export default {
                 }
 
                 const payload = {
-                    idfungsional: this.wewenangData.id_fungsional,
                     wewenang: wewenang
                 }
 
@@ -121,7 +120,7 @@ export default {
                     icon: 'success',
                     title: 'Success',
                     text: 'Wewenang Berhasil Diperbarui'
-                }).then(this.$router.push({ name: 'WewenangDetail', params: { fungsionalid: this.wewenangData.id_fungsional } }))
+                }).then(this.$router.push({ name: 'Wewenang' }))
                 
             } catch (error) {
                 if (error.status === 401) {

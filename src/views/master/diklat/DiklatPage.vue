@@ -1,26 +1,36 @@
 <template>
     <div>
-        <div class="container-master-diklat">
+        <div class="container-detail-master-diklat">
             <SidebarMenu/>
             <div class="container-content">
                 <NavbarDashboard/>
                 <div class="main-content shadow">
                     <h2 class="title-content">Master Pendidikan dan Pelatihan</h2>
-                    <h6 class="subtitle-content">List Jabatan Fungsional</h6>
-                    <DataTable v-if="loaded" class="table table-bordered table-sm table-hover table-responsive-xl display">
+                    <h6 class="subtitle-content" v-if="dataLoaded">List Pendidikan dan Pelatihan {{ fungsionalData.fungsional }}</h6>
+                    <div class="d-flex justify-content-start add-button">
+                        <button @click="addDiklat" class="btn btn-success">Tambah Pendidikan dan Pelatihan</button>
+                    </div>
+                    <DataTable v-if="diklatLoaded" class="table table-bordered table-sm table-hover table-responsive-xl display">
                         <thead>
                             <tr class="table-head">
-                                <th class="column-title">JABATAN FUNGSIONAL</th>
-                                <th class="column-title">DETAIL</th>
+                                <th width="5%" class="column-title">No.</th>
+                                <th width="85%" class="column-title">DIKLAT</th>
+                                <th width="10%" class="column-title">ACTION</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="jabatan in daftarjabatan" :key="jabatan.id_fungsional">
-                                <td>{{ jabatan.fungsional }}</td>
+                            <tr v-for="(diklat, index) in daftarDiklat" :key="diklat.id_diklat">
+                                <td>{{ index+1 }}</td>
+                                <td>{{ diklat.diklat }}</td>
                                 <td>
-                                    <router-link :to="{ name: 'DiklatDetail', params: { fungsionalid: jabatan.id_fungsional } }">
-                                        Detail
-                                    </router-link>
+                                    <div class="d-flex justify-content-around">
+                                        <button @click="editBtn(diklat.id_diklat)" class="btn btn-secondary btn-sm">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" /><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" /></svg>
+                                        </button>
+                                        <button @click="deleteBtn(diklat.id_diklat)" class="btn btn-secondary btn-sm">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         </tbody>
@@ -48,51 +58,102 @@ export default {
     },
     data() {
         return {
-            daftarjabatan: null,
-            loaded: false
+            daftarDiklat: null,
+            diklatLoaded: false
         };
     },
     mounted () {
-        this.loadJabatan()
+        this.checkAuthentication()
+        this.loadDiklat()
     },
     methods: {
-        async loadJabatan() {
+        async checkAuthentication () {
+            const token = localStorage.getItem('token');
+
+            if (!token) {
+                console.error('Token not available');
+                this.$router.push({ name: 'Home' })
+            }
+        },
+
+        async loadDiklat() {
             try {
-                // Mendapatkan token dari local storage
                 const token = localStorage.getItem('token');
 
-                if (!token) {
-                    console.error('Token not available');
-                    // Handle sesuai dengan kebutuhan, seperti redirect ke halaman login
-                    return;
-                }
-
-                // Menambahkan token dalam header Authorization
                 const config = {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
                 };
 
-                // Melakukan permintaan API dengan token
-                const response = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/master/fungsional`, config);
+                const response = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/master/diklat`, config);
 
-                // Menyimpan data ke dalam state
-                this.daftarjabatan = response.data.data.fungsional
-                this.loaded = true
+                this.daftarDiklat = response.data.data.diklat
+                this.diklatLoaded = true
             } catch (error) {
-                console.error('Error fetching jabatan:', error);
+                if (error.response.status === 404) {
+                    this.diklatLoaded = true
+                } else if (error.response.status === 401) {
+                    this.$router.push({ name: 'Home' })
+                } else {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: error.message
+                    })
+                }
             }
         },
+
+        addDiklat () {
+            this.$router.push({ name: 'AddDiklat' })
+        },
+
+        editBtn (id_diklat) {
+            this.$router.push({ name: 'EditDiklat', params: { diklatid: id_diklat } })    
+        },
+
+        deleteBtn (id_diklat) {
+            try {
+                this.$swal.fire({
+                    icon: 'warning',
+                    title: 'Peringatan!!',
+                    text: 'Yakin ingin menghapus diklat?',
+                    showCancelButton: true,
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        const token = localStorage.getItem('token')
+                        const config = {
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                            }
+                        }
+        
+                        await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/master/diklat/${id_diklat}`, config)
+                        this.daftarDiklat = null
+                        this.diklatLoaded = false,
+                        this.loadDiklat()
+                    }
+                })
+
+            } catch (error) {
+                if (error.status === 401) {
+                    this.$router.push({ name: 'Home' })
+                } else {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: error.message
+                    })
+                }
+            }
+        }
     },
 };
 </script>
 
 <style scoped>
-/* Gaya CSS khusus untuk komponen ini */
-@import 'datatables.net-bs5';
-
-.container-master-diklat{
+.container-detail-master-diklat {
     display: flex;
 }
 </style>

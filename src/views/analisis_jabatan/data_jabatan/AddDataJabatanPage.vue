@@ -48,7 +48,7 @@
                     </table>
                     <div class="d-flex justify-content-end action-button">
                         <button @click="addJabatan" class="btn btn-success btn-save">Save</button>
-                        <button class="btn btn-primary btn-continue">Save & Continue</button>
+                        <button @click="addContinue" class="btn btn-primary btn-continue">Save & Continue</button>
                     </div>
                 </div>
             </div>
@@ -76,7 +76,8 @@ export default {
             fungsionalLoaded: false,
             satker: [],
             stationLoaded: false,
-            tahunJabatan: null
+            tahunJabatan: null,
+            jabatanId: null
         };
     },
     mounted () {
@@ -173,7 +174,8 @@ export default {
                     tahunjabatan: this.tahunJabatan
                 }
 
-                await axios.post(`${process.env.VUE_APP_BACKENDHOST}/jabatan`, payload, config);
+                await axios.post(`${process.env.VUE_APP_BACKENDHOST}/jabatan`, payload, config)
+                .then((response) => this.jabatanId = response.data.data.jabatanId)
 
                 this.$swal.fire({
                     icon: 'success',
@@ -193,6 +195,11 @@ export default {
                 }
             }
         },
+
+        async addContinue () {
+            await this.addJabatan()
+            await this.$router.push({ name: 'AnalisisBiodata', params: { jabatanid: this.jabatanId } })
+        }
     },
 };
 </script>

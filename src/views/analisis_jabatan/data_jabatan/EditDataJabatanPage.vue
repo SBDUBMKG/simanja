@@ -39,7 +39,7 @@
                     </table>
                     <div class="d-flex justify-content-end action-button">
                         <button @click="editJabatan" class="btn btn-success btn-save">Save</button>
-                        <button class="btn btn-primary btn-continue">Save & Continue</button>
+                        <button @click="editContinue" class="btn btn-primary btn-continue">Save & Continue</button>
                     </div>
                 </div>
             </div>
@@ -95,7 +95,6 @@ export default {
                 const response = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/jabatan/id/${this.jabatanId}`, config);
 
                 this.jabatanData = response.data.data.jabatan
-                console.log(this.jabatanData)
                 this.jabatanLoaded = true
             } catch (error) {
                 if (error.response.status === 404) {
@@ -124,6 +123,13 @@ export default {
 
                 const payload = {
                     idfungsional: this.jabatanData[0].id_fungsional,
+                    jptutama: this.jptUtama,
+                    jptmadya: this.jabatanData[0].jpt_madya,
+                    jptpratama: this.jabatanData[0].jpt_pratama,
+                    administrator: this.jabatanData[0].administrator,
+                    pengawas: this.jabatanData[0].pengawas,
+                    pelaksana: this.jabatanData[0].pelaksana,
+                    jabfung: this.jabatanData[0].jabatan_fungsional,
                     tahunjabatan: this.jabatanData[0].tahun_jabatan
                 }
 
@@ -147,6 +153,11 @@ export default {
                 }
             }
         },
+
+        async editContinue () {
+            await this.editJabatan()
+            await this.$router.push({ name: 'AnalisisBiodata', params: { jabatanid: this.jabatanId } })
+        }
     },
 };
 </script>

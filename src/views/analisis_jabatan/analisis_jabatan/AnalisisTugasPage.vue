@@ -119,6 +119,10 @@ export default {
             }
         },
 
+        goToPreviousPage () {
+            this.$router.go(-1)
+        },
+
         async getData () {
             await this.getJabatan()
             await this.getTugasPokok()

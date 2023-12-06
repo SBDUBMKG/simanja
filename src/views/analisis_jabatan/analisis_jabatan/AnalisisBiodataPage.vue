@@ -44,6 +44,7 @@
                             <td>
                                 <select v-model="dataJabatan[0].jpt_madya" class="form-control form-control-sm" id="jpt-madya">
                                     <option value="-" selected>-</option>
+                                    <option value="Sekretariat Utama">Sekretariat Utama</option>
                                     <option value="Deputi Bidang Meteorologi">Deputi Bidang Meteorologi</option>
                                     <option value="Deputi Bidang Klimatologi">Deputi Bidang Klimatologi</option>
                                     <option value="Deputi Bidang Geofisika">Deputi Bidang Geofisika</option>

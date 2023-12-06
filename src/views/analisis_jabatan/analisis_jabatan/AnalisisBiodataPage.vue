@@ -119,12 +119,17 @@
                             <td></td>
                             <td>b. Pendidikan dan Pelatihan</td>
                             <td v-if="masterDiklatLoaded">
-                                <div class="form-check" v-for="diklatList in masterDiklat" :key="diklatList.id_diklat">
-                                    <input v-model="diklat" class="form-check-input" type="checkbox" :value="diklatList.id_diklat" :id="diklatList.id_diklat + '-diklat'" checked>
-                                    <label class="form-check-label" :for="diklatList.id_diklat + '-diklat'">
-                                        {{ diklatList.diklat }}
-                                    </label>
-                                </div>
+                                <VueMultiselect
+                                    v-model="diklat"
+                                    :options="masterDiklat"
+                                    :multiple="true"
+                                    :taggable="true"
+                                    @tag="addTag"
+                                    tag-placeholder="Pilih Diklat"
+                                    placeholder="Cari Diklat"
+                                    label="diklat"
+                                    track-by="id_diklat"
+                                />
                             </td>
                         </tr>
                         <tr>
@@ -132,7 +137,7 @@
                             <td>c. Pengalaman Kerja</td>
                             <td v-if="masterPengalamanLoaded">
                                 <div class="form-check" v-for="pengalamanList in masterPengalaman" :key="pengalamanList.id_pengalaman">
-                                    <input v-model="pengalaman" class="form-check-input" type="checkbox" :value="pengalamanList.id_pengalaman" :id="pengalamanList.id_pengalaman + '-pengalaman'">
+                                    <input v-model="pengalaman" class="form-check-input" type="radio" :value="pengalamanList.id_pengalaman" :id="pengalamanList.id_pengalaman + '-pengalaman'">
                                     <label class="form-check-label" :for="pengalamanList.id_pengalaman + '-pengalaman'">
                                         {{ pengalamanList.pengalaman }}
                                     </label>
@@ -154,11 +159,13 @@
 import axios from 'axios';
 import NavbarDashboard from '@/components/NavbarDashboard.vue';
 import SidebarMenu from '@/components/SidebarMenu.vue';
+import VueMultiselect from 'vue-multiselect'
 
 export default {
     components: {
         NavbarDashboard,
-        SidebarMenu
+        SidebarMenu,
+        VueMultiselect
     },
     data() {
         return {
@@ -183,8 +190,8 @@ export default {
             diklat: [],
             diklatDb: [],
             diklatLoaded: false,
-            pengalaman: [],
-            pengalamanDb: [],
+            pengalaman: '',
+            pengalamanDb: '',
             pengalamanLoaded: false
         };
     },
@@ -204,6 +211,15 @@ export default {
 
         goToPreviousPage () {
             this.$router.go(-1)
+        },
+
+        addTag (newTag) {
+            const tag = {
+                diklat: newTag,
+                id_diklat: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
+            }
+            // this.masterDiklat.push(tag)
+            this.diklat.push(tag)
         },
 
         async getData () {
@@ -325,16 +341,15 @@ export default {
                     },
                 };
 
-                const responseMaster = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/master/diklat/fungsional/${this.dataJabatan[0].id_fungsional}`, config);
+                const responseMaster = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/master/diklat`, config);
                 this.masterDiklat = responseMaster.data.data.diklat
                 this.masterDiklatLoaded = true
 
                 const responseDiklat = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/diklat/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
                 for (let i = 0; i < responseDiklat.data.data.diklat.length; i++) {
-                    this.diklat.push(responseDiklat.data.data.diklat[i].id_diklat)
+                    this.diklat.push(responseDiklat.data.data.diklat[i])
                     this.diklatDb.push(responseDiklat.data.data.diklat[i].id_diklat)
                 }
-                console.log(this.diklat)
                 this.diklatLoaded = true
             } catch (error) {
                 if (error.response.status === 404) {
@@ -362,15 +377,15 @@ export default {
                     },
                 };
 
-                const responseMaster = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/master/pengalaman/fungsional/${this.dataJabatan[0].id_fungsional}`, config);
+                const responseMaster = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/master/pengalaman`, config);
                 this.masterPengalaman = responseMaster.data.data.pengalaman
                 this.masterPengalamanLoaded = true
 
                 const responsePengalaman = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/pengalaman-kerja/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
-                for (let i = 0; i < responsePengalaman.data.data.pengalamanKerja.length; i++) {
-                    this.pengalaman.push(responsePengalaman.data.data.pengalamanKerja[i].id_pengalaman)
-                    this.pengalamanDb.push(responsePengalaman.data.data.pengalamanKerja[i].id_pengalaman)
-                }
+                
+                this.pengalaman = responsePengalaman.data.data.pengalamanKerja[0].id_pengalaman
+                this.pengalamanDb = responsePengalaman.data.data.pengalamanKerja[0].id_pengalaman
+                
                 this.pengalamanLoaded = true
             } catch (error) {
                 if (error.response.status === 404) {
@@ -448,23 +463,21 @@ export default {
                 for (let i = 0; i < this.diklat.length; i++) {
                     const payloadDiklat = {
                         idjabatan: this.dataJabatan[0].id_jabatan,
-                        iddiklat: this.diklat[i]
+                        iddiklat: this.diklat[i].id_diklat
                     }
                     await axios.post(`${process.env.VUE_APP_BACKENDHOST}/diklat`, payloadDiklat, config)
                 }
 
-                if (this.pengalamanDb.length !== 0) {
+                if (this.pengalamanDb !== '') {
                     await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/pengalaman-kerja/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
                 }
-
-                for (let i = 0; i < this.pengalaman.length; i++) {
-                    const payloadPengalaman = {
-                        idjabatan: this.dataJabatan[0].id_jabatan,
-                        idpengalamankerja: this.pengalaman[i]
-                    }
-                    await axios.post(`${process.env.VUE_APP_BACKENDHOST}/pengalaman-kerja`, payloadPengalaman, config)
+                
+                const payloadPengalaman = {
+                    idjabatan: this.dataJabatan[0].id_jabatan,
+                    idpengalamankerja: this.pengalaman
                 }
-
+                await axios.post(`${process.env.VUE_APP_BACKENDHOST}/pengalaman-kerja`, payloadPengalaman, config)
+                
                 this.$swal.fire({
                     icon: 'success',
                     title: 'Success',
@@ -492,6 +505,8 @@ export default {
     },
 };
 </script>
+
+<style src="vue-multiselect/dist/vue-multiselect.css"></style>
 
 <style scoped>
 .container-analisis-biodata {

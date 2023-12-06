@@ -148,7 +148,7 @@
                     </table>
                     <div class="d-flex justify-content-end action-button">
                         <button @click="saveBiodata" class="btn btn-success btn-save">Save</button>
-                        <button class="btn btn-primary btn-continue">Save & Continue</button>
+                        <button @click="saveContinue" class="btn btn-primary btn-continue">Save & Continue</button>
                     </div>
                 </div>
             </div>
@@ -502,6 +502,11 @@ export default {
                     })
                 }
             }
+        },
+
+        async saveContinue () {
+            await this.saveBiodata ()
+            await this.$router.push({ name: 'AnalisisTugas', params: { jabatanid: this.jabatanId } })
         }
     },
 };

@@ -70,6 +70,60 @@
                                 </tbody>
                             </table>
                         </div>
+                        <div class="bahan-kerja">
+                            <h6>8. Bahan Kerja</h6>
+                            <VueMultiselect
+                                v-model="bahanKerja"
+                                :options="masterBahanKerja"
+                                :multiple="true"
+                                :close-on-select="true"
+                                :taggable="false"
+                                placeholder="Pilih Bahan Kerja"
+                                label="bahan_kerja"
+                                track-by="bahan_kerja"
+                            />
+                            <table class="table table-sm table-bordered table-responsive-xl display">
+                                <thead class="table-head">
+                                    <th>No</th>
+                                    <th>Bahan Kerja</th>
+                                    <th>Penggunaan</th>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(bahanKerja, index) in bahanKerja" :key="bahanKerja.id_bahan_kerja">
+                                        <td>{{ index + 1 }}</td>
+                                        <td>{{ bahanKerja.bahan_kerja }}</td>
+                                        <td>{{ bahanKerja.penggunaan }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="bahan-kerja">
+                            <h6>9. Perangkat Kerja</h6>
+                            <VueMultiselect
+                                v-model="perangkatKerja"
+                                :options="masterPerangkatKerja"
+                                :multiple="true"
+                                :close-on-select="true"
+                                :taggable="false"
+                                placeholder="Pilih Perangkat Kerja"
+                                label="perangkat_kerja"
+                                track-by="perangkat_kerja"
+                            />
+                            <table class="table table-sm table-bordered table-responsive-xl display">
+                                <thead class="table-head">
+                                    <th>No</th>
+                                    <th>Perangkat Kerja</th>
+                                    <th>Penggunaan</th>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(perangkatKerja, index) in perangkatKerja" :key="perangkatKerja.id_perangkat_kerja">
+                                        <td>{{ index + 1 }}</td>
+                                        <td>{{ perangkatKerja.perangkat_kerja }}</td>
+                                        <td>{{ perangkatKerja.penggunaan }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </form>
                     <div class="d-flex justify-content-end action-button">
                         <button @click="saveTugas" class="btn btn-success btn-save">Save</button>
@@ -100,14 +154,24 @@ export default {
             jabatanLoaded: false,
             masterTugas: [],
             masterTugasLoaded: false,
+            masterBahanKerja: [],
+            masterBahanKerjaLoaded: false,
+            masterPerangkatKerja: [],
+            masterPerangkatKerjaLoaded: false,
             tugas: [],
             tugasDb: [],
             tugasLoaded: false,
+            bahanKerja: [],
+            bahanKerjaDb: [],
+            bahanKerjaLoaded: false,
+            perangkatKerja: [],
+            perangkatKerjaDb: [],
+            perangkatKerjaLoaded: false,
         };
     },
     mounted () {
         this.checkAuthentication()
-        this.getData()
+        this.getData()          
     },
     methods: {
         async checkAuthentication () {
@@ -126,6 +190,8 @@ export default {
         async getData () {
             await this.getJabatan()
             await this.getTugasPokok()
+            await this.getBahanKerja()
+            await this.getPerangkatKerja()
         },
 
         async getJabatan () {
@@ -191,6 +257,74 @@ export default {
             }
         },
 
+        async getBahanKerja () {
+            try {
+                const token = localStorage.getItem('token');
+
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                };
+
+                const responseMaster = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/master/bahan-kerja`, config);
+                this.masterBahanKerja = responseMaster.data.data.bahanKerja
+                this.masterBahanKerjaLoaded = true
+
+                const responseBahanKerja = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/bahan-kerja/jabatan/${this.dataJabatan[0].id_jabatan}`, config);
+                this.bahanKerja = responseBahanKerja.data.data.bahanKerja
+                this.bahanKerjaDb = responseBahanKerja.data.data.bahanKerja
+                this.bahanKerjaLoaded = true
+
+            } catch (error) {
+                if (error.response.status === 404) {
+                    this.bahanKerjaLoaded = true
+                } else if (error.response.status === 401) {
+                    this.$router.push({ name: 'Home' })
+                } else {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: error.message
+                    })
+                }
+            }
+        },
+
+        async getPerangkatKerja () {
+            try {
+                const token = localStorage.getItem('token');
+
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                };
+
+                const responseMaster = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/master/perangkat-kerja`, config);
+                this.masterPerangkatKerja = responseMaster.data.data.perangkatKerja
+                this.masterPerangkatKerjaLoaded = true
+
+                const responsePerangkatKerja = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/perangkat-kerja/jabatan/${this.dataJabatan[0].id_jabatan}`, config);
+                this.perangkatKerja = responsePerangkatKerja.data.data.perangkatKerja
+                this.perangkatKerjaDb = responsePerangkatKerja.data.data.perangkatKerja
+                this.perangkatKerjaLoaded = true
+
+            } catch (error) {
+                if (error.response.status === 404) {
+                    this.perangkatKerjaLoaded = true
+                } else if (error.response.status === 401) {
+                    this.$router.push({ name: 'Home' })
+                } else {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: error.message
+                    })
+                }
+            }
+        },
+
         async saveTugas () {
             try {
                 this.$swal.fire({
@@ -206,8 +340,6 @@ export default {
                     },
                 }
 
-                console.log(this.tugas)
-
                 if (this.tugasDb.length !== 0) {
                     await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/tugas/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
                 }
@@ -219,6 +351,30 @@ export default {
                         volhasilkerja: this.tugas[i].vol_hasil_kerja
                     }
                     await axios.post(`${process.env.VUE_APP_BACKENDHOST}/tugas`, payloadTugas, config)
+                }
+
+                if (this.bahanKerjaDb.length !== 0) {
+                    await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/bahan-kerja/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
+                }
+                 
+                for (let i = 0; i < this.bahanKerja.length; i++) {
+                    const payloadBahanKerja = {
+                        idjabatan: this.dataJabatan[0].id_jabatan,
+                        idbahankerja: this.bahanKerja[i].id_bahan_kerja
+                    }
+                    await axios.post(`${process.env.VUE_APP_BACKENDHOST}/bahan-kerja`, payloadBahanKerja, config)
+                }
+
+                if (this.perangkatKerjaDb.length !== 0) {
+                    await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/perangkat-kerja/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
+                }
+                 
+                for (let i = 0; i < this.perangkatKerja.length; i++) {
+                    const payloadPerangkatKerja = {
+                        idjabatan: this.dataJabatan[0].id_jabatan,
+                        idperangkatkerja: this.perangkatKerja[i].id_perangkat_kerja
+                    }
+                    await axios.post(`${process.env.VUE_APP_BACKENDHOST}/perangkat-kerja`, payloadPerangkatKerja, config)
                 }
                 
                 this.$swal.fire({
@@ -233,7 +389,7 @@ export default {
 
             } catch (error) {
                 if (error.response.status === 404) {
-                    this.pengalamanLoaded = true
+                    this.tugasLoaded = true
                 } else if (error.response.status === 401) {
                     this.$router.push({ name: 'Home' })
                 } else {

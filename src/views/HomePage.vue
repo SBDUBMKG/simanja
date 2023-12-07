@@ -123,7 +123,7 @@ export default {
   }
 
   .logo img {
-    width: 20px;
+    width: 30px;
     height: auto;
     margin-right: 10px;
   }

@@ -127,7 +127,7 @@
                     </form>
                     <div class="d-flex justify-content-end action-button">
                         <button @click="saveTugas" class="btn btn-success btn-save">Save</button>
-                        <button class="btn btn-primary btn-continue">Save & Continue</button>
+                        <button @click="saveContinue" class="btn btn-primary btn-continue">Save & Continue</button>
                     </div>
                 </div>
             </div>
@@ -400,6 +400,11 @@ export default {
                     })
                 }
             }
+        },
+
+        async saveContinue () {
+            await this.saveTugas ()
+            await this.$router.push({ name: 'AnalisisTanggungJawab', params: { jabatanid: this.jabatanId } })
         }
     },
 };
@@ -419,7 +424,7 @@ table {
 
 tr td {
     padding: 10px;
-    vertical-align: top;
+    vertical-align: middle;
 }
 
 .action-button {

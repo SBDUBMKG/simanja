@@ -126,7 +126,7 @@
                         </div>
                     </form>
                     <div class="d-flex justify-content-end action-button">
-                        <button @click="saveTugas" class="btn btn-success btn-save">Save</button>
+                        <button @click="saveAll" class="btn btn-success btn-save">Save</button>
                         <button @click="saveContinue" class="btn btn-primary btn-continue">Save & Continue</button>
                     </div>
                 </div>
@@ -189,9 +189,11 @@ export default {
 
         async getData () {
             await this.getJabatan()
-            await this.getTugasPokok()
-            await this.getBahanKerja()
-            await this.getPerangkatKerja()
+            await Promise.all([
+                this.getTugasPokok(),
+                this.getBahanKerja(),
+                this.getPerangkatKerja()
+            ])
         },
 
         async getJabatan () {
@@ -325,13 +327,8 @@ export default {
             }
         },
 
-        async saveTugas () {
+        async saveTugasPokok () {
             try {
-                this.$swal.fire({
-                    text: 'Loading....',
-                    showConfirmButton: false
-                })
-
                 const token = localStorage.getItem('token');
 
                 const config = {
@@ -352,6 +349,30 @@ export default {
                     }
                     await axios.post(`${process.env.VUE_APP_BACKENDHOST}/tugas`, payloadTugas, config)
                 }
+            } catch (error) {
+                if (error.response.status === 404) {
+                    this.tugasLoaded = true
+                } else if (error.response.status === 401) {
+                    this.$router.push({ name: 'Home' })
+                } else {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Tugas error ' + error.message
+                    })
+                }
+            }
+        },
+
+        async saveBahanKerja () {
+            try {
+                const token = localStorage.getItem('token');
+
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
 
                 if (this.bahanKerjaDb.length !== 0) {
                     await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/bahan-kerja/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
@@ -363,6 +384,30 @@ export default {
                         idbahankerja: this.bahanKerja[i].id_bahan_kerja
                     }
                     await axios.post(`${process.env.VUE_APP_BACKENDHOST}/bahan-kerja`, payloadBahanKerja, config)
+                }
+            } catch (error) {
+                if (error.response.status === 404) {
+                    this.bahanKerjaLoaded = true
+                } else if (error.response.status === 401) {
+                    this.$router.push({ name: 'Home' })
+                } else {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Bahan kerja error ' + error.message
+                    })
+                }
+            }
+        },
+
+        async savePerangkatKerja () {
+            try {
+                const token = localStorage.getItem('token');
+
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
                 }
 
                 if (this.perangkatKerjaDb.length !== 0) {
@@ -376,35 +421,42 @@ export default {
                     }
                     await axios.post(`${process.env.VUE_APP_BACKENDHOST}/perangkat-kerja`, payloadPerangkatKerja, config)
                 }
-                
-                this.$swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: 'Data Berhasil Disimpan'
-                })
-                // .then((result) => {
-                //     if (result.isConfirmed) {
-                //         this.$router.go()
-                //     }
-                // });
-
             } catch (error) {
                 if (error.response.status === 404) {
-                    this.tugasLoaded = true
+                    this.perangkatKerjaLoaded = true
                 } else if (error.response.status === 401) {
                     this.$router.push({ name: 'Home' })
                 } else {
                     this.$swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: error.message
+                        text: 'Perangkat kerja error ' + error.message
                     })
                 }
             }
         },
 
+        async saveAll () {
+            this.$swal.fire({
+                text: 'Loading....',
+                showConfirmButton: false
+            })
+
+            await Promise.all([
+                this.saveTugasPokok(),
+                this.saveBahanKerja(),
+                this.savePerangkatKerja()
+            ])
+            
+            await this.$swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Data Berhasil Disimpan'
+            })            
+        },
+
         async saveContinue () {
-            await this.saveTugas ()
+            await this.saveAll()
             await this.$router.push({ name: 'AnalisisTanggungJawab', params: { jabatanid: this.jabatanId } })
         }
     },

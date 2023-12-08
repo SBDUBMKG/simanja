@@ -147,7 +147,7 @@
                         </tr>
                     </table>
                     <div class="d-flex justify-content-end action-button">
-                        <button @click="saveBiodata" class="btn btn-success btn-save">Save</button>
+                        <button @click="saveAll" class="btn btn-success btn-save">Save</button>
                         <button @click="saveContinue" class="btn btn-primary btn-continue">Save & Continue</button>
                     </div>
                 </div>
@@ -225,10 +225,12 @@ export default {
 
         async getData () {
             await this.getJabatan()
-            await this.getIkhtisarJabatan()
-            await this.getPendidikanFormal()
-            await this.getDiklat()
-            await this.getPengalaman()
+            await Promise.all([
+                this.getIkhtisarJabatan(),
+                this.getPendidikanFormal(),
+                this.getDiklat(),
+                this.getPengalaman()
+            ])
         },
 
         async getJabatan () {
@@ -404,13 +406,8 @@ export default {
             }
         },
 
-        async saveBiodata () {
+        async saveJabatan () {
             try {
-                this.$swal.fire({
-                    text: 'Loading....',
-                    showConfirmButton: false
-                })
-
                 const token = localStorage.getItem('token');
 
                 const config = {
@@ -432,6 +429,30 @@ export default {
                 }
 
                 await axios.put(`${process.env.VUE_APP_BACKENDHOST}/jabatan/${this.dataJabatan[0].id_jabatan}`, payload, config)
+            } catch (error) {
+                if (error.response.status === 404) {
+                    this.jabatanLoaded = true
+                } else if (error.response.status === 401) {
+                    this.$router.push({ name: 'Home' })
+                } else {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Jabatan error' + error.message
+                    })
+                }
+            }
+        },
+
+        async saveIkhtisarJabatan () {
+            try {
+                const token = localStorage.getItem('token');
+
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                };
 
                 if (this.ikhtisarJabatanDb.length !== 0) {
                     await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/ikhtisar-jabatan/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
@@ -444,11 +465,35 @@ export default {
                     }
                     await axios.post(`${process.env.VUE_APP_BACKENDHOST}/ikhtisar-jabatan`, payloadIkhtisar, config)
                 }
+            } catch (error) {
+                if (error.response.status === 404) {
+                    this.ikhtisarJabatanLoaded = true
+                } else if (error.response.status === 401) {
+                    this.$router.push({ name: 'Home' })
+                } else {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Ikhtisar jabatan error' + error.message
+                    })
+                }
+            }
+        },
+
+        async savePendidikanFormal () {
+            try {
+                const token = localStorage.getItem('token');
+
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                };
 
                 if (this.pendidikanFormalDb.length !== 0) {
-                    await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/pendidikan/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
-                }
-
+                        await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/pendidikan/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
+                    }
+    
                 for (let i = 0; i < this.pendidikanFormal.length; i++) {
                     const payloadPendidikan = {
                         idjabatan: this.dataJabatan[0].id_jabatan,
@@ -456,6 +501,30 @@ export default {
                     }
                     await axios.post(`${process.env.VUE_APP_BACKENDHOST}/pendidikan`, payloadPendidikan, config)
                 }
+            } catch (error) {
+                if (error.response.status === 404) {
+                    this.pendidikanFormalLoaded = true
+                } else if (error.response.status === 401) {
+                    this.$router.push({ name: 'Home' })
+                } else {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Pendidikan formal error' + error.message
+                    })
+                }
+            }
+        },
+
+        async saveDiklat () {
+            try {
+                const token = localStorage.getItem('token');
+
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                };
 
                 if (this.diklatDb.length !== 0) {
                     await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/diklat/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
@@ -468,6 +537,30 @@ export default {
                     }
                     await axios.post(`${process.env.VUE_APP_BACKENDHOST}/diklat`, payloadDiklat, config)
                 }
+            } catch (error) {
+                if (error.response.status === 404) {
+                    this.diklatLoaded = true
+                } else if (error.response.status === 401) {
+                    this.$router.push({ name: 'Home' })
+                } else {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Diklat error' + error.message
+                    })
+                }
+            }
+        },
+
+        async savePengalaman () {
+            try {
+                const token = localStorage.getItem('token');
+
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                };
 
                 if (this.pengalamanDb !== '') {
                     await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/pengalaman-kerja/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
@@ -478,18 +571,6 @@ export default {
                     idpengalamankerja: this.pengalaman
                 }
                 await axios.post(`${process.env.VUE_APP_BACKENDHOST}/pengalaman-kerja`, payloadPengalaman, config)
-                
-                this.$swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: 'Data Berhasil Disimpan'
-                })
-                // .then((result) => {
-                //     if (result.isConfirmed) {
-                //         this.$router.go()
-                //     }
-                // });
-
             } catch (error) {
                 if (error.response.status === 404) {
                     this.pengalamanLoaded = true
@@ -499,14 +580,35 @@ export default {
                     this.$swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: error.message
+                        text: 'Pengalaman error' + error.message
                     })
                 }
             }
         },
 
+        async saveAll () {
+            this.$swal.fire({
+                text: 'Loading....',
+                showConfirmButton: false
+            })
+
+            await Promise.all([
+                this.saveJabatan(),
+                this.saveIkhtisarJabatan(),
+                this.savePendidikanFormal(),
+                this.saveDiklat(),
+                this.savePengalaman()
+            ])
+            
+            await this.$swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Data Berhasil Disimpan'
+            })
+        },
+
         async saveContinue () {
-            await this.saveBiodata ()
+            await this.saveAll()
             await this.$router.push({ name: 'AnalisisTugas', params: { jabatanid: this.jabatanId } })
         }
     },

@@ -189,11 +189,10 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <p>{{ lingkunganKerja }}</p>
                         </div>
                     </form>
                     <div class="d-flex justify-content-end action-button">
-                        <button @click="saveTanggungJawab" class="btn btn-success btn-save">Save</button>
+                        <button @click="saveAll" class="btn btn-success btn-save">Save</button>
                         <button class="btn btn-primary btn-continue">Save & Continue</button>
                     </div>
                 </div>
@@ -278,10 +277,12 @@ export default {
 
         async getData () {
             await this.getJabatan()
-            await this.getTanggungJawab()
-            await this.getWewenang()
-            await this.getKorelasiJabatan()
-            await this.getLingkunganKerja()
+            await Promise.all([
+                this.getTanggungJawab(),
+                this.getWewenang(),
+                this.getKorelasiJabatan(),
+                this.getLingkunganKerja()
+            ])
         },
 
         async getJabatan () {
@@ -445,11 +446,6 @@ export default {
 
         async saveTanggungJawab () {
             try {
-                this.$swal.fire({
-                    text: 'Loading....',
-                    showConfirmButton: false
-                })
-
                 const token = localStorage.getItem('token');
 
                 const config = {
@@ -469,6 +465,30 @@ export default {
                     }
                     await axios.post(`${process.env.VUE_APP_BACKENDHOST}/tanggung-jawab`, payloadTanggungJawab, config)
                 }
+            } catch (error) {
+                if (error.response.status === 404) {
+                    this.tanggungJawabLoaded = true
+                } else if (error.response.status === 401) {
+                    this.$router.push({ name: 'Home' })
+                } else {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Tanggung jawab error ' + error.message
+                    })
+                }
+            }
+        },
+
+        async saveWewenang () {
+            try {
+                const token = localStorage.getItem('token');
+
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
 
                 if (this.wewenangDb.length !== 0) {
                     await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/wewenang/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
@@ -480,6 +500,30 @@ export default {
                         idwewenang: this.wewenang[i].id_wewenang
                     }
                     await axios.post(`${process.env.VUE_APP_BACKENDHOST}/wewenang`, payloadWewenang, config)
+                }
+            } catch (error) {
+                if (error.response.status === 404) {
+                    this.wewenangLoaded = true
+                } else if (error.response.status === 401) {
+                    this.$router.push({ name: 'Home' })
+                } else {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Wewenang error ' + error.message
+                    })
+                }
+            }
+        },
+
+        async saveKorelasiJabatan () {
+            try {
+                const token = localStorage.getItem('token');
+
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
                 }
 
                 const korelasiJabatan = document.getElementsByClassName('row-list')
@@ -519,16 +563,36 @@ export default {
 
                     await axios.post(`${process.env.VUE_APP_BACKENDHOST}/korelasi-jabatan`, payloadKorelasiJabatan, config)
                 }
+            } catch (error) {
+                if (error.response.status === 404) {
+                    this.korelasiJabatanLoaded = true
+                } else if (error.response.status === 401) {
+                    this.$router.push({ name: 'Home' })
+                } else {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Korelasi jabatan error ' + error.message
+                    })
+                }
+            }
+        },
 
-                console.log(Object.keys(this.lingkunganKerjaDb).length)
+        async saveLingkunganKerja () {
+            try {
+                const token = localStorage.getItem('token');
+
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
 
                 if (Object.keys(this.lingkunganKerjaDb).length !== 0) {
                     await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/lingkungan-kerja/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
                 }
 
                 let lingkunganKerjaKeys = Object.keys(this.lingkunganKerja)
-
-                console.log(lingkunganKerjaKeys)
 
                 for (let i = 0; i < lingkunganKerjaKeys.length; i++) {
                     const payloadLingkunganKerja = {
@@ -539,36 +603,43 @@ export default {
 
                     await axios.post(`${process.env.VUE_APP_BACKENDHOST}/lingkungan-kerja`, payloadLingkunganKerja, config)
                 }
-
-                
-                this.$swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: 'Data Berhasil Disimpan'
-                })
-                // .then((result) => {
-                //     if (result.isConfirmed) {
-                //         this.$router.go()
-                //     }
-                // });
-
             } catch (error) {
                 if (error.response.status === 404) {
-                    this.tanggungJawabLoaded = true
+                    this.lingkunganKerjaLoaded = true
                 } else if (error.response.status === 401) {
                     this.$router.push({ name: 'Home' })
                 } else {
                     this.$swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: error.message
+                        text: 'Lingkungan kerja error ' + error.message
                     })
                 }
-            }
+            }   
+        },
+
+        async saveAll () {
+            this.$swal.fire({
+                text: 'Loading....',
+                showConfirmButton: false
+            })
+
+            await Promise.all([
+                this.saveTanggungJawab(),
+                this.saveWewenang(),
+                this.saveKorelasiJabatan(),
+                this.saveLingkunganKerja()
+            ])
+            
+            await this.$swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Data Berhasil Disimpan'
+            })
         },
 
         async saveContinue () {
-            await this.saveTugas ()
+            await this.saveAll ()
             await this.$router.push({ name: 'AnalisisTanggungJawab', params: { jabatanid: this.jabatanId } })
         }
     },

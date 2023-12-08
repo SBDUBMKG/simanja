@@ -97,7 +97,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="bahan-kerja">
+                        <div class="perangkat-kerja">
                             <h6>9. Perangkat Kerja</h6>
                             <VueMultiselect
                                 v-model="perangkatKerja"
@@ -381,11 +381,12 @@ export default {
                     icon: 'success',
                     title: 'Success',
                     text: 'Data Berhasil Disimpan'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        this.$router.go()
-                    }
-                });
+                })
+                // .then((result) => {
+                //     if (result.isConfirmed) {
+                //         this.$router.go()
+                //     }
+                // });
 
             } catch (error) {
                 if (error.response.status === 404) {

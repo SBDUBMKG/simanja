@@ -483,11 +483,12 @@ export default {
                     icon: 'success',
                     title: 'Success',
                     text: 'Data Berhasil Disimpan'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        this.$router.go()
-                    }
-                });
+                })
+                // .then((result) => {
+                //     if (result.isConfirmed) {
+                //         this.$router.go()
+                //     }
+                // });
 
             } catch (error) {
                 if (error.response.status === 404) {

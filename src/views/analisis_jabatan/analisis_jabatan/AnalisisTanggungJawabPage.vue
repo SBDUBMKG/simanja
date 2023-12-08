@@ -190,6 +190,27 @@
                                 </tbody>
                             </table>
                         </div>
+                        <div class="resiko-bahaya">
+                            <h6>14. Resiko Bahaya</h6>
+                            <div class="row-controller d-flex justify-content-start">
+                                <button @click="addRowResiko" class="btn btn-info btn-sm">Tambah Baris</button>
+                                <button @click="deleteRowResiko" class="btn btn-secondary btn-sm">Kurangi Baris</button>
+                            </div>
+                            <table class="table table-bordered table-sm table-hover table-responsive-xl">
+                                <thead>
+                                    <tr class="table-head">
+                                        <th class="column-title">Nama Resiko</th>
+                                        <th class="column-title">Penyebab</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="list-table-resiko">
+                                    <tr class="row-list-resiko" v-for="(resikoBahaya) in resikoBahaya" :key="resikoBahaya.id_resiko_bahaya">
+                                        <td><textarea v-model="resikoBahaya.nama_resiko" class="form-control form-control-sm nama-resiko" rows="1"></textarea></td>
+                                        <td><textarea v-model="resikoBahaya.penyebab" class="form-control form-control-sm penyebab" rows="1"></textarea></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </form>
                     <div class="d-flex justify-content-end action-button">
                         <button @click="saveAll" class="btn btn-success btn-save">Save</button>
@@ -234,6 +255,9 @@ export default {
             lingkunganKerja: {},
             lingkunganKerjaDb: {},
             lingkunganKerjaLoaded: false,
+            resikoBahaya: [],
+            resikoBahayaDb: [],
+            resikoBahayaLoaded: false,
         };
     },
     mounted () {
@@ -275,13 +299,34 @@ export default {
             e.preventDefault()
         },
 
+        addRowResiko (e) {
+            const listResikoBahaya = document.getElementById("list-table-resiko")
+
+            const row = document.createElement('tr')
+            let html = `<td><textarea class="form-control form-control-sm nama-resiko" rows="1"></textarea></td>`
+            html += `<td><textarea class="form-control form-control-sm penyebab" rows="1"></textarea></td>`
+
+            row.innerHTML = html            
+            row.classList.add('row-list-resiko')
+
+            listResikoBahaya.appendChild(row)
+            e.preventDefault()
+        },
+
+        deleteRowResiko (e) {
+            const listResikoBahaya = document.getElementById("list-table-resiko")
+            listResikoBahaya.removeChild(listResikoBahaya.lastElementChild)
+            e.preventDefault()
+        },
+
         async getData () {
             await this.getJabatan()
             await Promise.all([
                 this.getTanggungJawab(),
                 this.getWewenang(),
                 this.getKorelasiJabatan(),
-                this.getLingkunganKerja()
+                this.getLingkunganKerja(),
+                this.getResikoBahaya()
             ])
         },
 
@@ -432,6 +477,36 @@ export default {
             } catch (error) {
                 if (error.response.status === 404) {
                     this.lingkunganKerjaLoaded = true
+                } else if (error.response.status === 401) {
+                    this.$router.push({ name: 'Home' })
+                } else {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: error.message
+                    })
+                }
+            }
+        },
+
+        async getResikoBahaya () {
+            try {
+                const token = localStorage.getItem('token');
+
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                };
+
+                const responseResikoBahaya = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/resiko-bahaya/jabatan/${this.dataJabatan[0].id_jabatan}`, config);
+                this.resikoBahaya = responseResikoBahaya.data.data.resikoBahaya
+                this.resikoBahayaDb = responseResikoBahaya.data.data.resikoBahaya
+                this.resikoBahayaLoaded = true
+
+            } catch (error) {
+                if (error.response.status === 404) {
+                    this.resikoBahayaLoaded = true
                 } else if (error.response.status === 401) {
                     this.$router.push({ name: 'Home' })
                 } else {
@@ -618,6 +693,64 @@ export default {
             }   
         },
 
+        async saveResikoBahaya () {
+            try {
+                const token = localStorage.getItem('token');
+
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+
+                const resikoBahaya = document.getElementsByClassName('row-list-resiko')
+                const namaResikoList = []
+                const penyebabList = []
+
+                for (let i=0; i < resikoBahaya.length; i++) {
+                    let namaResiko = resikoBahaya[i].childNodes[0].childNodes[0].value
+                    let penyebab = resikoBahaya[i].childNodes[1].childNodes[0].value
+
+                    if (namaResiko === '' || penyebab === '') {
+                        return this.$swal.fire({
+                            icon: 'info',
+                            title: 'Warning!!',
+                            text: 'Kolom korelasi jabatan tidak boleh kosong'
+                        })
+                    }
+
+                    namaResikoList.push(namaResiko)
+                    penyebabList.push(penyebab)
+                }
+
+                if (this.resikoBahayaDb.length !== 0) {
+                    await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/resiko-bahaya/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
+                }
+
+                for (let i = 0; i < namaResikoList.length; i++) {
+                    const payloadResikoBahaya = {
+                        idjabatan: this.dataJabatan[0].id_jabatan,
+                        namaresiko: namaResikoList[i],
+                        penyebab: penyebabList[i],
+                    }
+
+                    await axios.post(`${process.env.VUE_APP_BACKENDHOST}/resiko-bahaya`, payloadResikoBahaya, config)
+                }
+            } catch (error) {
+                if (error.response.status === 404) {
+                    this.resikoBahayaLoaded = true
+                } else if (error.response.status === 401) {
+                    this.$router.push({ name: 'Home' })
+                } else {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Resiko bahaya error ' + error.message
+                    })
+                }
+            }
+        },
+
         async saveAll () {
             this.$swal.fire({
                 text: 'Loading....',
@@ -628,7 +761,8 @@ export default {
                 this.saveTanggungJawab(),
                 this.saveWewenang(),
                 this.saveKorelasiJabatan(),
-                this.saveLingkunganKerja()
+                this.saveLingkunganKerja(),
+                this.saveResikoBahaya()
             ])
             
             await this.$swal.fire({

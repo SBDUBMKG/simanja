@@ -18,7 +18,7 @@
                   <img src="@/assets/login-bg.jpg" alt="Login" class="img-fluid">
                 </div>
               </div>
-              <div class="d-flex align-items-center auth-bg px-2 p-lg-5 col-lg-3">
+              <div class="d-flex align-items-center auth-bg px-2 p-lg-3 col-lg-3">
                 <div class="px-xl-2 mx-auto col-sm-8 col-md-6 col-lg-12">
                   <h2 class="card-title mb-4 font-weight-bolder text-center text-dark">
                     Login
@@ -171,9 +171,7 @@ div{
   background-color: #fff;
 }
 
-.p-lg-5 {
-  padding: 4rem!important;
-}
+
 
 .mr-auto, .mx-auto {
   margin-right: auto!important;
@@ -183,6 +181,7 @@ div{
 .p-5 {
   padding: 0!important;
 }
+
 a {
   background-color: transparent;
   cursor: pointer;
@@ -217,5 +216,10 @@ a {
 
 input::placeholder{
   font-style: italic;
+  font-size: 12px;
+}
+
+.invalid-feedback{
+  font-size: 12px;
 }
 </style>

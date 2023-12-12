@@ -90,21 +90,8 @@ export default {
 
 
 <style scoped>
-/* Gaya CSS khusus untuk komponen ini */
-.add-button {
-position: absolute;
-bottom: 10px;
-left: 10px;
-padding: 10px;
-}
-
 .container-satker{
     display: flex;
-}
-
-.container-content{
-    flex: auto;
-    padding: 20px;
 }
 </style>
   

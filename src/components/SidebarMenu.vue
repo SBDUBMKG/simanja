@@ -157,7 +157,7 @@ export default {
 .org-logo {
 	width: 100%;
 	padding: 30px 20px;
-	background-color: rgb(239, 239, 239);
+	/* background-color: rgb(239, 239, 239); */
 }
 
 .org-logo-collapsed {

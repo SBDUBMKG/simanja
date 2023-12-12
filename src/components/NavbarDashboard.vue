@@ -1,6 +1,6 @@
 <template>
   <div class="navbar-dashboard">
-    <nav class="navbar shadow">
+    <nav class="navbar">
       <!-- Left side: Logo and Website name together -->
       <div class="left-side">
         
@@ -42,6 +42,22 @@ export default {
 </script>
 
 <style scoped>
+.navbar-dashboard {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 25px;
+    background-color: #FFFFFF;
+    color: #00305d;
+    font-weight: bold;
+}
 .left-side {
   display: flex; /* Use flexbox for left-side layout */
   align-items: center; /* Vertically center the logo and website name */

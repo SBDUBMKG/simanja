@@ -9,6 +9,8 @@ import DashBoard from '@/views/DashBoard.vue';
 
 // Master Menu Views
 import JabatanPage from '@/views/master/jabatan/JabatanPage.vue';
+import AddJabatanPage from '@/views/master/jabatan/AddJabatanPage.vue';
+import EditJabatanPage from '@/views/master/jabatan/EditJabatanPage.vue';
 
 import SatkerPage from '@/views/master/satker/SatkerPage.vue';
 
@@ -95,11 +97,25 @@ const routes = [
   },
 
   // Master Menu Path
+
+  // Master Jabatan
   {
     path: '/jabatan',
     name: 'Jabatan',
     component: JabatanPage,
   },
+  {
+    path: '/jabatan/add',
+    name: 'AddJabatan',
+    component: AddJabatanPage,
+  },
+  {
+    path: '/jabatan/edit/:fungsionalid',
+    name: 'EditJabatan',
+    component: EditJabatanPage,
+  },
+
+  // Master Satker
   {
     path: '/satker',
     name: 'Satker',

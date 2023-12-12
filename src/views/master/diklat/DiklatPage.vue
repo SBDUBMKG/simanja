@@ -6,7 +6,7 @@
                 <NavbarDashboard/>
                 <div class="main-content shadow">
                     <h2 class="title-content">Master Pendidikan dan Pelatihan</h2>
-                    <h6 class="subtitle-content" v-if="dataLoaded">List Pendidikan dan Pelatihan {{ fungsionalData.fungsional }}</h6>
+                    <h6 class="subtitle-content" >List Pendidikan dan Pelatihan</h6>
                     <div class="d-flex justify-content-start add-button">
                         <button @click="addDiklat" class="btn btn-success">Tambah Pendidikan dan Pelatihan</button>
                     </div>

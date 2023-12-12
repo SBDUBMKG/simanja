@@ -5,10 +5,11 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HomePage from '@/views/HomePage.vue';
 import UserLoginPage from '@/views/login/UserLoginPage.vue';
 import DashBoard from '@/views/DashBoard.vue';
-import JabatanPage from '@/views/JabatanPage.vue';
 
 
 // Master Menu Views
+import JabatanPage from '@/views/master/jabatan/JabatanPage.vue';
+
 import SatkerPage from '@/views/master/satker/SatkerPage.vue';
 
 import IkhtisarJabatanPage from '@/views/master/ikhtisar_jabatan/IkhtisarJabatanPage.vue';

@@ -18,7 +18,7 @@
                   <img src="@/assets/login-bg.jpg" alt="Login" class="img-fluid">
                 </div>
               </div>
-              <div class="d-flex align-items-center auth-bg px-2 p-lg-5 col-lg-3">
+              <div class="d-flex align-items-center auth-bg px-2 p-lg-3 col-lg-3">
                 <div class="px-xl-2 mx-auto col-sm-8 col-md-6 col-lg-12">
                   <h2 class="card-title mb-4 font-weight-bolder text-center text-dark">
                     Login
@@ -70,20 +70,16 @@ export default {
           password: this.password,
         });
 
-        // Simpan token ke dalam local storage
         localStorage.setItem('token', response.data.data.accessToken);
         localStorage.setItem('satker', response.data.data.satker);
         localStorage.setItem('idsatker', response.data.data.idsatker);
         localStorage.setItem('role', response.data.data.role);
 
-        // Setel token dalam header untuk permintaan selanjutnya
         axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.data.accessToken}`;
         
-        // Contoh navigasi ke halaman lain setelah login
-        this.$router.push('/dashboard'); // Anda harus memiliki Vue Router untuk ini
+        this.$router.push('/dashboard');
       } catch (error) {
         console.error('Error saat login:', error);
-        // Tampilkan pesan kesalahan kepada pengguna jika diperlukan
       }
     },
   },
@@ -171,9 +167,7 @@ div{
   background-color: #fff;
 }
 
-.p-lg-5 {
-  padding: 4rem!important;
-}
+
 
 .mr-auto, .mx-auto {
   margin-right: auto!important;
@@ -183,6 +177,7 @@ div{
 .p-5 {
   padding: 0!important;
 }
+
 a {
   background-color: transparent;
   cursor: pointer;
@@ -217,5 +212,10 @@ a {
 
 input::placeholder{
   font-style: italic;
+  font-size: 12px;
+}
+
+.invalid-feedback{
+  font-size: 12px;
 }
 </style>

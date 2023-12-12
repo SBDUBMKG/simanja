@@ -1,5 +1,13 @@
 .navbar {
-    border-radius: 5px;
+    position: sticky;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #FFFFFF;
+    color: #00305d;
+    font-weight: bold;
 }
 
 .container-content{

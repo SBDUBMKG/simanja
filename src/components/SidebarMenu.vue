@@ -4,8 +4,7 @@
 		:menu="menu" 
 		:theme="theme"
 		:showOneChild="showOneChild"
-		:width="width"
-		class="shadow">
+		:width="width">
 		<template #header>
             <img
                 v-if="!sidebarCollapsed"

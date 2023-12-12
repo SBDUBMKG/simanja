@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <!-- Navbar -->
-    <nav class="navbar">
+    <nav class="navbar-home">
       <!-- Left side: Logo and Website name together -->
       <div class="left-side">
         <div class="logo">
@@ -102,7 +102,7 @@ export default {
 
   } */
 
-  .navbar {
+  .navbar-home {
     display: flex;
     justify-content: space-between; /* Spacing between left and right sides */
     align-items: center;

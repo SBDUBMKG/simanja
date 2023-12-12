@@ -5,8 +5,8 @@
             <div class="container-content">
                 <NavbarDashboard/>
                 <div class="main-content shadow">
-                    <h2 class="title-content">Master Satker / UPT</h2>
-                    <h6 class="subtitle-content">List Satker / UPT</h6>
+                    <h2 class="title-content">Master Jabatan</h2>
+                    <h6 class="subtitle-content">List Jabatan</h6>
                     <DataTable v-if="loaded" class="table table-bordered table-sm table-hover table-responsive-xl display">
                         <thead>
                             <tr class="table-head">
@@ -17,29 +17,9 @@
                         <tbody>
                             <tr v-for="(data, index) in daftarJabatan" :key="index">
                                 <td>{{ data.fungsional }}</td>
-                                <!-- <td>
-                                    <router-link :to="{ name: 'IkhtisarJabatanDetail', params: { fungsionalid: jabatan.id_fungsional } }">
-                                        Detail
-                                    </router-link>
-                                </td> -->
                             </tr>
                         </tbody>
                     </DataTable>
-                    <!-- <h2>Daftar Jabatan / UPT</h2>
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>ID Fungsional</th>
-                                <th>Nama Jabatan</th>
-                                </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(data, index) in daftarJabatan" :key="index">
-                                <td>{{ data.id_fungsional }}</td>
-                                <td>{{ data.fungsional }}</td>
-                            </tr>
-                        </tbody>
-                    </table> -->
                 </div>
             </div>
         </div>

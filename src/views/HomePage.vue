@@ -23,26 +23,11 @@
       </div>
     </nav>
 
-    <!-- Main content -->
-    <div class="main-content">
-      <!-- Your main content goes here -->
-      <!-- Carousel -->
-      <!-- <carousel :items-to-show="1.5" :autoplay="5000" :wrap-around="true">
-        <slide v-for="slide in 2" :key="slide">
-          <div class="carousel__item">
-            <img src="@/assets/gambar-simanja.png" alt="gambar simanja" class="inner-image" />
-            <img src="@/assets/tahapan-simanja.png" alt="tahapan simanja" class="inner-image" />
-          </div>          
-        </slide>
-
-        <template #addons>
-          <navigation />
-          <pagination />
-        </template>
-      </carousel> -->
-      <img src="@/assets/gambar-simanja.png" alt="gambar simanja" class="inner-image" />
-      <img src="@/assets/tahapan-simanja.png" alt="tahapan simanja" class="inner-image" />
-    </div>
+<!-- Main content -->
+<div class="main-content">
+  <img src="@/assets/gambar-simanja.png" alt="gambar simanja" class="inner-image" />
+  <img src="@/assets/tahapan-simanja.png" alt="tahapan simanja" class="inner-image" />
+</div>
 
     <!-- Footer -->
     <footer class="footer">
@@ -60,7 +45,6 @@
           <li><a href="https://simas.bmkg.go.id" target="_blank">New Simas BMKG</a></li>
           <li><a href="https://dataonline.bmkg.go.id" target="_blank">Dashboard Database Umum BMKG</a></li>
           <li><a href="#">FAQ</a></li>
-          <!-- Add more links as needed -->
         </ul>
       </div>
 
@@ -75,7 +59,6 @@
           <li><a><span>(021) 4246321
             <br/>(021) 4246703
           </span></a></li>
-          <!-- Add more links as needed -->
         </ul>
       </div>
     </footer>
@@ -83,17 +66,11 @@
 </template>
 
 <script>
-import 'vue3-carousel/dist/carousel.css'
-// import { Carousel, Slide, Navigation } from 'vue3-carousel'
 
 export default {
   name: "HomePage",
-  // components: {
-  //     Carousel,
-  //     Slide,
-  //     Navigation,
-  // },
 };
+
 </script>
 
 <style scoped>

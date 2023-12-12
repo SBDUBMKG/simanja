@@ -70,20 +70,16 @@ export default {
           password: this.password,
         });
 
-        // Simpan token ke dalam local storage
         localStorage.setItem('token', response.data.data.accessToken);
         localStorage.setItem('satker', response.data.data.satker);
         localStorage.setItem('idsatker', response.data.data.idsatker);
         localStorage.setItem('role', response.data.data.role);
 
-        // Setel token dalam header untuk permintaan selanjutnya
         axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.data.accessToken}`;
         
-        // Contoh navigasi ke halaman lain setelah login
-        this.$router.push('/dashboard'); // Anda harus memiliki Vue Router untuk ini
+        this.$router.push('/dashboard');
       } catch (error) {
         console.error('Error saat login:', error);
-        // Tampilkan pesan kesalahan kepada pengguna jika diperlukan
       }
     },
   },

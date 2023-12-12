@@ -46,7 +46,7 @@ export default {
 					title: 'Data Master',
 					icon: 'fa fa-book',
 					child: [
-						{
+					{
 							href: '/jabatan',
 							title: 'Jabatan'
 						},

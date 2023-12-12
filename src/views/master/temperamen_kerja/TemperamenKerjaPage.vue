@@ -5,10 +5,6 @@
             <div class="container-content">
                 <NavbarDashboard/>
                 <div class="main-content shadow">
-                    <button @click="goToPreviousPage" class="btn btn-secondary btn-sm back-button">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="19" height="19" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 6l-6 6l6 6" /></svg> 
-                        Back
-                    </button>
                     <h2 class="title-content">Master Temperamen Kerja</h2>
                     <h6 class="subtitle-content">List Temperamen Kerja</h6>
                     <div class="d-flex justify-content-start add-button">
@@ -109,10 +105,6 @@ export default {
                     })
                 }
             }
-        },
-
-        goToPreviousPage () {
-            this.$router.go(-1)
         },
 
         addTemperamenKerja () {

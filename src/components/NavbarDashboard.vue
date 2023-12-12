@@ -1,23 +1,23 @@
 <template>
-    <div class="navbar-dashboard">
-        <nav class="navbar shadow">
-          <!-- Left side: Logo and Website name together -->
-          <div class="left-side">
-            
-          </div>
+  <div class="navbar-dashboard">
+    <nav class="navbar shadow">
+      <!-- Left side: Logo and Website name together -->
+      <div class="left-side">
+        
+      </div>
 
-          <!-- Right side: Login text -->
-          <div class="right-side">
-            <div class="website-name">
-              Halo, {{ pengguna }}
-            </div>
-            <div @click="logout" class="logout">
-              <router-link to="/">
-                <i class="fa fa-sign-out"></i><span> Logout</span>
-              </router-link>
-            </div>
-          </div>
-      </nav>
+      <!-- Right side: Login text -->
+      <div class="right-side">
+        <div class="website-name">
+          Halo, {{ pengguna }}
+        </div>
+        <div @click="logout" class="logout">
+          <router-link to="/">
+            <i class="fa fa-sign-out"></i><span> Logout</span>
+          </router-link>
+        </div>
+      </div>
+    </nav>
   </div>
 </template>
 
@@ -30,14 +30,11 @@ export default {
   },
   methods: {
     logout() {
-      // Membersihkan token dari penyimpanan lokal atau melakukan tindakan logout lainnya
       localStorage.removeItem('token');
       localStorage.removeItem('satker');
       localStorage.removeItem('idsatker');
       localStorage.removeItem('role');
       
-      // Contoh navigasi ke halaman login setelah logout
-      // Anda harus memiliki Vue Router untuk ini
       this.$router.push('/login');
     },
   },

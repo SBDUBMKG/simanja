@@ -23,7 +23,9 @@
                                 placeholder="Pilih Tugas Pokok"
                                 label="uraian_tugas"
                                 track-by="uraian_tugas"
-                            />
+                            >
+                                <template v-slot:selection="{ values, isOpen }"><span class="multiselect__single" v-if="values.length" v-show="!isOpen">{{ values.length }} Tugas Pokok Dipilih</span></template>
+                            </VueMultiselect>
                             <table class="table table-sm table-bordered table-responsive-xl display">
                                 <thead class="table-head">
                                     <th>No</th>
@@ -81,7 +83,9 @@
                                 placeholder="Pilih Bahan Kerja"
                                 label="bahan_kerja"
                                 track-by="bahan_kerja"
-                            />
+                            >
+                                <template v-slot:selection="{ values, isOpen }"><span class="multiselect__single" v-if="values.length" v-show="!isOpen">{{ values.length }} Bahan Kerja Dipilih</span></template>
+                            </VueMultiselect>
                             <table class="table table-sm table-bordered table-responsive-xl display">
                                 <thead class="table-head">
                                     <th>No</th>
@@ -108,7 +112,9 @@
                                 placeholder="Pilih Perangkat Kerja"
                                 label="perangkat_kerja"
                                 track-by="perangkat_kerja"
-                            />
+                            >
+                                <template v-slot:selection="{ values, isOpen }"><span class="multiselect__single" v-if="values.length" v-show="!isOpen">{{ values.length }} Perangkat Kerja Dipilih</span></template>
+                            </VueMultiselect>
                             <table class="table table-sm table-bordered table-responsive-xl display">
                                 <thead class="table-head">
                                     <th>No</th>
@@ -219,7 +225,7 @@ export default {
                     this.$swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: error.message
+                        text: error.response.data.message
                     })
                 }
             }
@@ -253,7 +259,7 @@ export default {
                     this.$swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: error.message
+                        text: error.response.data.message
                     })
                 }
             }
@@ -287,7 +293,7 @@ export default {
                     this.$swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: error.message
+                        text: error.response.data.message
                     })
                 }
             }
@@ -321,7 +327,7 @@ export default {
                     this.$swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: error.message
+                        text: error.response.data.message
                     })
                 }
             }
@@ -358,7 +364,7 @@ export default {
                     this.$swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: 'Tugas error ' + error.message
+                        text: error.response.data.message
                     })
                 }
             }
@@ -394,7 +400,7 @@ export default {
                     this.$swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: 'Bahan kerja error ' + error.message
+                        text: error.response.data.message
                     })
                 }
             }
@@ -430,7 +436,7 @@ export default {
                     this.$swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: 'Perangkat kerja error ' + error.message
+                        text: error.response.data.message
                     })
                 }
             }

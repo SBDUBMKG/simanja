@@ -10,7 +10,7 @@
                         Back
                     </button>
                     <h2 class="title-content">Analisis Jabatan</h2>
-                    <h6 v-if="jabatanLoaded" class="subtitle-content">{{ dataJabatan[0].fungsional }}</h6>
+                    <h6 v-if="jabatanLoaded" class="subtitle-content">{{ dataJabatan[0].satker }} - {{ dataJabatan[0].fungsional }}</h6>
                     <table v-if="jabatanLoaded">
                         <tr>
                             <td>1.</td>
@@ -23,7 +23,7 @@
                             <td>2.</td>
                             <td>Kode Jabatan</td>
                             <td>
-                                <input v-model="dataJabatan[0].id_fungsional" type="text" name="" id="kode-jabatan" class="form-control form-control-sm" disabled>
+                                <input :value="`${dataJabatan[0].id_satker}.${dataJabatan[0].id_fungsional}`" type="text" name="" id="kode-jabatan" class="form-control form-control-sm" disabled>
                             </td>
                         </tr>
                         <tr>
@@ -256,7 +256,7 @@ export default {
                     this.$swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: error.message
+                        text: error.response.data.message
                     })
                 }
             }
@@ -292,7 +292,7 @@ export default {
                     this.$swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: error.message
+                        text: error.response.data.message
                     })
                 }
             }
@@ -328,7 +328,7 @@ export default {
                     this.$swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: error.message
+                        text: error.response.data.message
                     })
                 }
             }
@@ -364,7 +364,7 @@ export default {
                     this.$swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: error.message
+                        text: error.response.data.message
                     })
                 }
             }
@@ -400,7 +400,7 @@ export default {
                     this.$swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: error.message
+                        text: error.response.data.message
                     })
                 }
             }
@@ -435,10 +435,11 @@ export default {
                 } else if (error.response.status === 401) {
                     this.$router.push({ name: 'Home' })
                 } else {
+                    console.log(error)
                     this.$swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: 'Jabatan error' + error.message
+                        text: error.response.data.message
                     })
                 }
             }
@@ -474,7 +475,7 @@ export default {
                     this.$swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: 'Ikhtisar jabatan error' + error.message
+                        text: error.response.data.message
                     })
                 }
             }
@@ -510,7 +511,7 @@ export default {
                     this.$swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: 'Pendidikan formal error' + error.message
+                        text: error.response.data.message
                     })
                 }
             }
@@ -546,7 +547,7 @@ export default {
                     this.$swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: 'Diklat error' + error.message
+                        text: error.response.data.message
                     })
                 }
             }
@@ -580,7 +581,7 @@ export default {
                     this.$swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: 'Pengalaman error' + error.message
+                        text: error.response.data.message
                     })
                 }
             }
@@ -598,13 +599,12 @@ export default {
                 this.savePendidikanFormal(),
                 this.saveDiklat(),
                 this.savePengalaman()
-            ])
-            
-            await this.$swal.fire({
+            ]).then(
+                this.$swal.fire({
                 icon: 'success',
                 title: 'Success',
                 text: 'Data Berhasil Disimpan'
-            })
+            }))
         },
 
         async saveContinue () {

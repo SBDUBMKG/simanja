@@ -23,7 +23,9 @@
                                 placeholder="Pilih Tanggung Jawab"
                                 label="tanggung_jawab"
                                 track-by="tanggung_jawab"
-                            />
+                            >
+                                <template v-slot:selection="{ values, isOpen }"><span class="multiselect__single" v-if="values.length" v-show="!isOpen">{{ values.length }} Tanggung Jawab Dipilih</span></template>
+                            </VueMultiselect>
                             <table class="table table-sm table-bordered table-responsive-xl display">
                                 <thead class="table-head">
                                     <th>No</th>
@@ -48,7 +50,9 @@
                                 placeholder="Pilih Wewenang"
                                 label="wewenang"
                                 track-by="wewenang"
-                            />
+                            >
+                                <template v-slot:selection="{ values, isOpen }"><span class="multiselect__single" v-if="values.length" v-show="!isOpen">{{ values.length }} Wewenang Dipilih</span></template>
+                            </VueMultiselect>
                             <table class="table table-sm table-bordered table-responsive-xl display">
                                 <thead class="table-head">
                                     <th>No</th>
@@ -353,7 +357,7 @@ export default {
                     this.$swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: error.message
+                        text: error.response.data.message
                     })
                 }
             }
@@ -387,7 +391,7 @@ export default {
                     this.$swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: error.message
+                        text: error.response.data.message
                     })
                 }
             }
@@ -421,7 +425,7 @@ export default {
                     this.$swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: error.message
+                        text: error.response.data.message
                     })
                 }
             }
@@ -451,7 +455,7 @@ export default {
                     this.$swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: error.message
+                        text: error.response.data.message
                     })
                 }
             }
@@ -483,7 +487,7 @@ export default {
                     this.$swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: error.message
+                        text: error.response.data.message
                     })
                 }
             }
@@ -513,7 +517,7 @@ export default {
                     this.$swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: error.message
+                        text: error.response.data.message
                     })
                 }
             }
@@ -549,7 +553,7 @@ export default {
                     this.$swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: 'Tanggung jawab error ' + error.message
+                        text: 'Tanggung jawab error ' + error.response.data.message
                     })
                 }
             }
@@ -585,7 +589,7 @@ export default {
                     this.$swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: 'Wewenang error ' + error.message
+                        text: 'Wewenang error ' + error.response.data.message
                     })
                 }
             }
@@ -647,7 +651,7 @@ export default {
                     this.$swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: 'Korelasi jabatan error ' + error.message
+                        text: 'Korelasi jabatan error ' + error.response.data.message
                     })
                 }
             }
@@ -687,7 +691,7 @@ export default {
                     this.$swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: 'Lingkungan kerja error ' + error.message
+                        text: 'Lingkungan kerja error ' + error.response.data.message
                     })
                 }
             }   
@@ -745,7 +749,7 @@ export default {
                     this.$swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: 'Resiko bahaya error ' + error.message
+                        text: 'Resiko bahaya error ' + error.response.data.message
                     })
                 }
             }

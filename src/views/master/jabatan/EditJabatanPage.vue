@@ -94,7 +94,7 @@ export default {
                     this.$swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: error.message
+                        text: error.response.data.message
                     })
 
                 }
@@ -147,7 +147,7 @@ export default {
                     this.$swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: error.message
+                        text: error.response.data.message
                     })
                 }
             }

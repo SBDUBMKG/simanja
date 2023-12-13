@@ -58,3 +58,7 @@
 .row-controller .btn {
     margin: 10px 5px 20px 0;
 }
+
+.multiselect, .multiselect__input, .multiselect__single {
+    font-size: 12px;
+}

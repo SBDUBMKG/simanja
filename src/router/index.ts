@@ -13,6 +13,8 @@ import AddJabatanPage from '@/views/master/jabatan/AddJabatanPage.vue';
 import EditJabatanPage from '@/views/master/jabatan/EditJabatanPage.vue';
 
 import SatkerPage from '@/views/master/satker/SatkerPage.vue';
+import AddSatkerPage from '@/views/master/satker/AddSatkerPage.vue';
+import EditSatkerPage from '@/views/master/satker/EditSatkerPage.vue';
 
 import IkhtisarJabatanPage from '@/views/master/ikhtisar_jabatan/IkhtisarJabatanPage.vue';
 import IkhtisarJabatanDetailPage from '@/views//master/ikhtisar_jabatan/IkhtisarJabatanDetailPage.vue';
@@ -120,6 +122,16 @@ const routes = [
     path: '/satker',
     name: 'Satker',
     component: SatkerPage,
+  },
+  {
+    path: '/satker/add',
+    name: 'AddSatker',
+    component: AddSatkerPage,
+  },
+  {
+    path: '/satker/edit/:satkerid',
+    name: 'EditSatker',
+    component: EditSatkerPage,
   },
 
   // Master Ikhtisar Jabatan Path

@@ -9,8 +9,8 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="19" height="19" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 6l-6 6l6 6" /></svg> 
                         Back
                     </button>
-                    <h2 class="title-content">Master Jabatan</h2>
-                    <h6 class="subtitle-content">Tambah Master Jabatan</h6>
+                    <h2 class="title-content">Master Satker</h2>
+                    <h6 class="subtitle-content">Tambah Master Satker</h6>
                     <div class="row-controller d-flex justify-content-start">
                         <button @click="addRow" class="btn btn-info btn-sm">Tambah Baris</button>
                         <button @click="deleteRow" class="btn btn-secondary btn-sm">Kurangi Baris</button>
@@ -19,18 +19,18 @@
                         <thead>
                             <tr class="table-head">
                                 <th class="column-title" width="10%">ID</th>
-                                <th class="column-title">FUNGSIONAL</th>
+                                <th class="column-title">Satker</th>
                             </tr>
                         </thead>
                         <tbody id="list-table">
                             <tr class="row-list">
-                                <td><textarea class="form-control form-control-sm id-fungsional" rows="1"></textarea></td>
-                                <td><textarea class="form-control form-control-sm fungsional" rows="1"></textarea></td>
+                                <td><textarea class="form-control form-control-sm id-satker" rows="1"></textarea></td>
+                                <td><textarea class="form-control form-control-sm satker" rows="1"></textarea></td>
                             </tr>
                         </tbody>
                     </table>
                     <div class="d-flex justify-content-end">
-                        <button @click="saveJabatan" class="btn btn-success">Save</button>
+                        <button @click="saveSatker" class="btn btn-success">Save</button>
                     </div>
                 </div>
             </div>
@@ -71,33 +71,33 @@ export default {
         },
 
         addRow () {
-            const listFungsional = document.getElementById("list-table")
+            const listSatker = document.getElementById("list-table")
 
             const row = document.createElement('tr')
-            let html = `<td><textarea class="form-control form-control-sm id-fungsional" rows="1"></textarea></td>`
-            html += `<td><textarea class="form-control form-control-sm fungsional" rows="1"></textarea></td>`
+            let html = `<td><textarea class="form-control form-control-sm id-satker" rows="1"></textarea></td>`
+            html += `<td><textarea class="form-control form-control-sm satker" rows="1"></textarea></td>`
 
             row.innerHTML = html            
             row.classList.add('row-list')
 
-            listFungsional.appendChild(row)
+            listSatker.appendChild(row)
         },
 
         deleteRow () {
-            const listFungsional = document.getElementById("list-table")
-            listFungsional.removeChild(listFungsional.lastElementChild)
+            const listSatker = document.getElementById("list-table")
+            listSatker.removeChild(listSatker.lastElementChild)
         },
 
-        async saveJabatan () {
-            const listJabatan = document.getElementsByClassName('row-list')
-            const idFungsionalList = []
-            const fungsionalList = []
+        async saveSatker () {
+            const listSatker = document.getElementsByClassName('row-list')
+            const idSatkerList = []
+            const satkerList = []
 
-            for (let i=0; i < listJabatan.length; i++) {
-                let idFungsional = listJabatan[i].childNodes[0].childNodes[0].value
-                let fungsional = listJabatan[i].childNodes[1].childNodes[0].value
+            for (let i=0; i < listSatker.length; i++) {
+                let idSatker = listSatker[i].childNodes[0].childNodes[0].value
+                let satker = listSatker[i].childNodes[1].childNodes[0].value
 
-                if (idFungsional === '' || fungsional === '') {
+                if (idSatker === '' || satker === '') {
                     return this.$swal.fire({
                         icon: 'info',
                         title: 'Warning!!',
@@ -105,12 +105,12 @@ export default {
                     })
                 }
 
-                idFungsionalList.push(idFungsional)
-                fungsionalList.push(fungsional)
+                idSatkerList.push(idSatker)
+                satkerList.push(satker)
             }
 
-            if (idFungsionalList.length === fungsionalList.length) {
-                for (let i = 0; i < idFungsionalList.length; i++) {
+            if (idSatkerList.length === satkerList.length) {
+                for (let i = 0; i < idSatkerList.length; i++) {
                     try {
                         const token = localStorage.getItem('token');
     
@@ -121,12 +121,12 @@ export default {
                         };
 
                         const payload = {
-                            idfungsional: idFungsionalList[i],
-                            fungsional: fungsionalList[i],
+                            idsatker: idSatkerList[i],
+                            satker: satkerList[i],
                             isaktif: true
                         }
     
-                        await axios.post(`${process.env.VUE_APP_BACKENDHOST}/master/fungsional`, payload, config);
+                        await axios.post(`${process.env.VUE_APP_BACKENDHOST}/master/satker`, payload, config);
 
                     } catch (error) {
                         if (error.status === 401) {
@@ -144,8 +144,8 @@ export default {
                 this.$swal.fire({
                     icon: 'success',
                     title: 'Success',
-                    text: 'Jabatan Fungsional Berhasil Ditambahkan'
-                }).then(this.$router.push({ name: 'Jabatan' }))
+                    text: 'Satker Berhasil Ditambahkan'
+                }).then(this.$router.push({ name: 'Satker' }))
 
             } else {
                 this.$swal.fire({

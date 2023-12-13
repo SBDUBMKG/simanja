@@ -1,8 +1,7 @@
 <template>	
 	<sidebar-menu 
 		@update:collapsed="onToggleCollapse"
-		:menu="menu" 
-		:theme="theme"
+		:menu="menu"
 		:showOneChild="showOneChild"
 		:width="width">
 		<template #header>
@@ -30,7 +29,6 @@ export default {
 	},
 	data() {
 		return {
-			// theme: 'white-theme',
 			relative: true,
 			sidebarCollapsed: false,
 			showOneChild: true,
@@ -144,10 +142,6 @@ export default {
 
 .vsm--icon.fa {
 	margin: 0 10px 0 0;
-}
-
-.v-sidebar-menu.vsm_white-theme .vsm--dropdown {
-	background-color: rgb(239, 239, 239);
 }
 
 .v-sidebar-menu .vsm--scroll {

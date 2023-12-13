@@ -12,9 +12,11 @@
           Halo, {{ pengguna }}
         </div>
         <div @click="logout" class="logout">
-          <router-link to="/">
-            <i class="fa fa-sign-out"></i><span> Logout</span>
-          </router-link>
+          <button class="btn btn-danger btn-sm">
+            <router-link to="/">
+              <i class="fa fa-sign-out"></i><span> Logout</span>
+            </router-link>
+          </button>
         </div>
       </div>
     </nav>
@@ -53,10 +55,8 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 25px;
-    background-color: #FFFFFF;
-    color: #00305d;
-    font-weight: bold;
+    padding: 10px 25px;
+    background-color: #343A40;
 }
 .left-side {
   display: flex; /* Use flexbox for left-side layout */
@@ -69,13 +69,18 @@ export default {
   color: #555555;
 }
 
+.website-name {
+  color: #FAFAFA;
+  font-size: 15px;
+}
+
 .logout {
   margin-left: 20px;
 }
 
 .logout a { 
   text-decoration: none; 
-  color: crimson;
+  color: #FAFAFA;
 }
 
 </style>

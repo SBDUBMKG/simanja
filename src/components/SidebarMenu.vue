@@ -8,7 +8,7 @@
 		<template #header>
             <img
                 v-if="!sidebarCollapsed"
-                src="@/assets/logo-simanja.svg"
+                src="@/assets/logo-simanja-white.svg"
                 class="d-block org-logo"
             >
             <img
@@ -30,7 +30,7 @@ export default {
 	},
 	data() {
 		return {
-			theme: 'white-theme',
+			// theme: 'white-theme',
 			relative: true,
 			sidebarCollapsed: false,
 			showOneChild: true,
@@ -151,13 +151,14 @@ export default {
 }
 
 .v-sidebar-menu .vsm--scroll {
-	padding-top: 20px;
+	padding-top: 0px;
 }
 
 .org-logo {
-	width: 100%;
-	padding: 30px 20px;
-	/* background-color: rgb(239, 239, 239); */
+	width: 90%;
+	padding: 30px 30px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .org-logo-collapsed {

@@ -9,15 +9,15 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="19" height="19" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 6l-6 6l6 6" /></svg> 
                         Back
                     </button>
-                    <h2 class="title-content">Master Satker</h2>
-                    <h6 class="subtitle-content">Edit Master Satker</h6>
+                    <h2 class="title-content">Master Unit Kerja</h2>
+                    <h6 class="subtitle-content">Edit Master Unit Kerja</h6>
                     <form v-if="satkerLoaded">
                         <div class="form-group">
-                            <label for="id-satker">ID Satker</label>
+                            <label for="id-satker">ID Unit Kerja</label>
                             <input type="text" v-model="satkerData.id_satker" class="form-control" id="id-satker"/>
                         </div>
                         <div class="form-group">
-                            <label for="satker">Satker</label>
+                            <label for="satker">Unit Kerja</label>
                             <textarea v-model="satkerData.satker" class="form-control" id="satker" rows="2"></textarea>
                         </div>
                         <div class="form-group">Is Aktif:

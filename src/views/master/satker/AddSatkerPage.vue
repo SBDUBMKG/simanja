@@ -9,8 +9,8 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="19" height="19" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 6l-6 6l6 6" /></svg> 
                         Back
                     </button>
-                    <h2 class="title-content">Master Satker</h2>
-                    <h6 class="subtitle-content">Tambah Master Satker</h6>
+                    <h2 class="title-content">Master Unit Kerja</h2>
+                    <h6 class="subtitle-content">Tambah Master Unit Kerja</h6>
                     <div class="row-controller d-flex justify-content-start">
                         <button @click="addRow" class="btn btn-info btn-sm">Tambah Baris</button>
                         <button @click="deleteRow" class="btn btn-secondary btn-sm">Kurangi Baris</button>
@@ -19,7 +19,7 @@
                         <thead>
                             <tr class="table-head">
                                 <th class="column-title" width="10%">ID</th>
-                                <th class="column-title">Satker</th>
+                                <th class="column-title">UNIT KERJA</th>
                             </tr>
                         </thead>
                         <tbody id="list-table">

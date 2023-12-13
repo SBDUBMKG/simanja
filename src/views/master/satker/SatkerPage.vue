@@ -5,15 +5,15 @@
             <div class="container-content">
                 <NavbarDashboard/>
                 <div class="main-content shadow">
-                    <h2 class="title-content">Master Satker / UPT</h2>
-                    <h6 class="subtitle-content">List Satker / UPT</h6>
+                    <h2 class="title-content">Master Unit Kerja</h2>
+                    <h6 class="subtitle-content">List Unit Kerja</h6>
                     <div class="d-flex justify-content-start add-button">
-                        <button @click="addJabatan" class="btn btn-success">Tambah Jabatan</button>
+                        <button @click="addJabatan" class="btn btn-success">Tambah Unit Kerja</button>
                     </div>
                     <DataTable v-if="loaded" class="table table-bordered table-sm table-hover table-responsive-xl display">
                         <thead>
                             <tr class="table-head">
-                                <th class="column-title">SATKER UPT</th>
+                                <th class="column-title">UNIT KERJA</th>
                                 <th width="10%" class="column-title">ACTION</th>
                             </tr>
                         </thead>

@@ -51,7 +51,7 @@ export default {
 						},
 						{
 							href: '/satker',
-							title: 'Satker / UPT'
+							title: 'Unit Kerja'
 						},
 						{
 							href: '/ikhtisar-jabatan',

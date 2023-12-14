@@ -40,7 +40,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Tahun Jabatan</td>
+                            <td>Tahun Anjab</td>
                             <td>
                                 <input v-model="tahunJabatan" type="number" name="" id="tahun-jabatan" class="form-control">
                             </td>

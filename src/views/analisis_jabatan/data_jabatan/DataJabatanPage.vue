@@ -15,7 +15,7 @@
                             <tr class="table-head">
                                 <th width="5%" class="column-title">No.</th>
                                 <th width="50%" class="column-title">FUNGSIONAL</th>
-                                <th width="10%" class="column-title">TAHUN JABATAN</th>
+                                <th width="10%" class="column-title">TAHUN ANJAB</th>
                                 <th width="25%" class="column-title">STATUS</th>
                                 <th width="10%" class="column-title">PENGATURAN</th>
                             </tr>

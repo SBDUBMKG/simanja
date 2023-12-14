@@ -32,6 +32,35 @@
                                 </tbody>
                             </table>
                         </div>
+                        <div class="bakat-kerja">
+                            <h6>b. Bakat Kerja</h6>
+                            <VueMultiselect
+                                v-model="bakatKerja"
+                                :options="masterBakatKerja"
+                                :multiple="true"
+                                :close-on-select="true"
+                                :taggable="false"
+                                placeholder="Pilih Bakat Kerja"
+                                label="bakat_kerja"
+                                track-by="bakat_kerja"
+                            >
+                                <template v-slot:selection="{ values, isOpen }"><span class="multiselect__single" v-if="values.length" v-show="!isOpen">{{ values.length }} Bakat Kerja Dipilih</span></template>
+                            </VueMultiselect>
+                            <table class="table table-sm table-bordered table-responsive-xl display">
+                                <thead class="table-head">
+                                    <th>No</th>
+                                    <th>Bakat Kerja</th>
+                                    <th>Uraian</th>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(bakatKerja, index) in bakatKerja" :key="bakatKerja.id_bakat_kerja">
+                                        <td>{{ index + 1 }}</td>
+                                        <td>{{ bakatKerja.bakat_kerja }}</td>
+                                        <td>{{ bakatKerja.uraian }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </form>
                     <div class="d-flex justify-content-end action-button">
                         <button @click="saveAll" class="btn btn-success btn-save">Save</button>
@@ -47,22 +76,27 @@
 import axios from 'axios';
 import NavbarDashboard from '@/components/NavbarDashboard.vue';
 import SidebarMenu from '@/components/SidebarMenu.vue';
-// import VueMultiselect from 'vue-multiselect'
+import VueMultiselect from 'vue-multiselect'
 
 export default {
     components: {
         NavbarDashboard,
         SidebarMenu,
-        // VueMultiselect
+        VueMultiselect
     },
     data() {
         return {
             jabatanId: this.$route.params.jabatanid,
             dataJabatan: [],
             jabatanLoaded: false,
+            masterBakatKerja: [],
+            masterBakatKerjaLoaded: false,
             keterampilanKerja: [],
             keterampilanKerjaDb: [],
-            keterampilanKerjaLoaded: false
+            keterampilanKerjaLoaded: false,
+            bakatKerja: [],
+            bakatKerjaDb: [],
+            bakatKerjaLoaded: false
         };
     },
     mounted () {
@@ -105,7 +139,8 @@ export default {
         async getData () {
             await this.getJabatan()
             await Promise.all([
-                this.getKeterampilanKerja()
+                this.getKeterampilanKerja(),
+                this.getBakatKerja()
             ])
         },
 
@@ -156,6 +191,40 @@ export default {
             } catch (error) {
                 if (error.response.status === 404) {
                     this.keterampilanKerjaLoaded = true
+                } else if (error.response.status === 401) {
+                    this.$router.push({ name: 'Home' })
+                } else {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: error.response.data.message
+                    })
+                }
+            }
+        },
+
+        async getBakatKerja () {
+            try {
+                const token = localStorage.getItem('token');
+
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+
+                const responseMaster = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/master/bakat-kerja`, config);
+                this.masterBakatKerja = responseMaster.data.data.bakatKerja
+                this.masterBakatKerjaLoaded = true
+
+                const responseBakatKerja = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/bakat-kerja/jabatan/${this.dataJabatan[0].id_jabatan}`, config);
+                this.bakatKerja = responseBakatKerja.data.data.bakatKerja
+                this.bakatKerjaDb = responseBakatKerja.data.data.bakatKerja
+                this.bakatKerjaLoaded = true
+
+            } catch (error) {
+                if (error.response.status === 404) {
+                    this.bakatKerjaLoaded = true
                 } else if (error.response.status === 401) {
                     this.$router.push({ name: 'Home' })
                 } else {
@@ -222,6 +291,42 @@ export default {
             }
         },
 
+        async saveBakatKerja () {
+            try {
+                const token = localStorage.getItem('token');
+
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+
+                if (this.bakatKerjaDb.length !== 0) {
+                    await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/bakat-kerja/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
+                }
+                 
+                for (let i = 0; i < this.bakatKerja.length; i++) {
+                    const payloadBakatKerja = {
+                        idjabatan: this.dataJabatan[0].id_jabatan,
+                        idbakatkerja: this.bakatKerja[i].id_bakat_kerja
+                    }
+                    await axios.post(`${process.env.VUE_APP_BACKENDHOST}/bakat-kerja`, payloadBakatKerja, config)
+                }
+            } catch (error) {
+                if (error.response.status === 404) {
+                    this.bakatKerjaLoaded = true
+                } else if (error.response.status === 401) {
+                    this.$router.push({ name: 'Home' })
+                } else {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Bakat kerja error ' + error.response.data.message
+                    })
+                }
+            }
+        },
+
         async saveAll () {
             this.$swal.fire({
                 text: 'Loading....',
@@ -229,7 +334,8 @@ export default {
             })
 
             await Promise.all([
-                this.saveKeterampilanKerja()
+                this.saveKeterampilanKerja(),
+                this.saveBakatKerja()
             ]).then(
                 this.$swal.fire({
                 icon: 'success',

@@ -10,7 +10,7 @@
                         Back
                     </button>
                     <h2 class="title-content">Analisis Jabatan</h2>
-                    <h6 v-if="jabatanLoaded" class="subtitle-content">{{ dataJabatan[0].fungsional }}</h6>
+                    <h6 v-if="jabatanLoaded" class="subtitle-content">{{ dataJabatan[0].satker }} - {{ dataJabatan[0].fungsional }}</h6>
                     <form>
                         <div class="tanggung-jawab">
                             <h6>10. Tanggung Jawab</h6>
@@ -81,7 +81,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="list-table">
-                                    <tr class="row-list" v-for="(korelasiJabatan) in korelasiJabatan" :key="korelasiJabatan.id_korelasi_jabatan">
+                                    <tr class="row-list" v-for="(korelasiJabatan) in korelasiJabatan" :key="korelasiJabatan.id_tbl_korelasi_jabatan">
                                         <td><textarea v-model="korelasiJabatan.nama_jabatan" class="form-control form-control-sm nama-jabatan" rows="1"></textarea></td>
                                         <td><textarea v-model="korelasiJabatan.unit_kerja" class="form-control form-control-sm unit-kerja" rows="1"></textarea></td>
                                         <td><textarea v-model="korelasiJabatan.dalam_hal" class="form-control form-control-sm dalam-hal" rows="1"></textarea></td>
@@ -218,7 +218,7 @@
                     </form>
                     <div class="d-flex justify-content-end action-button">
                         <button @click="saveAll" class="btn btn-success btn-save">Save</button>
-                        <button class="btn btn-primary btn-continue">Save & Continue</button>
+                        <button @click="saveContinue" class="btn btn-primary btn-continue">Save & Continue</button>
                     </div>
                 </div>
             </div>
@@ -283,7 +283,7 @@ export default {
         },
 
         addRow (e) {
-            const listFungsiPekerjaan = document.getElementById("list-table")
+            const korelasiJabatan = document.getElementById("list-table")
 
             const row = document.createElement('tr')
             let html = `<td><textarea class="form-control form-control-sm nama-jabatan" rows="1"></textarea></td>`
@@ -293,13 +293,13 @@ export default {
             row.innerHTML = html            
             row.classList.add('row-list')
 
-            listFungsiPekerjaan.appendChild(row)
+            korelasiJabatan.appendChild(row)
             e.preventDefault()
         },
 
         deleteRow (e) {
-            const listFungsiPekerjaan = document.getElementById("list-table")
-            listFungsiPekerjaan.removeChild(listFungsiPekerjaan.lastElementChild)
+            const korelasiJabatan = document.getElementById("list-table")
+            korelasiJabatan.removeChild(korelasiJabatan.lastElementChild)
             e.preventDefault()
         },
 
@@ -767,18 +767,20 @@ export default {
                 this.saveKorelasiJabatan(),
                 this.saveLingkunganKerja(),
                 this.saveResikoBahaya()
-            ])
+            ]).then (
+                this.$swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'Data Berhasil Disimpan'
+                })
+            )
             
-            await this.$swal.fire({
-                icon: 'success',
-                title: 'Success',
-                text: 'Data Berhasil Disimpan'
-            })
         },
 
         async saveContinue () {
-            await this.saveAll ()
-            await this.$router.push({ name: 'AnalisisTanggungJawab', params: { jabatanid: this.jabatanId } })
+            await this.saveAll ().then(
+                this.$router.push({ name: 'AnalisisSyaratJabatan', params: { jabatanid: this.jabatanId } })
+            )
         }
     },
 };

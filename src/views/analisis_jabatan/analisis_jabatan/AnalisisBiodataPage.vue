@@ -608,8 +608,9 @@ export default {
         },
 
         async saveContinue () {
-            await this.saveAll()
-            await this.$router.push({ name: 'AnalisisTugas', params: { jabatanid: this.jabatanId } })
+            await this.saveAll().then(
+                this.$router.push({ name: 'AnalisisTugas', params: { jabatanid: this.jabatanId } })
+            )
         }
     },
 };

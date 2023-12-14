@@ -10,7 +10,7 @@
                         Back
                     </button>
                     <h2 class="title-content">Analisis Jabatan</h2>
-                    <h6 v-if="jabatanLoaded" class="subtitle-content">{{ dataJabatan[0].fungsional }}</h6>
+                    <h6 v-if="jabatanLoaded" class="subtitle-content">{{ dataJabatan[0].satker }} - {{ dataJabatan[0].fungsional }}</h6>
                     <form>
                         <div class="tugas-pokok">
                             <h6>6. Tugas Pokok</h6>
@@ -462,8 +462,9 @@ export default {
         },
 
         async saveContinue () {
-            await this.saveAll()
-            await this.$router.push({ name: 'AnalisisTanggungJawab', params: { jabatanid: this.jabatanId } })
+            await this.saveAll().then(
+                this.$router.push({ name: 'AnalisisTanggungJawab', params: { jabatanid: this.jabatanId } })
+            )
         }
     },
 };

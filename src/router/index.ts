@@ -80,6 +80,7 @@ import AnalisisJabatanPage from '@/views/analisis_jabatan/analisis_jabatan/Anali
 import AnalisisBiodataPage from '@/views/analisis_jabatan/analisis_jabatan/AnalisisBiodataPage.vue';
 import AnalisisTugasPage from '@/views/analisis_jabatan/analisis_jabatan/AnalisisTugasPage.vue';
 import AnalisisTanggungJawabPage from '@/views/analisis_jabatan/analisis_jabatan/AnalisisTanggungJawabPage.vue';
+import AnalisisSyaratJabatan from '@/views/analisis_jabatan/analisis_jabatan/AnalisisSyaratJabatanPage.vue';
 
 const routes = [
   {
@@ -405,6 +406,11 @@ const routes = [
     path: '/analisis-jabatan/tanggung-jawab/:jabatanid',
     name: 'AnalisisTanggungJawab',
     component: AnalisisTanggungJawabPage,
+  },
+  {
+    path: '/analisis-jabatan/syarat-jabatan/:jabatanid',
+    name: 'AnalisisSyaratJabatan',
+    component: AnalisisSyaratJabatan,
   },
 ];
 

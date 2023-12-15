@@ -61,6 +61,203 @@
                                 </tbody>
                             </table>
                         </div>
+                        <div class="temperamen-kerja">
+                            <h6>c. Temperamen Kerja</h6>
+                            <VueMultiselect
+                                v-model="temperamenKerja"
+                                :options="masterTemperamenKerja"
+                                :multiple="true"
+                                :close-on-select="true"
+                                :taggable="false"
+                                placeholder="Pilih Temperamen Kerja"
+                                label="temperamen_kerja"
+                                track-by="temperamen_kerja"
+                            >
+                                <template v-slot:selection="{ values, isOpen }"><span class="multiselect__single" v-if="values.length" v-show="!isOpen">{{ values.length }} Temperamen Kerja Dipilih</span></template>
+                            </VueMultiselect>
+                            <table class="table table-sm table-bordered table-responsive-xl display">
+                                <thead class="table-head">
+                                    <th>No</th>
+                                    <th>Temperamen Kerja</th>
+                                    <th>Uraian</th>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(temperamenKerja, index) in temperamenKerja" :key="temperamenKerja.id_temperamen_kerja">
+                                        <td>{{ index + 1 }}</td>
+                                        <td>{{ temperamenKerja.temperamen_kerja }}</td>
+                                        <td>{{ temperamenKerja.uraian }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="minat-kerja">
+                            <h6>e. Minat Kerja</h6>
+                            <VueMultiselect
+                                v-model="minatKerja"
+                                :options="masterMinatKerja"
+                                :multiple="true"
+                                :close-on-select="true"
+                                :taggable="false"
+                                placeholder="Pilih Minat Kerja"
+                                label="minat_kerja"
+                                track-by="minat_kerja"
+                            >
+                                <template v-slot:selection="{ values, isOpen }"><span class="multiselect__single" v-if="values.length" v-show="!isOpen">{{ values.length }} Minat Kerja Dipilih</span></template>
+                            </VueMultiselect>
+                            <table class="table table-sm table-bordered table-responsive-xl display">
+                                <thead class="table-head">
+                                    <th>No</th>
+                                    <th>Minat Kerja</th>
+                                    <th>Uraian</th>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(minatKerja, index) in minatKerja" :key="minatKerja.id_minat_kerja">
+                                        <td>{{ index + 1 }}</td>
+                                        <td>{{ minatKerja.minat_kerja }}</td>
+                                        <td>{{ minatKerja.uraian }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="upaya-fisik">
+                            <h6>d. Upaya Fisik</h6>
+                            <VueMultiselect
+                                v-model="upayaFisik"
+                                :options="masterUpayaFisik"
+                                :multiple="true"
+                                :close-on-select="true"
+                                :taggable="false"
+                                placeholder="Pilih Upaya Fisik"
+                                label="upaya_fisik"
+                                track-by="upaya_fisik"
+                            >
+                                <template v-slot:selection="{ values, isOpen }"><span class="multiselect__single" v-if="values.length" v-show="!isOpen">{{ values.length }} Upaya Fisik Dipilih</span></template>
+                            </VueMultiselect>
+                            <table class="table table-sm table-bordered table-responsive-xl display">
+                                <thead class="table-head">
+                                    <th>No</th>
+                                    <th>Upaya Fisik</th>
+                                    <th>Uraian</th>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(upayaFisik, index) in upayaFisik" :key="upayaFisik.id_tbl_upaya_fisik">
+                                        <td>{{ index + 1 }}</td>
+                                        <td>{{ upayaFisik.upaya_fisik }}</td>
+                                        <td>{{ upayaFisik.uraian }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="kondisi-fisik">
+                            <h6>f. Kondisi Fisik</h6>
+                            <table class="table table-bordered table-sm table-responsive-xl">
+                                <thead>
+                                    <tr class="table-head">
+                                        <th class="column-title" width="5%">No</th>
+                                        <th class="column-title">Kondisi fisik</th>
+                                        <th class="column-title">Uraian</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="list-table">
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Jenis Kelamin</td>
+                                        <td>
+                                            <input v-model="kondisiFisik['Jenis Kelamin']" type="text" class="form-control form-control-sm">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Umur</td>
+                                        <td>
+                                            <input v-model="kondisiFisik['Umur']" type="text" class="form-control form-control-sm">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Tinggi Badan</td>
+                                        <td>
+                                            <input v-model="kondisiFisik['Tinggi Badan']" type="text" class="form-control form-control-sm">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>Berat Badan</td>
+                                        <td>
+                                            <input v-model="kondisiFisik['Berat Badan']" type="text" class="form-control form-control-sm">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td>Postur Badan</td>
+                                        <td>
+                                            <input v-model="kondisiFisik['Postur Badan']" type="text" class="form-control form-control-sm">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>6</td>
+                                        <td>Penampilan</td>
+                                        <td>
+                                            <input v-model="kondisiFisik['Penampilan']" type="text" class="form-control form-control-sm">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="fungsi-pekerjaan">
+                            <h6>g. Fungsi Pekerjaan</h6>
+                            <VueMultiselect
+                                v-model="fungsiPekerjaan"
+                                :options="masterFungsiPekerjaan"
+                                :multiple="true"
+                                :close-on-select="true"
+                                :taggable="false"
+                                placeholder="Pilih Fungsi Pekerjaan"
+                                label="fungsi_pekerjaan"
+                                track-by="fungsi_pekerjaan"
+                            >
+                                <template v-slot:selection="{ values, isOpen }"><span class="multiselect__single" v-if="values.length" v-show="!isOpen">{{ values.length }} Fungsi Pekerjaan Dipilih</span></template>
+                            </VueMultiselect>
+                            <table class="table table-sm table-bordered table-responsive-xl display">
+                                <thead class="table-head">
+                                    <th>No</th>
+                                    <th>Fungsi Pekerjaan</th>
+                                    <th>Uraian</th>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(fungsiPekerjaan, index) in fungsiPekerjaan" :key="fungsiPekerjaan.id_tbl_fungsi_pekerjaan">
+                                        <td>{{ index + 1 }}</td>
+                                        <td>{{ fungsiPekerjaan.fungsi_pekerjaan }}</td>
+                                        <td>{{ fungsiPekerjaan.uraian }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="prestasi dan kelas">
+                            <table class="table table-borderless table-sm">
+                                <tr>
+                                    <td width="30%">
+                                        <h6>16. Prestasi Kerja yang Diharapkan</h6>
+                                    </td>
+                                    <td>
+                                        <select v-model="prestasiKerja" class="form-control form-control-sm">
+                                            <option value="Sangat Baik" selected>Sangat Baik</option>
+                                            <option value="Baik">Baik</option>
+                                            <option value="Cukup Baik">Cukup Baik</option>
+                                            <option value="Kurang Baik">Kurang Baik</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="30%">
+                                        <h6>17. Kelas Jabatan</h6>
+                                    </td>
+                                    <td>
+                                        <input v-model="kelasJabatan" type="number" class="form-control form-control-sm">
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                     </form>
                     <div class="d-flex justify-content-end action-button">
                         <button @click="saveAll" class="btn btn-success btn-save">Save</button>
@@ -91,17 +288,46 @@ export default {
             jabatanLoaded: false,
             masterBakatKerja: [],
             masterBakatKerjaLoaded: false,
+            masterTemperamenKerja: [],
+            masterTemperamenKerjaLoaded: false,
+            masterMinatKerja: [],
+            masterMinatKerjaLoaded: false,
+            masterUpayaFisik: [],
+            masterUpayaFisikLoaded: false,
+            masterFungsiPekerjaan: [],
+            masterFungsiPekerjaanLoaded: false,
             keterampilanKerja: [],
             keterampilanKerjaDb: [],
             keterampilanKerjaLoaded: false,
             bakatKerja: [],
             bakatKerjaDb: [],
-            bakatKerjaLoaded: false
+            bakatKerjaLoaded: false,
+            temperamenKerja: [],
+            temperamenKerjaDb: [],
+            temperamenKerjaLoaded: false,
+            minatKerja: [],
+            minatKerjaDb: [],
+            minatKerjaLoaded: false,
+            upayaFisik: [],
+            upayaFisikDb: [],
+            upayaFisikLoaded: false,
+            kondisiFisik: {},
+            kondisiFisikDb: {},
+            kondisiFisikLoaded: false,
+            fungsiPekerjaan: [],
+            fungsiPekerjaanDb: [],
+            fungsiPekerjaanLoaded: false,
+            prestasiKerja: '',
+            prestasiKerjaDb: '',
+            prestasiKerjaLoaded: false,
+            kelasJabatan: '',
+            kelasJabatanDb: '',
+            kelasJabatanLoaded: false,
         };
     },
     mounted () {
         this.checkAuthentication()
-        this.getData()          
+        this.getData()         
     },
     methods: {
         async checkAuthentication () {
@@ -140,7 +366,14 @@ export default {
             await this.getJabatan()
             await Promise.all([
                 this.getKeterampilanKerja(),
-                this.getBakatKerja()
+                this.getBakatKerja(),
+                this.getTemperamenKerja(),
+                this.getMinatKerja(),
+                this.getUpayaFisik(),
+                this.getKondisiFisik(),
+                this.getFungsiPekerjaan(),
+                this.getPrestasiKerja(),
+                this.getKelasJabatan()
             ])
         },
 
@@ -225,6 +458,234 @@ export default {
             } catch (error) {
                 if (error.response.status === 404) {
                     this.bakatKerjaLoaded = true
+                } else if (error.response.status === 401) {
+                    this.$router.push({ name: 'Home' })
+                } else {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: error.response.data.message
+                    })
+                }
+            }
+        },
+
+        async getTemperamenKerja () {
+            try {
+                const token = localStorage.getItem('token');
+
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+
+                const responseMaster = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/master/temperamen-kerja`, config);
+                this.masterTemperamenKerja = responseMaster.data.data.temperamenKerja
+                this.masterTemperamenKerjaLoaded = true
+
+                const responseTemperamenKerja = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/temperamen-kerja/jabatan/${this.dataJabatan[0].id_jabatan}`, config);
+                this.temperamenKerja = responseTemperamenKerja.data.data.temperamenKerja
+                this.temperamenKerjaDb = responseTemperamenKerja.data.data.temperamenKerja
+                this.temperamenKerjaLoaded = true
+
+            } catch (error) {
+                if (error.response.status === 404) {
+                    this.temperamenKerjaLoaded = true
+                } else if (error.response.status === 401) {
+                    this.$router.push({ name: 'Home' })
+                } else {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: error.response.data.message
+                    })
+                }
+            }
+        },
+
+        async getMinatKerja () {
+            try {
+                const token = localStorage.getItem('token');
+
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+
+                const responseMaster = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/master/minat-kerja`, config);
+                this.masterMinatKerja = responseMaster.data.data.minatKerja
+                this.masterMinatKerjaLoaded = true
+
+                const responseMinatKerja = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/minat-kerja/jabatan/${this.dataJabatan[0].id_jabatan}`, config);
+                this.minatKerja = responseMinatKerja.data.data.minatKerja
+                this.minatKerjaDb = responseMinatKerja.data.data.minatKerja
+                this.minatKerjaLoaded = true
+
+            } catch (error) {
+                if (error.response.status === 404) {
+                    this.minatKerjaLoaded = true
+                } else if (error.response.status === 401) {
+                    this.$router.push({ name: 'Home' })
+                } else {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: error.response.data.message
+                    })
+                }
+            }
+        },
+
+        async getUpayaFisik () {
+            try {
+                const token = localStorage.getItem('token');
+
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+
+                const responseMaster = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/master/upaya-fisik`, config);
+                this.masterUpayaFisik = responseMaster.data.data.upayaFisik
+                this.masterUpayaFisikLoaded = true
+
+                const responseUpayaFisik = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/upaya-fisik/jabatan/${this.dataJabatan[0].id_jabatan}`, config);
+                this.upayaFisik = responseUpayaFisik.data.data.upayaFisik
+                this.upayaFisikDb = responseUpayaFisik.data.data.upayaFisik
+                this.upayaFisikLoaded = true
+
+            } catch (error) {
+                if (error.response.status === 404) {
+                    this.upayaFisikLoaded = true
+                } else if (error.response.status === 401) {
+                    this.$router.push({ name: 'Home' })
+                } else {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: error.response.data.message
+                    })
+                }
+            }
+        },
+
+        async getKondisiFisik () {
+            try {
+                const token = localStorage.getItem('token');
+
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                };
+
+                const responseKondisiFisik = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/kondisi-fisik/jabatan/${this.dataJabatan[0].id_jabatan}`, config);
+                for (let i = 0; i < responseKondisiFisik.data.data.kondisiFisik.length; i++) {
+                    this.kondisiFisik[responseKondisiFisik.data.data.kondisiFisik[i].kondisi_fisik] = responseKondisiFisik.data.data.kondisiFisik[i].uraian
+                    this.kondisiFisikDb[responseKondisiFisik.data.data.kondisiFisik[i].kondisi_fisik] = responseKondisiFisik.data.data.kondisiFisik[i].uraian
+                }
+                this.kondisiFisikLoaded = true
+
+            } catch (error) {
+                if (error.response.status === 404) {
+                    this.kondisiFisikLoaded = true
+                } else if (error.response.status === 401) {
+                    this.$router.push({ name: 'Home' })
+                } else {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: error.response.data.message
+                    })
+                }
+            }
+        },
+
+        async getFungsiPekerjaan () {
+            try {
+                const token = localStorage.getItem('token');
+
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+
+                const responseMaster = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/master/fungsi-pekerjaan`, config);
+                this.masterFungsiPekerjaan = responseMaster.data.data.fungsiPekerjaan
+                this.masterFungsiPekerjaanLoaded = true
+
+                const responseFungsiPekerjaan = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/fungsi-pekerjaan/jabatan/${this.dataJabatan[0].id_jabatan}`, config);
+                this.fungsiPekerjaan = responseFungsiPekerjaan.data.data.fungsiPekerjaan
+                this.fungsiPekerjaanDb = responseFungsiPekerjaan.data.data.fungsiPekerjaan
+                this.fungsiPekerjaanLoaded = true
+
+            } catch (error) {
+                if (error.response.status === 404) {
+                    this.upayaFisikLoaded = true
+                } else if (error.response.status === 401) {
+                    this.$router.push({ name: 'Home' })
+                } else {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: error.response.data.message
+                    })
+                }
+            }
+        },
+
+        async getPrestasiKerja () {
+            try {
+                const token = localStorage.getItem('token');
+
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+
+                const responsePrestasiKerja = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/prestasi-kerja/jabatan/${this.dataJabatan[0].id_jabatan}`, config);
+                this.prestasiKerja = responsePrestasiKerja.data.data.prestasiKerja[0].prestasi_kerja
+                this.prestasiKerjaDb = responsePrestasiKerja.data.data.prestasiKerja[0].prestasi_kerja
+                this.prestasiKerjaLoaded = true
+
+            } catch (error) {
+                if (error.response.status === 404) {
+                    this.prestasiKerjaLoaded = true
+                } else if (error.response.status === 401) {
+                    this.$router.push({ name: 'Home' })
+                } else {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: error.response.data.message
+                    })
+                }
+            }
+        },
+
+        async getKelasJabatan () {
+            try {
+                const token = localStorage.getItem('token');
+
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+
+                const responseKelasJabatan = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/kelas-jabatan/jabatan/${this.dataJabatan[0].id_jabatan}`, config);
+                this.kelasJabatan = responseKelasJabatan.data.data.kelasJabatan[0].kelas_jabatan
+                this.kelasJabatanDb = responseKelasJabatan.data.data.kelasJabatan[0].kelas_jabatan
+                this.kelasJabatanLoaded = true
+
+            } catch (error) {
+                if (error.response.status === 404) {
+                    this.kelasJabatanLoaded = true
                 } else if (error.response.status === 401) {
                     this.$router.push({ name: 'Home' })
                 } else {
@@ -327,6 +788,262 @@ export default {
             }
         },
 
+        async saveTemperamenKerja () {
+            try {
+                const token = localStorage.getItem('token');
+
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+
+                if (this.temperamenKerjaDb.length !== 0) {
+                    await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/temperamen-kerja/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
+                }
+                 
+                for (let i = 0; i < this.temperamenKerja.length; i++) {
+                    const payloadTemperamenKerja = {
+                        idjabatan: this.dataJabatan[0].id_jabatan,
+                        idtemperamenkerja: this.temperamenKerja[i].id_temperamen_kerja
+                    }
+                    await axios.post(`${process.env.VUE_APP_BACKENDHOST}/temperamen-kerja`, payloadTemperamenKerja, config)
+                }
+            } catch (error) {
+                if (error.response.status === 404) {
+                    this.temperamenKerjaLoaded = true
+                } else if (error.response.status === 401) {
+                    this.$router.push({ name: 'Home' })
+                } else {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Temperamen kerja error ' + error.response.data.message
+                    })
+                }
+            }
+        },
+
+        async saveMinatKerja () {
+            try {
+                const token = localStorage.getItem('token');
+
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+
+                if (this.minatKerjaDb.length !== 0) {
+                    await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/minat-kerja/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
+                }
+                 
+                for (let i = 0; i < this.minatKerja.length; i++) {
+                    const payloadMinatKerja = {
+                        idjabatan: this.dataJabatan[0].id_jabatan,
+                        idminatkerja: this.minatKerja[i].id_minat_kerja
+                    }
+                    await axios.post(`${process.env.VUE_APP_BACKENDHOST}/minat-kerja`, payloadMinatKerja, config)
+                }
+            } catch (error) {
+                if (error.response.status === 404) {
+                    this.minatKerjaLoaded = true
+                } else if (error.response.status === 401) {
+                    this.$router.push({ name: 'Home' })
+                } else {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Minat kerja error ' + error.response.data.message
+                    })
+                }
+            }
+        },
+
+        async saveUpayaFisik () {
+            try {
+                const token = localStorage.getItem('token');
+
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+
+                if (this.upayaFisikDb.length !== 0) {
+                    await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/upaya-fisik/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
+                }
+                 
+                for (let i = 0; i < this.upayaFisik.length; i++) {
+                    const payloadUpayaFisik = {
+                        idjabatan: this.dataJabatan[0].id_jabatan,
+                        idupayafisik: this.upayaFisik[i].id_upaya_fisik
+                    }
+                    await axios.post(`${process.env.VUE_APP_BACKENDHOST}/upaya-fisik`, payloadUpayaFisik, config)
+                }
+            } catch (error) {
+                if (error.response.status === 404) {
+                    this.upayaFisikLoaded = true
+                } else if (error.response.status === 401) {
+                    this.$router.push({ name: 'Home' })
+                } else {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Upaya fisik error ' + error.response.data.message
+                    })
+                }
+            }
+        },
+
+        async saveKondisiFisik () {
+            try {
+                const token = localStorage.getItem('token');
+
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+
+                if (Object.keys(this.kondisiFisikDb).length !== 0) {
+                    await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/kondisi-fisik/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
+                }
+
+                let kondisiFisikKeys = Object.keys(this.kondisiFisik)
+
+                for (let i = 0; i < kondisiFisikKeys.length; i++) {
+                    const payloadKondisiFisik = {
+                        idjabatan: this.dataJabatan[0].id_jabatan,
+                        kondisifisik: kondisiFisikKeys[i],
+                        uraian: this.kondisiFisik[kondisiFisikKeys[i]]
+                    }
+
+                    await axios.post(`${process.env.VUE_APP_BACKENDHOST}/kondisi-fisik`, payloadKondisiFisik, config)
+                }
+            } catch (error) {
+                if (error.response.status === 404) {
+                    this.lingkunganKerjaLoaded = true
+                } else if (error.response.status === 401) {
+                    this.$router.push({ name: 'Home' })
+                } else {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Lingkungan kerja error ' + error.response.data.message
+                    })
+                }
+            }   
+        },
+
+        async saveFungsiPekerjaan () {
+            try {
+                const token = localStorage.getItem('token');
+
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+
+                if (this.fungsiPekerjaanDb.length !== 0) {
+                    await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/fungsi-pekerjaan/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
+                }
+                 
+                for (let i = 0; i < this.fungsiPekerjaan.length; i++) {
+                    const payloadFungsiPekerjaan = {
+                        idjabatan: this.dataJabatan[0].id_jabatan,
+                        idfungsipekerjaan: this.fungsiPekerjaan[i].id_fungsi_pekerjaan
+                    }
+                    await axios.post(`${process.env.VUE_APP_BACKENDHOST}/fungsi-pekerjaan`, payloadFungsiPekerjaan, config)
+                }
+            } catch (error) {
+                if (error.response.status === 404) {
+                    this.fungsiPekerjaanLoaded = true
+                } else if (error.response.status === 401) {
+                    this.$router.push({ name: 'Home' })
+                } else {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Upaya fisik error ' + error.response.data.message
+                    })
+                }
+            }
+        },
+
+        async savePrestasiKerja () {
+            try {
+                const token = localStorage.getItem('token');
+
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+
+                if (this.prestasiKerjaDb !== '') {
+                    await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/prestasi-kerja/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
+                }
+                 
+                const payloadPrestasiKerja = {
+                    idjabatan: this.dataJabatan[0].id_jabatan,
+                    prestasikerja: this.prestasiKerja
+                }
+                await axios.post(`${process.env.VUE_APP_BACKENDHOST}/prestasi-kerja`, payloadPrestasiKerja, config)
+
+            } catch (error) {
+                if (error.response.status === 404) {
+                    this.prestasiKerjaLoaded = true
+                } else if (error.response.status === 401) {
+                    this.$router.push({ name: 'Home' })
+                } else {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Upaya fisik error ' + error.response.data.message
+                    })
+                }
+            }
+        },
+
+        async saveKelasJabatan () {
+            try {
+                const token = localStorage.getItem('token');
+
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+                console.log(this.kelasJabatan)
+                console.log(this.kelasJabatanDb)
+
+                if (this.kelasJabatanDb !== '') {
+                    await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/kelas-jabatan/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
+                }
+                 
+                const payloadKelasJabatan = {
+                    idjabatan: this.dataJabatan[0].id_jabatan,
+                    kelasjabatan: this.kelasJabatan
+                }
+                await axios.post(`${process.env.VUE_APP_BACKENDHOST}/kelas-jabatan`, payloadKelasJabatan, config)
+                
+            } catch (error) {
+                if (error.response.status === 404) {
+                    this.kelasJabatanLoaded = true
+                } else if (error.response.status === 401) {
+                    this.$router.push({ name: 'Home' })
+                } else {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Upaya fisik error ' + error.response.data.message
+                    })
+                }
+            }
+        },
+
         async saveAll () {
             this.$swal.fire({
                 text: 'Loading....',
@@ -335,7 +1052,14 @@ export default {
 
             await Promise.all([
                 this.saveKeterampilanKerja(),
-                this.saveBakatKerja()
+                this.saveBakatKerja(),
+                this.saveTemperamenKerja(),
+                this.saveMinatKerja(),
+                this.saveUpayaFisik(),
+                this.saveKondisiFisik(),
+                this.saveFungsiPekerjaan(),
+                this.savePrestasiKerja(),
+                this.saveKelasJabatan()
             ]).then(
                 this.$swal.fire({
                 icon: 'success',

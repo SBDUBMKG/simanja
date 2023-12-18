@@ -91,7 +91,7 @@
                             </table>
                         </div>
                         <div class="minat-kerja">
-                            <h6>e. Minat Kerja</h6>
+                            <h6>d. Minat Kerja</h6>
                             <VueMultiselect
                                 v-model="minatKerja"
                                 :options="masterMinatKerja"
@@ -120,7 +120,7 @@
                             </table>
                         </div>
                         <div class="upaya-fisik">
-                            <h6>d. Upaya Fisik</h6>
+                            <h6>e. Upaya Fisik</h6>
                             <VueMultiselect
                                 v-model="upayaFisik"
                                 :options="masterUpayaFisik"
@@ -261,7 +261,7 @@
                     </form>
                     <div class="d-flex justify-content-end action-button">
                         <button @click="saveAll" class="btn btn-success btn-save">Save</button>
-                        <button class="btn btn-primary btn-continue">Save & Send</button>
+                        <button @click="saveSend" class="btn btn-primary btn-continue">Save & Send</button>
                     </div>
                 </div>
             </div>
@@ -1016,8 +1016,6 @@ export default {
                         Authorization: `Bearer ${token}`,
                     },
                 }
-                console.log(this.kelasJabatan)
-                console.log(this.kelasJabatanDb)
 
                 if (this.kelasJabatanDb !== '') {
                     await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/kelas-jabatan/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
@@ -1068,9 +1066,40 @@ export default {
             }))
         },
 
+        async changStatusSendToVerificator () {
+            try {
+                const token = localStorage.getItem('token');
+
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+                 
+                const payloadStatus = {
+                    status: 'Sudah Dikirim'
+                }
+                await axios.put(`${process.env.VUE_APP_BACKENDHOST}/jabatan/status/${this.dataJabatan[0].id_jabatan}`, payloadStatus, config)
+                
+            } catch (error) {
+                if (error.response.status === 401) {
+                    this.$router.push({ name: 'Home' })
+                } else {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Status ' + error.response.data.message
+                    })
+                }
+            }
+        },
+
         async saveSend () {
             await this.saveAll ()
-            .then(this.$router.push({ name: 'AnalisisTanggungJawab', params: { jabatanid: this.jabatanId } }))
+            .then(
+                await this.changStatusSendToVerificator()
+            )
+            .then(this.$router.push({ name: 'AnalisisJabatan' }))
         }
     },
 };

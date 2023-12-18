@@ -84,7 +84,8 @@
                             <td></td>
                             <td>g. Jabatan Fungsional</td>
                             <td>
-                                <input v-model="dataJabatan[0].jabatan_fungsional" type="text" name="" id="jabatan-fungsional" class="form-control form-control-sm">
+                                <!-- <input v-model="dataJabatan[0].jabatan_fungsional" type="text" name="" id="jabatan-fungsional" class="form-control form-control-sm"> -->
+                                <input v-model="dataJabatan[0].fungsional" type="text" name="" id="nama-jabatan" class="form-control form-control-sm" disabled>
                             </td>
                         </tr>
                         <tr>

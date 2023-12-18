@@ -52,7 +52,11 @@
                                     </tr>
                                     <tr>
                                         <td colspan="6">Jumlah</td>
-                                        <td><input type="number" class="form-control form-control-sm" disabled :value="tugas.reduce((a, b) => a + ((b.vol_hasil_kerja * b.waktu_penyelesaian) / b.waktu_efektif), 0)"></td>
+                                        <td><input type="number" class="form-control form-control-sm" disabled :value="jumlahPegawai"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="6">Jumlah Pegawai</td>
+                                        <td><input type="number" class="form-control form-control-sm" disabled :value="jumlahPegawaiRounded"></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -178,6 +182,15 @@ export default {
     mounted () {
         this.checkAuthentication()
         this.getData()          
+    },
+    computed: {
+        jumlahPegawai () {
+            return this.tugas.reduce((a, b) => a + ((b.vol_hasil_kerja * b.waktu_penyelesaian) / b.waktu_efektif), 0)
+        },
+
+        jumlahPegawaiRounded () {
+            return Math.round(this.jumlahPegawai)
+        }
     },
     methods: {
         async checkAuthentication () {

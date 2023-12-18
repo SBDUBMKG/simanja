@@ -193,7 +193,22 @@ export default {
                             waktuefektif: waktuEfektifList[i]
                         }
     
-                        await axios.post(`${process.env.VUE_APP_BACKENDHOST}/master/tugas`, payload, config);
+                        await axios.post(`${process.env.VUE_APP_BACKENDHOST}/master/tugas`, payload, config)
+                        .then(
+                            this.$swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: 'Tugas Pokok Berhasil Ditambahkan'
+                            })
+                        )
+                        .then(
+                            listTugas[0].childNodes[0].childNodes[0].value = '',
+                            listTugas[0].childNodes[1].childNodes[0].value = '',
+                            listTugas[0].childNodes[2].childNodes[0].value = '',
+                            listTugas[0].childNodes[3].childNodes[0].value = '',
+                            listTugas[0].childNodes[4].childNodes[0].value = ''
+                        )
+                        .then(this.$router.push({ name: 'TugasPokokDetail', params: { fungsionalid: this.fungsionalData.id_fungsional } }))
 
                     } catch (error) {
                         if (error.status === 401) {
@@ -207,12 +222,6 @@ export default {
                         }
                     }
                 }
-
-                this.$swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: 'Tugas Pokok Berhasil Ditambahkan'
-                }).then(this.$router.push({ name: 'TugasPokokDetail', params: { fungsionalid: this.fungsionalData.id_fungsional } }))
 
             } else {
                 this.$swal.fire({

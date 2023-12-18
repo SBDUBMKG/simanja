@@ -123,7 +123,19 @@ export default {
                         uraian: uraianList[i]
                     }
 
-                    await axios.post(`${process.env.VUE_APP_BACKENDHOST}/master/minat-kerja`, payload, config);
+                    await axios.post(`${process.env.VUE_APP_BACKENDHOST}/master/minat-kerja`, payload, config)
+                    .then(
+                        this.$swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: 'Minat Kerja Berhasil Ditambahkan'
+                        })
+                    )
+                    .then(
+                        listMinatKerja[0].childNodes[0].childNodes[0].value = '',
+                        listMinatKerja[0].childNodes[1].childNodes[0].value = ''
+                    )
+                    .then(this.$router.push({ name: 'MinatKerja' }))
 
                 } catch (error) {
                     if (error.status === 401) {
@@ -137,12 +149,6 @@ export default {
                     }
                 }
             }
-
-            this.$swal.fire({
-                icon: 'success',
-                title: 'Success',
-                text: 'Minat Kerja Berhasil Ditambahkan'
-            }).then(this.$router.push({ name: 'MinatKerja' }))
         }
     },
 };

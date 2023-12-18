@@ -81,7 +81,15 @@ export default {
                 this.daftarjabatan = response.data.data.fungsional
                 this.loaded = true
             } catch (error) {
-                console.error('Error fetching jabatan:', error);
+                if (error.status === 401) {
+                    this.$router.push({ name: 'Home' })
+                } else {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: error.response.data.message
+                    })
+                }
             }
         },
     },

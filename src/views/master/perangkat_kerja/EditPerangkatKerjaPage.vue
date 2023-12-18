@@ -121,13 +121,14 @@ export default {
                 }
 
                 await axios.put(`${process.env.VUE_APP_BACKENDHOST}/master/perangkat-kerja/${this.perangkatKerjaId}`, payload, config)
-                console.log(payload)
-
-                this.$swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: 'Perangkat Kerja Berhasil Diperbarui'
-                }).then(this.$router.push({ name: 'PerangkatKerja' }))
+                .then (
+                    this.$swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Perangkat Kerja Berhasil Diperbarui'
+                    })
+                )
+                .then(this.$router.push({ name: 'PerangkatKerja' }))
                 
             } catch (error) {
                 if (error.status === 401) {

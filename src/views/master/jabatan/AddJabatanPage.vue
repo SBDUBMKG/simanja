@@ -126,7 +126,19 @@ export default {
                             isaktif: true
                         }
     
-                        await axios.post(`${process.env.VUE_APP_BACKENDHOST}/master/fungsional`, payload, config);
+                        await axios.post(`${process.env.VUE_APP_BACKENDHOST}/master/fungsional`, payload, config)
+                        .then(
+                            this.$swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: 'Jabatan Fungsional Berhasil Ditambahkan'
+                            })
+                        )
+                        .then(
+                            listJabatan[0].childNodes[0].childNodes[0].value = '',
+                            listJabatan[0].childNodes[1].childNodes[0].value = ''
+                        )
+                        .then(this.$router.push({ name: 'Jabatan' }))
 
                     } catch (error) {
                         if (error.status === 401) {
@@ -140,12 +152,6 @@ export default {
                         }
                     }
                 }
-
-                this.$swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: 'Jabatan Fungsional Berhasil Ditambahkan'
-                }).then(this.$router.push({ name: 'Jabatan' }))
 
             } else {
                 this.$swal.fire({

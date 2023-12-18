@@ -116,12 +116,14 @@ export default {
                 }
 
                 await axios.put(`${process.env.VUE_APP_BACKENDHOST}/master/ikhtisar-jabatan/${this.ikhtisarJabatanId}`, payload, config)
-
-                this.$swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: 'Ikhtisar Jabatan Berhasil Diperbarui'
-                }).then(this.$router.push({ name: 'IkhtisarJabatanDetail', params: { fungsionalid: this.ikhtisarJabatanData.id_fungsional } }))
+                .then(
+                    this.$swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Ikhtisar Jabatan Berhasil Diperbarui'
+                    })
+                )
+                .then(this.$router.push({ name: 'IkhtisarJabatanDetail', params: { fungsionalid: this.ikhtisarJabatanData.id_fungsional } }))
                 
             } catch (error) {
                 if (error.status === 401) {

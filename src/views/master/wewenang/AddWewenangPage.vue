@@ -116,7 +116,18 @@ export default {
                         wewenang: wewenangList[i]
                     }
 
-                    await axios.post(`${process.env.VUE_APP_BACKENDHOST}/master/wewenang`, payload, config);
+                    await axios.post(`${process.env.VUE_APP_BACKENDHOST}/master/wewenang`, payload, config)
+                    .then(
+                        this.$swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: 'Wewenang Berhasil Ditambahkan'
+                        })
+                    )
+                    .then(
+                        listWewenang[0].childNodes[0].childNodes[0].value = ''
+                    )
+                    .then(this.$router.push({ name: 'Wewenang' }))
 
                 } catch (error) {
                     if (error.status === 401) {
@@ -130,12 +141,6 @@ export default {
                     }
                 }
             }
-
-            this.$swal.fire({
-                icon: 'success',
-                title: 'Success',
-                text: 'Wewenang Berhasil Ditambahkan'
-            }).then(this.$router.push({ name: 'Wewenang' }))
         }
     },
 };

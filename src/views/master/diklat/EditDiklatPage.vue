@@ -116,12 +116,14 @@ export default {
                 }
 
                 await axios.put(`${process.env.VUE_APP_BACKENDHOST}/master/diklat/${this.diklatId}`, payload, config)
-
-                this.$swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: 'Diklat Berhasil Diperbarui'
-                }).then(this.$router.push({ name: 'Diklat' }))
+                .then(
+                    this.$swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Diklat Berhasil Diperbarui'
+                    })
+                )
+                .then(this.$router.push({ name: 'Diklat' }))
                 
             } catch (error) {
                 if (error.status === 401) {

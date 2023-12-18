@@ -123,7 +123,19 @@ export default {
                         uraian: uraianList[i]
                     }
 
-                    await axios.post(`${process.env.VUE_APP_BACKENDHOST}/master/temperamen-kerja`, payload, config);
+                    await axios.post(`${process.env.VUE_APP_BACKENDHOST}/master/temperamen-kerja`, payload, config)
+                    .then(
+                        this.$swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: 'Temperamen Kerja Berhasil Ditambahkan'
+                        })
+                    )
+                    .then(
+                        listTemperamenKerja[0].childNodes[0].childNodes[0].value = '',
+                        listTemperamenKerja[0].childNodes[1].childNodes[0].value = ''
+                    )
+                    .then(this.$router.push({ name: 'TemperamenKerja' }))
 
                 } catch (error) {
                     if (error.status === 401) {
@@ -137,12 +149,6 @@ export default {
                     }
                 }
             }
-
-            this.$swal.fire({
-                icon: 'success',
-                title: 'Success',
-                text: 'Temperamen Kerja Berhasil Ditambahkan'
-            }).then(this.$router.push({ name: 'TemperamenKerja' }))
         }
     },
 };

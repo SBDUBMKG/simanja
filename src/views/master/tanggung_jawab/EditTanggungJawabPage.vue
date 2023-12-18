@@ -115,12 +115,14 @@ export default {
                 }
 
                 await axios.put(`${process.env.VUE_APP_BACKENDHOST}/master/tanggung-jawab/${this.tanggungJawabId}`, payload, config)
-
-                this.$swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: 'Tanggung Jawab Berhasil Diperbarui'
-                }).then(this.$router.push({ name: 'TanggungJawab' }))
+                .then(
+                    this.$swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Tanggung Jawab Berhasil Diperbarui'
+                    })
+                )
+                .then(this.$router.push({ name: 'TanggungJawab' }))
                 
             } catch (error) {
                 if (error.status === 401) {

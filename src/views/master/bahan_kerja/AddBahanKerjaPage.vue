@@ -125,8 +125,20 @@ export default {
                             penggunaan: penggunaanList[i]
                         }
     
-                        await axios.post(`${process.env.VUE_APP_BACKENDHOST}/master/bahan-kerja`, payload, config);
-
+                        await axios.post(`${process.env.VUE_APP_BACKENDHOST}/master/bahan-kerja`, payload, config)
+                        .then(
+                            this.$swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: 'Bahan Kerja Berhasil Ditambahkan'
+                            })
+                        )
+                        .then(
+                            listBahanKerja[0].childNodes[0].childNodes[0].value = '',
+                            listBahanKerja[0].childNodes[1].childNodes[0].value = ''
+                        )
+                        .then(this.$router.push({ name: 'BahanKerja' }))
+                        
                     } catch (error) {
                         if (error.status === 401) {
                             this.$router.push({ name: 'Home' })
@@ -139,12 +151,6 @@ export default {
                         }
                     }
                 }
-
-                this.$swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: 'Bahan Kerja Berhasil Ditambahkan'
-                }).then(this.$router.push({ name: 'BahanKerja' }))
 
             } else {
                 this.$swal.fire({

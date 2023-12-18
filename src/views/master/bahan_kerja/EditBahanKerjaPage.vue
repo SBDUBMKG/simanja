@@ -121,12 +121,14 @@ export default {
                 }
 
                 await axios.put(`${process.env.VUE_APP_BACKENDHOST}/master/bahan-kerja/${this.bahanKerjaId}`, payload, config)
-
-                this.$swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: 'Bahan Kerja Berhasil Diperbarui'
-                }).then(this.$router.push({ name: 'BahanKerja' }))
+                .then(
+                    this.$swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Bahan Kerja Berhasil Diperbarui'
+                    })
+                )
+                .then(this.$router.push({ name: 'BahanKerja' }))
                 
             } catch (error) {
                 if (error.status === 401) {

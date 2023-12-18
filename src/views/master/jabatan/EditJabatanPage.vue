@@ -133,12 +133,14 @@ export default {
                 }
 
                 await axios.put(`${process.env.VUE_APP_BACKENDHOST}/master/fungsional/${this.fungsionalId}`, payload, config)
-
-                this.$swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: 'Jabatan Fungsional Berhasil Diperbarui'
-                }).then(this.$router.push({ name: 'Jabatan' }))
+                .then(
+                    this.$swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Jabatan Fungsional Berhasil Diperbarui'
+                    })
+                )
+                .then(this.$router.push({ name: 'Jabatan' }))
                 
             } catch (error) {
                 if (error.status === 401) {

@@ -146,13 +146,14 @@ export default {
                 }
 
                 await axios.put(`${process.env.VUE_APP_BACKENDHOST}/master/tugas/${this.tugasId}`, payload, config)
-                console.log(payload)
-
-                this.$swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: 'Tugas Pokok Berhasil Diperbarui'
-                }).then(this.$router.push({ name: 'TugasPokokDetail', params: { fungsionalid: this.tugasData.id_fungsional } }))
+                .then(
+                    this.$swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Tugas Pokok Berhasil Diperbarui'
+                    })
+                )
+                .then(this.$router.push({ name: 'TugasPokokDetail', params: { fungsionalid: this.tugasData.id_fungsional } }))
                 
             } catch (error) {
                 if (error.status === 401) {

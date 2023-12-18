@@ -133,12 +133,14 @@ export default {
                 }
 
                 await axios.put(`${process.env.VUE_APP_BACKENDHOST}/master/satker/${this.satkerId}`, payload, config)
-
-                this.$swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: 'Satker Berhasil Diperbarui'
-                }).then(this.$router.push({ name: 'Satker' }))
+                .then(
+                    this.$swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Satker Berhasil Diperbarui'
+                    })
+                )
+                .then(this.$router.push({ name: 'Satker' }))
                 
             } catch (error) {
                 if (error.status === 401) {

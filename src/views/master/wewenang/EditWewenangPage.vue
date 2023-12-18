@@ -115,12 +115,14 @@ export default {
                 }
 
                 await axios.put(`${process.env.VUE_APP_BACKENDHOST}/master/wewenang/${this.wewenangId}`, payload, config)
-
-                this.$swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: 'Wewenang Berhasil Diperbarui'
-                }).then(this.$router.push({ name: 'Wewenang' }))
+                .then(
+                    this.$swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Wewenang Berhasil Diperbarui'
+                    })
+                )
+                .then(this.$router.push({ name: 'Wewenang' }))
                 
             } catch (error) {
                 if (error.status === 401) {

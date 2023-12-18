@@ -116,12 +116,14 @@ export default {
                 }
 
                 await axios.put(`${process.env.VUE_APP_BACKENDHOST}/master/pendidikan/${this.pendidikanFormalId}`, payload, config)
-
-                this.$swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: 'Pendidikan Formal Berhasil Diperbarui'
-                }).then(this.$router.push({ name: 'PendidikanFormalDetail', params: { fungsionalid: this.pendidikanFormalData.id_fungsional } }))
+                .then(
+                    this.$swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Pendidikan Formal Berhasil Diperbarui'
+                    })
+                )
+                .then(this.$router.push({ name: 'PendidikanFormalDetail', params: { fungsionalid: this.pendidikanFormalData.id_fungsional } }))
                 
             } catch (error) {
                 if (error.status === 401) {

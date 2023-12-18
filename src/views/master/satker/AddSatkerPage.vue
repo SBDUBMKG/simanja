@@ -126,7 +126,19 @@ export default {
                             isaktif: true
                         }
     
-                        await axios.post(`${process.env.VUE_APP_BACKENDHOST}/master/satker`, payload, config);
+                        await axios.post(`${process.env.VUE_APP_BACKENDHOST}/master/satker`, payload, config)
+                        .then(
+                            this.$swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: 'Satker Berhasil Ditambahkan'
+                            })
+                        )
+                        .then(
+                            listSatker[0].childNodes[0].childNodes[0].value = '',
+                            listSatker[0].childNodes[1].childNodes[0].value = ''
+                        )
+                        .then(this.$router.push({ name: 'Satker' }))
 
                     } catch (error) {
                         if (error.status === 401) {
@@ -140,13 +152,6 @@ export default {
                         }
                     }
                 }
-
-                this.$swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: 'Satker Berhasil Ditambahkan'
-                }).then(this.$router.push({ name: 'Satker' }))
-
             } else {
                 this.$swal.fire({
                     icon: 'error',

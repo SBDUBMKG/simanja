@@ -116,7 +116,18 @@ export default {
                         tanggungjawab: tanggungJawabList[i]
                     }
 
-                    await axios.post(`${process.env.VUE_APP_BACKENDHOST}/master/tanggung-jawab`, payload, config);
+                    await axios.post(`${process.env.VUE_APP_BACKENDHOST}/master/tanggung-jawab`, payload, config)
+                    .then(
+                        this.$swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: 'Tanggung Jawab Berhasil Ditambahkan'
+                        })
+                    )
+                    .then(
+                        listTanggungJawab[0].childNodes[0].childNodes[0].value = ''
+                    )
+                    .then(this.$router.push({ name: 'TanggungJawab' }))
 
                 } catch (error) {
                     if (error.status === 401) {
@@ -130,12 +141,6 @@ export default {
                     }
                 }
             }
-
-            this.$swal.fire({
-                icon: 'success',
-                title: 'Success',
-                text: 'Tanggung Jawab Berhasil Ditambahkan'
-            }).then(this.$router.push({ name: 'TanggungJawab' }))
         }
     },
 };

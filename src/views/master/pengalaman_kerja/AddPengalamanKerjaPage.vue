@@ -116,7 +116,18 @@ export default {
                         pengalaman: pengalamanKerjaList[i]
                     }
 
-                    await axios.post(`${process.env.VUE_APP_BACKENDHOST}/master/pengalaman`, payload, config);
+                    await axios.post(`${process.env.VUE_APP_BACKENDHOST}/master/pengalaman`, payload, config)
+                    .then(
+                        this.$swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: 'Pengalaman Kerja Berhasil Ditambahkan'
+                        })
+                    )
+                    .then(
+                        listPengalamanKerja[0].childNodes[0].childNodes[0].value = ''
+                    )
+                    .then(this.$router.push({ name: 'PengalamanKerja' }))
 
                 } catch (error) {
                     if (error.status === 401) {
@@ -130,12 +141,6 @@ export default {
                     }
                 }
             }
-
-            this.$swal.fire({
-                icon: 'success',
-                title: 'Success',
-                text: 'Pengalaman Kerja Berhasil Ditambahkan'
-            }).then(this.$router.push({ name: 'PengalamanKerja' }))
         }
     },
 };

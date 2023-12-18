@@ -125,7 +125,19 @@ export default {
                             penggunaan: penggunaanList[i]
                         }
     
-                        await axios.post(`${process.env.VUE_APP_BACKENDHOST}/master/perangkat-kerja`, payload, config);
+                        await axios.post(`${process.env.VUE_APP_BACKENDHOST}/master/perangkat-kerja`, payload, config)
+                        .then(
+                            this.$swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: 'Perangkat Kerja Berhasil Ditambahkan'
+                            })
+                        )
+                        .then(
+                            listPerangkatKerja[0].childNodes[0].childNodes[0].value = '',
+                            listPerangkatKerja[0].childNodes[1].childNodes[0].value = ''
+                        )
+                        .then(this.$router.push({ name: 'PerangkatKerja' }))
 
                     } catch (error) {
                         if (error.status === 401) {
@@ -139,12 +151,6 @@ export default {
                         }
                     }
                 }
-
-                this.$swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: 'Perangkat Kerja Berhasil Ditambahkan'
-                }).then(this.$router.push({ name: 'PerangkatKerja' }))
 
             } else {
                 this.$swal.fire({

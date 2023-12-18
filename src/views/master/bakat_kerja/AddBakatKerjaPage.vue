@@ -123,7 +123,19 @@ export default {
                         uraian: uraianList[i]
                     }
 
-                    await axios.post(`${process.env.VUE_APP_BACKENDHOST}/master/bakat-kerja`, payload, config);
+                    await axios.post(`${process.env.VUE_APP_BACKENDHOST}/master/bakat-kerja`, payload, config)
+                    .then(
+                        this.$swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: 'Bakat Kerja Berhasil Ditambahkan'
+                        })
+                    )
+                    .then(
+                        listBakatKerja[0].childNodes[0].childNodes[0].value = '',
+                        listBakatKerja[0].childNodes[1].childNodes[0].value = ''
+                    )
+                    .then(this.$router.push({ name: 'BakatKerja' }))
 
                 } catch (error) {
                     if (error.status === 401) {
@@ -137,12 +149,6 @@ export default {
                     }
                 }
             }
-
-            this.$swal.fire({
-                icon: 'success',
-                title: 'Success',
-                text: 'Bakat Kerja Berhasil Ditambahkan'
-            }).then(this.$router.push({ name: 'BakatKerja' }))
         }
     },
 };

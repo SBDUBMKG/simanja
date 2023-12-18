@@ -123,7 +123,19 @@ export default {
                         uraian: uraianList[i]
                     }
 
-                    await axios.post(`${process.env.VUE_APP_BACKENDHOST}/master/fungsi-pekerjaan`, payload, config);
+                    await axios.post(`${process.env.VUE_APP_BACKENDHOST}/master/fungsi-pekerjaan`, payload, config)
+                    .then(
+                        this.$swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: 'Fungsi Pekerjaan Berhasil Ditambahkan'
+                        })
+                    )
+                    .then(
+                        listFungsiPekerjaan[0].childNodes[0].childNodes[0].value = '',
+                        listFungsiPekerjaan[0].childNodes[1].childNodes[0].value = ''
+                    )
+                    .then(this.$router.push({ name: 'FungsiPekerjaan' }))
 
                 } catch (error) {
                     if (error.status === 401) {
@@ -137,12 +149,6 @@ export default {
                     }
                 }
             }
-
-            this.$swal.fire({
-                icon: 'success',
-                title: 'Success',
-                text: 'Fungsi Pekerjaan Berhasil Ditambahkan'
-            }).then(this.$router.push({ name: 'FungsiPekerjaan' }))
         }
     },
 };

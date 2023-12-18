@@ -116,12 +116,14 @@ export default {
                 }
 
                 await axios.put(`${process.env.VUE_APP_BACKENDHOST}/master/pengalaman/${this.pengalamanKerjaId}`, payload, config)
-
-                this.$swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: 'Pengalaman Kerja Berhasil Diperbarui'
-                }).then(this.$router.push({ name: 'PengalamanKerja' }))
+                .then(
+                    this.$swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Pengalaman Kerja Berhasil Diperbarui'
+                    })
+                )
+                .then(this.$router.push({ name: 'PengalamanKerja' }))
                 
             } catch (error) {
                 if (error.status === 401) {

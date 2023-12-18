@@ -116,7 +116,19 @@ export default {
                         diklat: diklatList[i]
                     }
 
-                    await axios.post(`${process.env.VUE_APP_BACKENDHOST}/master/diklat`, payload, config);
+                    await axios.post(`${process.env.VUE_APP_BACKENDHOST}/master/diklat`, payload, config)
+                    .then(
+                        this.$swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: 'Diklat Berhasil Ditambahkan'
+                        })
+                    )
+                    .then(
+                        listDiklat[0].childNodes[0].childNodes[0].value = ''
+                    )
+                    .then(this.$router.push({ name: 'Diklat' }))
+
                 } catch (error) {
                     if (error.status === 401) {
                         this.$router.push({ name: 'Home' })
@@ -129,11 +141,6 @@ export default {
                     }
                 }
             }
-            this.$swal.fire({
-                icon: 'success',
-                title: 'Success',
-                text: 'Diklat Berhasil Ditambahkan'
-            }).then(this.$router.push({ name: 'Diklat' }))
         }
     },
 };

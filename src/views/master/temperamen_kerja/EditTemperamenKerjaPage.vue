@@ -121,13 +121,14 @@ export default {
                 }
 
                 await axios.put(`${process.env.VUE_APP_BACKENDHOST}/master/temperamen-kerja/${this.temperamenKerjaId}`, payload, config)
-                console.log(payload)
-
-                this.$swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: 'Temperamen Kerja Berhasil Diperbarui'
-                }).then(this.$router.push({ name: 'TemperamenKerja' }))
+                .then(
+                    this.$swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Temperamen Kerja Berhasil Diperbarui'
+                    })
+                )
+                .then(this.$router.push({ name: 'TemperamenKerja' }))
                 
             } catch (error) {
                 if (error.status === 401) {

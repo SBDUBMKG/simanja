@@ -94,7 +94,15 @@ export default {
                 this.daftarSatker = response.data.data.satker;
                 this.loaded = true;
             } catch (error) {
-                console.error('Error fetching Satker:', error);
+                if (error.status === 401) {
+                    this.$router.push({ name: 'Home' })
+                } else {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: error.response.data.message
+                    })
+                }
             }
         },
     },

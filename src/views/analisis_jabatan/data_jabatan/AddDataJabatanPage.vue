@@ -198,7 +198,9 @@ export default {
 
         async addContinue () {
             await this.addJabatan()
-            await this.$router.push({ name: 'AnalisisBiodata', params: { jabatanid: this.jabatanId } })
+            .then(
+                this.$router.push({ name: 'AnalisisBiodata', params: { jabatanid: this.jabatanId } })
+            )
         }
     },
 };

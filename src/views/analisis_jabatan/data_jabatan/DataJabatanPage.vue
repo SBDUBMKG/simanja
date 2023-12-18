@@ -10,7 +10,7 @@
                     <div class="d-flex justify-content-start add-button">
                         <button @click="addJabatan" class="btn btn-success">Tambah Data Jabatan</button>
                     </div>
-                    <DataTable v-if="jabatanLoaded" class="table table-sm table-hover table-responsive-xl display">
+                    <DataTable v-if="jabatanLoaded" class="table table-sm table-hover table-bordered table-responsive-xl display">
                         <thead>
                             <tr class="table-head">
                                 <th width="5%" class="column-title">No.</th>

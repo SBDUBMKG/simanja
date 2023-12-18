@@ -7,7 +7,7 @@
                 <div class="main-content shadow">
                     <h2 class="title-content">Analisis Jabatan</h2>
                     <h6 class="subtitle-content">List Data Jabatan</h6>
-                    <DataTable v-if="jabatanLoaded" class="table table-sm table-hover table-responsive-xl display">
+                    <DataTable v-if="jabatanLoaded" class="table table-sm table-hover table-bordered table-responsive-xl display">
                         <thead>
                             <tr class="table-head">
                                 <th width="5%" class="column-title">No.</th>

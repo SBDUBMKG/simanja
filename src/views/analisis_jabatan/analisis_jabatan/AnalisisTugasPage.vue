@@ -136,8 +136,8 @@
                         </div>
                     </form>
                     <div class="d-flex justify-content-end action-button">
-                        <button @click="saveAll" class="btn btn-success btn-save">Save</button>
-                        <button @click="saveContinue" class="btn btn-primary btn-continue">Save & Continue</button>
+                        <button @click="saveAll('save')" class="btn btn-success btn-save">Save</button>
+                        <button @click="saveAll('continue')" class="btn btn-primary btn-continue">Save & Continue</button>
                     </div>
                 </div>
             </div>
@@ -170,12 +170,15 @@ export default {
             masterPerangkatKerjaLoaded: false,
             tugas: [],
             tugasDb: [],
+            tugasBuffer: [],
             tugasLoaded: false,
             bahanKerja: [],
             bahanKerjaDb: [],
+            bahanKerjaBuffer: [],
             bahanKerjaLoaded: false,
             perangkatKerja: [],
             perangkatKerjaDb: [],
+            perangkatKerjaBuffer: [],
             perangkatKerjaLoaded: false,
         };
     },
@@ -197,7 +200,6 @@ export default {
             const token = localStorage.getItem('token');
 
             if (!token) {
-                console.error('Token not available');
                 this.$router.push({ name: 'Home' })
             }
         },
@@ -346,116 +348,107 @@ export default {
             }
         },
 
+        async badRequestException (message) {
+            const exception = new Error();
+            exception.name = "Bad Request";
+            exception.response = {
+                status: 400,
+                data: {
+                    message: message
+                }
+            }
+            throw exception
+        },
+
         async saveTugasPokok () {
-            try {
-                const token = localStorage.getItem('token');
+            const token = localStorage.getItem('token');
 
-                const config = {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
 
-                if (this.tugasDb.length !== 0) {
-                    await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/tugas/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
-                }
+            if (this.tugas.length === 0) {
+                await this.badRequestException("Tugas harus diisi minimal satu")
+            }
+
+            if (this.tugasDb.length !== 0 || this.tugasBuffer.length !== 0) {
+                await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/tugas/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
+            }
                  
-                for (let i = 0; i < this.tugas.length; i++) {
-                    const payloadTugas = {
-                        idjabatan: this.dataJabatan[0].id_jabatan,
-                        idtugas: this.tugas[i].id_tugas,
-                        volhasilkerja: this.tugas[i].vol_hasil_kerja
-                    }
-                    await axios.post(`${process.env.VUE_APP_BACKENDHOST}/tugas`, payloadTugas, config)
+            for (let i = 0; i < this.tugas.length; i++) {
+                const payloadTugas = {
+                    idjabatan: this.dataJabatan[0].id_jabatan,
+                    idtugas: this.tugas[i].id_tugas,
+                    volhasilkerja: this.tugas[i].vol_hasil_kerja
                 }
-            } catch (error) {
-                if (error.response.status === 404) {
-                    this.tugasLoaded = true
-                } else if (error.response.status === 401) {
-                    this.$router.push({ name: 'Home' })
-                } else {
-                    this.$swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: error.response.data.message
-                    })
-                }
+                await axios.post(`${process.env.VUE_APP_BACKENDHOST}/tugas`, payloadTugas, config)
+                .then(
+                    this.tugasBuffer.push(this.tugas[i].id_tugas)
+                )
             }
         },
 
         async saveBahanKerja () {
-            try {
-                const token = localStorage.getItem('token');
+            const token = localStorage.getItem('token');
 
-                const config = {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`
                 }
+            }
 
-                if (this.bahanKerjaDb.length !== 0) {
-                    await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/bahan-kerja/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
-                }
+            if (this.bahanKerja.length === 0) {
+                await this.badRequestException("Bahan kerja harus diisi minimal 1")
+            }
+
+            if (this.bahanKerjaDb.length !== 0 || this.bahanKerjaBuffer.length !== 0) {
+                await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/bahan-kerja/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
+            }
                  
-                for (let i = 0; i < this.bahanKerja.length; i++) {
-                    const payloadBahanKerja = {
-                        idjabatan: this.dataJabatan[0].id_jabatan,
-                        idbahankerja: this.bahanKerja[i].id_bahan_kerja
-                    }
-                    await axios.post(`${process.env.VUE_APP_BACKENDHOST}/bahan-kerja`, payloadBahanKerja, config)
+            for (let i = 0; i < this.bahanKerja.length; i++) {
+                const payloadBahanKerja = {
+                    idjabatan: this.dataJabatan[0].id_jabatan,
+                    idbahankerja: this.bahanKerja[i].id_bahan_kerja
                 }
-            } catch (error) {
-                if (error.response.status === 404) {
-                    this.bahanKerjaLoaded = true
-                } else if (error.response.status === 401) {
-                    this.$router.push({ name: 'Home' })
-                } else {
-                    this.$swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: error.response.data.message
-                    })
-                }
+                await axios.post(`${process.env.VUE_APP_BACKENDHOST}/bahan-kerja`, payloadBahanKerja, config)
+                .then(
+                    this.bahanKerjaBuffer.push(this.bahanKerja[i].id_bahan_kerja)
+                )
             }
         },
 
         async savePerangkatKerja () {
-            try {
-                const token = localStorage.getItem('token');
+            const token = localStorage.getItem('token');
 
-                const config = {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`
                 }
+            }
 
-                if (this.perangkatKerjaDb.length !== 0) {
-                    await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/perangkat-kerja/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
-                }
+            if (this.perangkatKerja.length === 0) {
+                await this.badRequestException("Perangkat kerja harus diisi minimal satu")
+            }
+
+            if (this.perangkatKerjaDb.length !== 0 || this.perangkatKerjaBuffer.length !== 0) {
+                await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/perangkat-kerja/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
+            }
                  
-                for (let i = 0; i < this.perangkatKerja.length; i++) {
-                    const payloadPerangkatKerja = {
-                        idjabatan: this.dataJabatan[0].id_jabatan,
-                        idperangkatkerja: this.perangkatKerja[i].id_perangkat_kerja
-                    }
-                    await axios.post(`${process.env.VUE_APP_BACKENDHOST}/perangkat-kerja`, payloadPerangkatKerja, config)
+            for (let i = 0; i < this.perangkatKerja.length; i++) {
+                const payloadPerangkatKerja = {
+                    idjabatan: this.dataJabatan[0].id_jabatan,
+                    idperangkatkerja: this.perangkatKerja[i].id_perangkat_kerja
                 }
-            } catch (error) {
-                if (error.response.status === 404) {
-                    this.perangkatKerjaLoaded = true
-                } else if (error.response.status === 401) {
-                    this.$router.push({ name: 'Home' })
-                } else {
-                    this.$swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: error.response.data.message
-                    })
-                }
+                await axios.post(`${process.env.VUE_APP_BACKENDHOST}/perangkat-kerja`, payloadPerangkatKerja, config)
+                .then(
+                    this.perangkatKerjaBuffer.push(this.perangkatKerja[i].id_perangkat_kerja)
+                )
             }
         },
 
-        async saveAll () {
+        async saveAll (action) {
             this.$swal.fire({
                 text: 'Loading....',
                 showConfirmButton: false
@@ -466,20 +459,31 @@ export default {
                 this.saveBahanKerja(),
                 this.savePerangkatKerja()
             ])
-            
-            await this.$swal.fire({
-                icon: 'success',
-                title: 'Success',
-                text: 'Data Berhasil Disimpan'
-            })            
-        },
-
-        async saveContinue () {
-            await this.saveAll().then(
-                this.$router.push({ name: 'AnalisisTanggungJawab', params: { jabatanid: this.jabatanId } })
+            .then(
+                this.$swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'Data Berhasil Disimpan'
+                })            
             )
+            .then(() => {
+                if (action === 'continue') {
+                    this.$router.push({ name: 'AnalisisTanggungJawab', params: { jabatanid: this.jabatanId } })
+                }
+            })
+            .catch((error) => {
+                if (error.response.status === 401) {
+                    this.$router.push({ name: 'Home' })
+                } else {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: error.response.data.message
+                    })
+                }
+            })
         }
-    },
+    }
 };
 </script>
 

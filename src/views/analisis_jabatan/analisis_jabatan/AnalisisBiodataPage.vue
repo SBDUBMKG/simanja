@@ -148,8 +148,8 @@
                         </tr>
                     </table>
                     <div class="d-flex justify-content-end action-button">
-                        <button @click="saveAll" class="btn btn-success btn-save">Save</button>
-                        <button @click="saveContinue" class="btn btn-primary btn-continue">Save & Continue</button>
+                        <button @click="saveAll('save')" class="btn btn-success btn-save">Save</button>
+                        <button @click="saveAll('continue')" class="btn btn-primary btn-continue">Save & Continue</button>
                     </div>
                 </div>
             </div>
@@ -407,188 +407,149 @@ export default {
             }
         },
 
-        async saveJabatan () {
-            try {
-                const token = localStorage.getItem('token');
-
-                const config = {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                };
-
-                const payload = {
-                    idfungsional: this.dataJabatan[0].id_fungsional,
-                    jptutama: this.jptUtama,
-                    jptmadya: this.dataJabatan[0].jpt_madya,
-                    jptpratama: this.dataJabatan[0].jpt_pratama,
-                    administrator: this.dataJabatan[0].administrator,
-                    pengawas: this.dataJabatan[0].pengawas,
-                    pelaksana: this.dataJabatan[0].pelaksana,
-                    jabfung: this.dataJabatan[0].jabatan_fungsional,
-                    tahunjabatan: this.dataJabatan[0].tahun_jabatan
-                }
-
-                await axios.put(`${process.env.VUE_APP_BACKENDHOST}/jabatan/${this.dataJabatan[0].id_jabatan}`, payload, config)
-            } catch (error) {
-                if (error.response.status === 404) {
-                    this.jabatanLoaded = true
-                } else if (error.response.status === 401) {
-                    this.$router.push({ name: 'Home' })
-                } else {
-                    console.log(error)
-                    this.$swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: error.response.data.message
-                    })
+        async badRequestException (message) {
+            const exception = new Error();
+            exception.name = "Bad Request";
+            exception.response = {
+                status: 400,
+                data: {
+                    message: message
                 }
             }
+            throw exception
+        },
+
+        async saveJabatan () {
+            const token = localStorage.getItem('token');
+
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+
+            const payload = {
+                idfungsional: this.dataJabatan[0].id_fungsional,
+                jptutama: this.jptUtama,
+                jptmadya: this.dataJabatan[0].jpt_madya,
+                jptpratama: this.dataJabatan[0].jpt_pratama,
+                administrator: this.dataJabatan[0].administrator,
+                pengawas: this.dataJabatan[0].pengawas,
+                pelaksana: this.dataJabatan[0].pelaksana,
+                jabfung: this.dataJabatan[0].fungsional,
+                tahunjabatan: this.dataJabatan[0].tahun_jabatan
+            }
+
+            await axios.put(`${process.env.VUE_APP_BACKENDHOST}/jabatan/${this.dataJabatan[0].id_jabatan}`, payload, config)
         },
 
         async saveIkhtisarJabatan () {
-            try {
-                const token = localStorage.getItem('token');
+            const token = localStorage.getItem('token');
 
-                const config = {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                };
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
 
-                if (this.ikhtisarJabatanDb.length !== 0) {
-                    await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/ikhtisar-jabatan/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
+            if (this.ikhtisarJabatan.length === 0) {
+                await this.badRequestException("Ikhtisar jabatan wajib diisi")
+            }
+
+            if (this.ikhtisarJabatanDb.length !== 0) {
+                await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/ikhtisar-jabatan/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
+            }
+
+            for (let i = 0; i < this.ikhtisarJabatan.length; i++) {
+                const payloadIkhtisar = {
+                    idjabatan: this.dataJabatan[0].id_jabatan,
+                    idikhtisarjabatan: this.ikhtisarJabatan[i]
                 }
-                 
-                for (let i = 0; i < this.ikhtisarJabatan.length; i++) {
-                    const payloadIkhtisar = {
-                        idjabatan: this.dataJabatan[0].id_jabatan,
-                        idikhtisarjabatan: this.ikhtisarJabatan[i]
-                    }
-                    await axios.post(`${process.env.VUE_APP_BACKENDHOST}/ikhtisar-jabatan`, payloadIkhtisar, config)
-                }
-            } catch (error) {
-                if (error.response.status === 404) {
-                    this.ikhtisarJabatanLoaded = true
-                } else if (error.response.status === 401) {
-                    this.$router.push({ name: 'Home' })
-                } else {
-                    this.$swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: error.response.data.message
-                    })
-                }
+                await axios.post(`${process.env.VUE_APP_BACKENDHOST}/ikhtisar-jabatan`, payloadIkhtisar, config)
+                this.ikhtisarJabatanDb = this.ikhtisarJabatan[i]
             }
         },
 
         async savePendidikanFormal () {
-            try {
-                const token = localStorage.getItem('token');
+            const token = localStorage.getItem('token');
 
-                const config = {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                };
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
 
-                if (this.pendidikanFormalDb.length !== 0) {
-                        await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/pendidikan/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
-                    }
+            if (this.pendidikanFormal.length === 0) {
+                await this.badRequestException("Pendidikan formal wajib diisi")
+            }
+
+            if (this.pendidikanFormalDb.length !== 0) {
+                await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/pendidikan/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
+            }
     
-                for (let i = 0; i < this.pendidikanFormal.length; i++) {
-                    const payloadPendidikan = {
-                        idjabatan: this.dataJabatan[0].id_jabatan,
-                        idpendidikan: this.pendidikanFormal[i]
-                    }
-                    await axios.post(`${process.env.VUE_APP_BACKENDHOST}/pendidikan`, payloadPendidikan, config)
+            for (let i = 0; i < this.pendidikanFormal.length; i++) {
+                const payloadPendidikan = {
+                    idjabatan: this.dataJabatan[0].id_jabatan,
+                    idpendidikan: this.pendidikanFormal[i]
                 }
-            } catch (error) {
-                if (error.response.status === 404) {
-                    this.pendidikanFormalLoaded = true
-                } else if (error.response.status === 401) {
-                    this.$router.push({ name: 'Home' })
-                } else {
-                    this.$swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: error.response.data.message
-                    })
-                }
+                await axios.post(`${process.env.VUE_APP_BACKENDHOST}/pendidikan`, payloadPendidikan, config)
+                this.pendidikanFormalDb.push(this.pendidikanFormal[i])
             }
         },
 
         async saveDiklat () {
-            try {
-                const token = localStorage.getItem('token');
+            const token = localStorage.getItem('token');
 
-                const config = {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                };
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
 
-                if (this.diklatDb.length !== 0) {
-                    await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/diklat/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
-                }
+            if (this.diklat.length === 0) {
+                await this.badRequestException("Diklat harus diisi minimal satu")
+            }
 
-                for (let i = 0; i < this.diklat.length; i++) {
-                    const payloadDiklat = {
-                        idjabatan: this.dataJabatan[0].id_jabatan,
-                        iddiklat: this.diklat[i].id_diklat
-                    }
-                    await axios.post(`${process.env.VUE_APP_BACKENDHOST}/diklat`, payloadDiklat, config)
+            if (this.diklatDb.length !== 0) {
+                await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/diklat/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
+            }
+
+            for (let i = 0; i < this.diklat.length; i++) {
+                const payloadDiklat = {
+                    idjabatan: this.dataJabatan[0].id_jabatan,
+                    iddiklat: this.diklat[i].id_diklat
                 }
-            } catch (error) {
-                if (error.response.status === 404) {
-                    this.diklatLoaded = true
-                } else if (error.response.status === 401) {
-                    this.$router.push({ name: 'Home' })
-                } else {
-                    this.$swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: error.response.data.message
-                    })
-                }
+                await axios.post(`${process.env.VUE_APP_BACKENDHOST}/diklat`, payloadDiklat, config)
+                this.diklatDb.push(this.diklat[i].id_diklat)
             }
         },
 
         async savePengalaman () {
-            try {
-                const token = localStorage.getItem('token');
+            const token = localStorage.getItem('token');
 
-                const config = {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                };
-
-                if (this.pengalamanDb !== '') {
-                    await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/pengalaman-kerja/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
-                }
-                
-                const payloadPengalaman = {
-                    idjabatan: this.dataJabatan[0].id_jabatan,
-                    idpengalamankerja: this.pengalaman
-                }
-                await axios.post(`${process.env.VUE_APP_BACKENDHOST}/pengalaman-kerja`, payloadPengalaman, config)
-            } catch (error) {
-                if (error.response.status === 404) {
-                    this.pengalamanLoaded = true
-                } else if (error.response.status === 401) {
-                    this.$router.push({ name: 'Home' })
-                } else {
-                    this.$swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: error.response.data.message
-                    })
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`
                 }
             }
+
+            if (this.pengalaman === '') {
+                await this.badRequestException("Pengalaman tidak boleh kosong")
+            }
+
+            if (this.pengalamanDb !== '') {
+                await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/pengalaman-kerja/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
+            }
+                
+            const payloadPengalaman = {
+                idjabatan: this.dataJabatan[0].id_jabatan,
+                idpengalamankerja: this.pengalaman
+            }
+            await axios.post(`${process.env.VUE_APP_BACKENDHOST}/pengalaman-kerja`, payloadPengalaman, config)
+            this.pengalamanDb = this.pengalaman
         },
 
-        async saveAll () {
+        async saveAll (action) {
             this.$swal.fire({
                 text: 'Loading....',
                 showConfirmButton: false
@@ -600,20 +561,32 @@ export default {
                 this.savePendidikanFormal(),
                 this.saveDiklat(),
                 this.savePengalaman()
-            ]).then(
+            ])
+            .then(
                 this.$swal.fire({
-                icon: 'success',
-                title: 'Success',
-                text: 'Data Berhasil Disimpan'
-            }))
-        },
-
-        async saveContinue () {
-            await this.saveAll().then(
-                this.$router.push({ name: 'AnalisisTugas', params: { jabatanid: this.jabatanId } })
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'Data Berhasil Disimpan'
+                })
             )
+            .then(() => {
+                if (action === 'continue') {
+                    this.$router.push({ name: 'AnalisisTugas', params: { jabatanid: this.jabatanId } })
+                }
+            })
+            .catch((error) => {
+                if (error.response.status === 401) {
+                    this.$router.push({ name: 'Home' })
+                } else {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: error.response.data.message
+                    })
+                }
+            })
         }
-    },
+    }
 };
 </script>
 

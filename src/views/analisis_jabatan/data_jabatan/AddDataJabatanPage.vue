@@ -47,8 +47,8 @@
                         </tr>
                     </table>
                     <div class="d-flex justify-content-end action-button">
-                        <button @click="addJabatan" class="btn btn-success btn-save">Save</button>
-                        <button @click="addContinue" class="btn btn-primary btn-continue">Save & Continue</button>
+                        <button @click="addJabatan('add')" class="btn btn-success btn-save">Save</button>
+                        <button @click="addJabatan('continue')" class="btn btn-primary btn-continue">Save & Continue</button>
                     </div>
                 </div>
             </div>
@@ -158,7 +158,7 @@ export default {
             }
         },
 
-        async addJabatan() {
+        async addJabatan(action) {
             try {
                 const token = localStorage.getItem('token');
 
@@ -181,7 +181,14 @@ export default {
                     icon: 'success',
                     title: 'Success',
                     text: 'Jabatan Berhasil Ditambahkan'
-                }).then(this.$router.push({ name: 'DataJabatan' }))
+                })
+                .then(() => {
+                    if (action === 'continue') {
+                        this.$router.push({ name: 'AnalisisBiodata', params: { jabatanid: this.jabatanId } })
+                    } else {
+                        this.$router.push({ name: 'DataJabatan' })
+                    }
+                })
 
             } catch (error) {
                 if (error.response.status === 401) {
@@ -194,16 +201,9 @@ export default {
                     })
                 }
             }
-        },
-
-        async addContinue () {
-            await this.addJabatan()
-            .then(
-                this.$router.push({ name: 'AnalisisBiodata', params: { jabatanid: this.jabatanId } })
-            )
         }
-    },
-};
+    }
+}
 </script>
 
 <style scoped>

@@ -217,8 +217,8 @@
                         </div>
                     </form>
                     <div class="d-flex justify-content-end action-button">
-                        <button @click="saveAll" class="btn btn-success btn-save">Save</button>
-                        <button @click="saveContinue" class="btn btn-primary btn-continue">Save & Continue</button>
+                        <button @click="saveAll('save')" class="btn btn-success btn-save">Save</button>
+                        <button @click="saveAll('continue')" class="btn btn-primary btn-continue">Save & Continue</button>
                     </div>
                 </div>
             </div>
@@ -249,18 +249,22 @@ export default {
             masterWewenangLoaded: false,
             tanggungJawab: [],
             tanggungJawabDb: [],
+            tanggungJawabBuffer: [],
             tanggungJawabLoaded: false,
             wewenang: [],
             wewenangDb: [],
+            wewenangBuffer: [],
             wewenangLoaded: false,
             korelasiJabatan: [],
             korelasiJabatanDb: [],
+            korelasiJabatanBuffer: [],
             korelasiJabatanLoaded: false,
             lingkunganKerja: {},
             lingkunganKerjaDb: {},
             lingkunganKerjaLoaded: false,
             resikoBahaya: [],
             resikoBahayaDb: [],
+            resikoBahayaBuffer: [],
             resikoBahayaLoaded: false,
         };
     },
@@ -523,239 +527,197 @@ export default {
             }
         },
 
+        async badRequestException (message) {
+            const exception = new Error();
+            exception.name = "Bad Request";
+            exception.response = {
+                status: 400,
+                data: {
+                    message: message
+                }
+            }
+            throw exception
+        },
+
         async saveTanggungJawab () {
-            try {
-                const token = localStorage.getItem('token');
+            const token = localStorage.getItem('token');
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
 
-                const config = {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
+            if (this.tanggungJawab.length === 0) {
+                await this.badRequestException("Tanggung jawab harus diisi minimal satu")
+            }
 
-                if (this.tanggungJawabDb.length !== 0) {
-                    await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/tanggung-jawab/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
+            if (this.tanggungJawabDb.length !== 0 || this.tanggungJawabBuffer.length !== 0) {
+                await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/tanggung-jawab/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
+            }
+             
+            for (let i = 0; i < this.tanggungJawab.length; i++) {
+                const payloadTanggungJawab = {
+                    idjabatan: this.dataJabatan[0].id_jabatan,
+                    idtanggungjawab: this.tanggungJawab[i].id_tanggung_jawab
                 }
-                 
-                for (let i = 0; i < this.tanggungJawab.length; i++) {
-                    const payloadTanggungJawab = {
-                        idjabatan: this.dataJabatan[0].id_jabatan,
-                        idtanggungjawab: this.tanggungJawab[i].id_tanggung_jawab
-                    }
-                    await axios.post(`${process.env.VUE_APP_BACKENDHOST}/tanggung-jawab`, payloadTanggungJawab, config)
-                }
-            } catch (error) {
-                if (error.response.status === 404) {
-                    this.tanggungJawabLoaded = true
-                } else if (error.response.status === 401) {
-                    this.$router.push({ name: 'Home' })
-                } else {
-                    this.$swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Tanggung jawab error ' + error.response.data.message
-                    })
-                }
+                await axios.post(`${process.env.VUE_APP_BACKENDHOST}/tanggung-jawab`, payloadTanggungJawab, config)
+                .then(
+                    this.tanggungJawabBuffer.push(this.tanggungJawab[i].id_tanggung_jawab)
+                )
             }
         },
 
         async saveWewenang () {
-            try {
-                const token = localStorage.getItem('token');
+            const token = localStorage.getItem('token');
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
 
-                const config = {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
+            if (this.wewenang.length === 0) {
+                await this.badRequestException("Wewenang harus diisi minimal satu")
+            }
 
-                if (this.wewenangDb.length !== 0) {
-                    await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/wewenang/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
+            if (this.wewenangDb.length !== 0 || this.wewenangBuffer.length !== 0) {
+                await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/wewenang/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
+            }
+             
+            for (let i = 0; i < this.wewenang.length; i++) {
+                const payloadWewenang = {
+                    idjabatan: this.dataJabatan[0].id_jabatan,
+                    idwewenang: this.wewenang[i].id_wewenang
                 }
-                 
-                for (let i = 0; i < this.wewenang.length; i++) {
-                    const payloadWewenang = {
-                        idjabatan: this.dataJabatan[0].id_jabatan,
-                        idwewenang: this.wewenang[i].id_wewenang
-                    }
-                    await axios.post(`${process.env.VUE_APP_BACKENDHOST}/wewenang`, payloadWewenang, config)
-                }
-            } catch (error) {
-                if (error.response.status === 404) {
-                    this.wewenangLoaded = true
-                } else if (error.response.status === 401) {
-                    this.$router.push({ name: 'Home' })
-                } else {
-                    this.$swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Wewenang error ' + error.response.data.message
-                    })
-                }
+                await axios.post(`${process.env.VUE_APP_BACKENDHOST}/wewenang`, payloadWewenang, config)
+                .then(
+                    this.wewenangBuffer.push(this.wewenang[i].id_wewenang)
+                )
             }
         },
 
         async saveKorelasiJabatan () {
-            try {
-                const token = localStorage.getItem('token');
-
-                const config = {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
+            const token = localStorage.getItem('token')
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`
                 }
+            }
 
-                const korelasiJabatan = document.getElementsByClassName('row-list')
-                const namaJabatanList = []
-                const unitKerjaList = []
-                const dalamHalList = []
+            const korelasiJabatan = document.getElementsByClassName('row-list')
+            const namaJabatanList = []
+            const unitKerjaList = []
+            const dalamHalList = []
 
-                for (let i=0; i < korelasiJabatan.length; i++) {
-                    let namaJabatan = korelasiJabatan[i].childNodes[0].childNodes[0].value
-                    let unitKerja = korelasiJabatan[i].childNodes[1].childNodes[0].value
-                    let dalamHal = korelasiJabatan[i].childNodes[2].childNodes[0].value
-
-                    if (namaJabatan === '' || unitKerja === '' || dalamHal === "") {
-                        return this.$swal.fire({
-                            icon: 'info',
-                            title: 'Warning!!',
-                            text: 'Kolom korelasi jabatan tidak boleh kosong'
-                        })
-                    }
-
-                    namaJabatanList.push(namaJabatan)
-                    unitKerjaList.push(unitKerja)
-                    dalamHalList.push(dalamHal)
-                }
-
-                if (this.korelasiJabatanDb.length !== 0) {
-                    await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/korelasi-jabatan/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
-                }
-
-                for (let i = 0; i < namaJabatanList.length; i++) {
-                    const payloadKorelasiJabatan = {
-                        idjabatan: this.dataJabatan[0].id_jabatan,
-                        namajabatan: namaJabatanList[i],
-                        unitkerja: unitKerjaList[i],
-                        dalamhal: dalamHalList[i]
-                    }
-
-                    await axios.post(`${process.env.VUE_APP_BACKENDHOST}/korelasi-jabatan`, payloadKorelasiJabatan, config)
-                }
-            } catch (error) {
-                if (error.response.status === 404) {
-                    this.korelasiJabatanLoaded = true
-                } else if (error.response.status === 401) {
-                    this.$router.push({ name: 'Home' })
-                } else {
-                    this.$swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Korelasi jabatan error ' + error.response.data.message
+            for (let i=0; i < korelasiJabatan.length; i++) {
+                let namaJabatan = korelasiJabatan[i].childNodes[0].childNodes[0].value
+                let unitKerja = korelasiJabatan[i].childNodes[1].childNodes[0].value
+                let dalamHal = korelasiJabatan[i].childNodes[2].childNodes[0].value
+                if (namaJabatan === '' || unitKerja === '' || dalamHal === "") {
+                    return this.$swal.fire({
+                        icon: 'info',
+                        title: 'Warning!!',
+                        text: 'Kolom korelasi jabatan tidak boleh kosong'
                     })
                 }
+                namaJabatanList.push(namaJabatan)
+                unitKerjaList.push(unitKerja)
+                dalamHalList.push(dalamHal)
+            }
+
+            if (namaJabatanList.length === 0) {
+                await this.badRequestException("Korelasi jabatan harus diisi minimal satu")
+            }
+
+            if (this.korelasiJabatanDb.length !== 0 || this.korelasiJabatanBuffer.length !== 0) {
+                await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/korelasi-jabatan/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
+            }
+
+            for (let i = 0; i < namaJabatanList.length; i++) {
+                const payloadKorelasiJabatan = {
+                    idjabatan: this.dataJabatan[0].id_jabatan,
+                    namajabatan: namaJabatanList[i],
+                    unitkerja: unitKerjaList[i],
+                    dalamhal: dalamHalList[i]
+                }
+                await axios.post(`${process.env.VUE_APP_BACKENDHOST}/korelasi-jabatan`, payloadKorelasiJabatan, config)
+                .then(
+                    this.korelasiJabatanBuffer.push(namaJabatanList[i])
+                )
             }
         },
 
         async saveLingkunganKerja () {
-            try {
-                const token = localStorage.getItem('token');
-
-                const config = {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
+            const token = localStorage.getItem('token')
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`
                 }
+            }
 
-                if (Object.keys(this.lingkunganKerjaDb).length !== 0) {
-                    await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/lingkungan-kerja/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
+            if (Object.keys(this.lingkunganKerjaDb).length !== 0) {
+                await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/lingkungan-kerja/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
+            }
+
+            let lingkunganKerjaKeys = Object.keys(this.lingkunganKerja)
+
+            for (let i = 0; i < lingkunganKerjaKeys.length; i++) {
+                const payloadLingkunganKerja = {
+                    idjabatan: this.dataJabatan[0].id_jabatan,
+                    aspek: lingkunganKerjaKeys[i],
+                    faktor: this.lingkunganKerja[lingkunganKerjaKeys[i]]
                 }
-
-                let lingkunganKerjaKeys = Object.keys(this.lingkunganKerja)
-
-                for (let i = 0; i < lingkunganKerjaKeys.length; i++) {
-                    const payloadLingkunganKerja = {
-                        idjabatan: this.dataJabatan[0].id_jabatan,
-                        aspek: lingkunganKerjaKeys[i],
-                        faktor: this.lingkunganKerja[lingkunganKerjaKeys[i]]
-                    }
-
-                    await axios.post(`${process.env.VUE_APP_BACKENDHOST}/lingkungan-kerja`, payloadLingkunganKerja, config)
-                }
-            } catch (error) {
-                if (error.response.status === 404) {
-                    this.lingkunganKerjaLoaded = true
-                } else if (error.response.status === 401) {
-                    this.$router.push({ name: 'Home' })
-                } else {
-                    this.$swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Lingkungan kerja error ' + error.response.data.message
-                    })
-                }
-            }   
-        },
-
-        async saveResikoBahaya () {
-            try {
-                const token = localStorage.getItem('token');
-
-                const config = {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-
-                const resikoBahaya = document.getElementsByClassName('row-list-resiko')
-                const namaResikoList = []
-                const penyebabList = []
-
-                for (let i=0; i < resikoBahaya.length; i++) {
-                    let namaResiko = resikoBahaya[i].childNodes[0].childNodes[0].value
-                    let penyebab = resikoBahaya[i].childNodes[1].childNodes[0].value
-
-                    if (namaResiko === '' || penyebab === '') {
-                        return this.$swal.fire({
-                            icon: 'info',
-                            title: 'Warning!!',
-                            text: 'Kolom korelasi jabatan tidak boleh kosong'
-                        })
-                    }
-
-                    namaResikoList.push(namaResiko)
-                    penyebabList.push(penyebab)
-                }
-
-                if (this.resikoBahayaDb.length !== 0) {
-                    await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/resiko-bahaya/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
-                }
-
-                for (let i = 0; i < namaResikoList.length; i++) {
-                    const payloadResikoBahaya = {
-                        idjabatan: this.dataJabatan[0].id_jabatan,
-                        namaresiko: namaResikoList[i],
-                        penyebab: penyebabList[i],
-                    }
-
-                    await axios.post(`${process.env.VUE_APP_BACKENDHOST}/resiko-bahaya`, payloadResikoBahaya, config)
-                }
-            } catch (error) {
-                if (error.response.status === 404) {
-                    this.resikoBahayaLoaded = true
-                } else if (error.response.status === 401) {
-                    this.$router.push({ name: 'Home' })
-                } else {
-                    this.$swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Resiko bahaya error ' + error.response.data.message
-                    })
-                }
+                await axios.post(`${process.env.VUE_APP_BACKENDHOST}/lingkungan-kerja`, payloadLingkunganKerja, config)
             }
         },
 
-        async saveAll () {
+        async saveResikoBahaya () {
+            const token = localStorage.getItem('token')
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+
+            const resikoBahaya = document.getElementsByClassName('row-list-resiko')
+            const namaResikoList = []
+            const penyebabList = []
+
+            for (let i=0; i < resikoBahaya.length; i++) {
+                let namaResiko = resikoBahaya[i].childNodes[0].childNodes[0].value
+                let penyebab = resikoBahaya[i].childNodes[1].childNodes[0].value
+                if (namaResiko === '' || penyebab === '') {
+                    return this.$swal.fire({
+                        icon: 'info',
+                        title: 'Warning!!',
+                        text: 'Kolom korelasi jabatan tidak boleh kosong'
+                    })
+                }
+                namaResikoList.push(namaResiko)
+                penyebabList.push(penyebab)
+            }
+
+            if (namaResikoList.length === 0) {
+                await this.badRequestException("Resiko bahaya harus diisi minimal satu")
+            }
+
+            if (this.resikoBahayaDb.length !== 0) {
+                await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/resiko-bahaya/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
+            }
+
+            for (let i = 0; i < namaResikoList.length; i++) {
+                const payloadResikoBahaya = {
+                    idjabatan: this.dataJabatan[0].id_jabatan,
+                    namaresiko: namaResikoList[i],
+                    penyebab: penyebabList[i],
+                }
+                await axios.post(`${process.env.VUE_APP_BACKENDHOST}/resiko-bahaya`, payloadResikoBahaya, config)
+                .then(
+                    this.resikoBahayaBuffer.push(namaResikoList[i])
+                )
+            }
+        },
+
+        async saveAll (action) {
             this.$swal.fire({
                 text: 'Loading....',
                 showConfirmButton: false
@@ -767,22 +729,32 @@ export default {
                 this.saveKorelasiJabatan(),
                 this.saveLingkunganKerja(),
                 this.saveResikoBahaya()
-            ]).then (
+            ])
+            .then(
                 this.$swal.fire({
                     icon: 'success',
                     title: 'Success',
                     text: 'Data Berhasil Disimpan'
-                })
+                })            
             )
-            
-        },
-
-        async saveContinue () {
-            await this.saveAll ().then(
-                this.$router.push({ name: 'AnalisisSyaratJabatan', params: { jabatanid: this.jabatanId } })
-            )
+            .then(() => {
+                if (action === 'continue') {
+                    this.$router.push({ name: 'AnalisisSyaratJabatan', params: { jabatanid: this.jabatanId } })
+                }
+            })
+            .catch((error) => {
+                if (error.response.status === 401) {
+                    this.$router.push({ name: 'Home' })
+                } else {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: error.response.data.message
+                    })
+                }
+            })       
         }
-    },
+    }
 };
 </script>
 

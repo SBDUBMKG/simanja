@@ -50,6 +50,36 @@
                                             </div>
                                         </td>
                                     </tr>
+                                </tbody>
+                                <tbody>
+                                    <tr>
+                                        <th colspan="6" class="table-head">Tugas Lainnya</th>
+                                        <th colspan="1" class="table-head">
+                                            <div class="d-flex justify-content-around">
+                                                <button @click="addRow" class="btn btn-sm btn-info btn-add-lainnya">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="15" height="15" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
+                                                </button>
+                                                <button @click="deleteRow" class="btn btn-sm btn-warning btn-add-lainnya">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-minus" width="15" height="15" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /></svg>
+                                                </button>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                    <tr v-for="(tugas, index) in tugasLainnya" :key="tugas.id_tugas">
+                                        <td>{{ index + 1 }}</td>
+                                        <td><input type="text" v-model="tugas.uraian_tugas" class="form-control form-control-sm"></td>
+                                        <td><input type="text" v-model="tugas.hasil_kerja" class="form-control form-control-sm"></td>
+                                        <td><input type="number" v-model="tugas.vol_hasil_kerja" class="form-control form-control-sm jumlah-hasil"></td>
+                                        <td><input type="number" v-model="tugas.waktu_penyelesaian" class="form-control form-control-sm"></td>
+                                        <td><input type="number" v-model="tugas.waktu_efektif" class="form-control form-control-sm"></td>
+                                        <td>
+                                            <div>
+                                                <input type="number" class="form-control form-control-sm kebutuhan-pegawai" :value="(tugas.vol_hasil_kerja * tugas.waktu_penyelesaian) / tugas.waktu_efektif" disabled>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tbody>
                                     <tr>
                                         <td colspan="6">Jumlah</td>
                                         <td><input type="number" class="form-control form-control-sm" disabled :value="jumlahPegawai"></td>
@@ -72,6 +102,15 @@
                                     <tr v-for="(tugas, index) in tugas" :key="tugas.id_tugas">
                                         <td>{{ index + 1 }}</td>
                                         <td>{{ tugas.uraian_hasil_kerja }}</td>
+                                    </tr>
+                                </tbody>
+                                <thead class="table-head">
+                                    <th colspan="2">Hasil Kerja Lainnya</th>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(tugas, index) in tugasLainnya" :key="tugas.id_tugas">
+                                        <td>{{ index + 1 }}</td>
+                                        <td><textarea class="form-control form-control-sm" v-model="tugas.uraian_hasil_kerja" rows="1"></textarea></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -171,6 +210,9 @@ export default {
             tugas: [],
             tugasDb: [],
             tugasBuffer: [],
+            tugasLainnya: [],
+            tugasLainnyaDb: [],
+            tugasLainnyaBuffer: [],
             tugasLoaded: false,
             bahanKerja: [],
             bahanKerjaDb: [],
@@ -188,7 +230,10 @@ export default {
     },
     computed: {
         jumlahPegawai () {
-            return this.tugas.reduce((a, b) => a + ((b.vol_hasil_kerja * b.waktu_penyelesaian) / b.waktu_efektif), 0)
+            return (
+                this.tugas.reduce((a, b) => a + ((b.vol_hasil_kerja * b.waktu_penyelesaian) / b.waktu_efektif), 0) + 
+                this.tugasLainnya.reduce((a, b) => a + ((b.vol_hasil_kerja * b.waktu_penyelesaian) / b.waktu_efektif), 0)
+            )
         },
 
         jumlahPegawaiRounded () {
@@ -206,6 +251,24 @@ export default {
 
         goToPreviousPage () {
             this.$router.go(-1)
+        },
+
+        addRow (e) {
+            this.tugasLainnya.push({
+                uraian_tugas: null,
+                hasil_kerja: null,
+                uraian_hasil_kerja: null,
+                vol_hasil_kerja: null,
+                waktu_penyelesaian: null,
+                waktu_efektif: null,
+                is_lainnya: true
+            })
+            e.preventDefault()
+        },
+
+        deleteRow (e) {
+            this.tugasLainnya.pop()
+            e.preventDefault()
         },
 
         async getData () {
@@ -261,8 +324,11 @@ export default {
                 this.masterTugasLoaded = true
 
                 const responseTugas = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/tugas/jabatan/${this.dataJabatan[0].id_jabatan}`, config);
-                this.tugas = responseTugas.data.data.tugas
-                this.tugasDb = responseTugas.data.data.tugas
+                this.tugas = responseTugas.data.data.tugas.filter(tugas => tugas.is_lainnya === false)
+                this.tugasDb = responseTugas.data.data.tugas.filter(tugas => tugas.is_lainnya === false)
+                this.tugasLainnya = responseTugas.data.data.tugas.filter(tugas => tugas.is_lainnya === true)
+                this.tugasLainnyaDb = responseTugas.data.data.tugas.filter(tugas => tugas.is_lainnya === true)
+
                 this.tugasLoaded = true
 
             } catch (error) {
@@ -386,6 +452,25 @@ export default {
                 await axios.post(`${process.env.VUE_APP_BACKENDHOST}/tugas`, payloadTugas, config)
                 .then(
                     this.tugasBuffer.push(this.tugas[i].id_tugas)
+                )
+            }
+
+            for (let i = 0; i < this.tugasLainnya.length; i++) {
+                const payloadTugas = {
+                    idfungsional: this.dataJabatan[0].id_fungsional, 
+                    uraiantugas: this.tugasLainnya[i].uraian_tugas,
+                    hasilkerja: this.tugasLainnya[i].hasil_kerja,
+                    uraianhasilkerja: this.tugasLainnya[i].uraian_hasil_kerja,
+                    waktupenyelesaian: this.tugasLainnya[i].waktu_penyelesaian,
+                    waktuefektif: this.tugasLainnya[i].waktu_efektif,
+                    idjabatan: this.dataJabatan[0].id_jabatan,
+                    idsatker: this.dataJabatan[0].id_satker,
+                    volhasilkerja: this.tugasLainnya[i].vol_hasil_kerja,
+                    islainnya: true
+                }
+                await axios.post(`${process.env.VUE_APP_BACKENDHOST}/tugas-lainnya`, payloadTugas, config)
+                .then(
+                    this.tugasLainnyaBuffer.push(this.tugasLainnya[i].uraian_tugas)
                 )
             }
         },

@@ -32,6 +32,9 @@
                                     <th>Tanggung Jawab</th>
                                 </thead>
                                 <tbody>
+                                    <tr v-if="tanggungJawab.length === 0">
+                                        <td colspan="2">Belum memilih tanggung jawab</td>
+                                    </tr>
                                     <tr v-for="(tanggungJawab, index) in tanggungJawab" :key="tanggungJawab.id_tanggung_jawab">
                                         <td>{{ index + 1 }}</td>
                                         <td>{{ tanggungJawab.tanggung_jawab }}</td>
@@ -48,6 +51,9 @@
                                     </th>
                                 </thead>
                                 <tbody>
+                                    <tr v-if="tanggungJawabLainnya.length === 0">
+                                        <td colspan="2">Belum ada tanggung jawab tambahan</td>
+                                    </tr>
                                     <tr v-for="(tanggungJawab, index) in tanggungJawabLainnya" :key="tanggungJawab.id_tanggung_jawab">
                                         <td>{{ index + 1 }}</td>
                                         <td><textarea class="form-control form-control-sm" v-model="tanggungJawab.tanggung_jawab" rows="1"></textarea></td>
@@ -75,6 +81,9 @@
                                     <th>Wewenang</th>
                                 </thead>
                                 <tbody>
+                                    <tr v-if="wewenang.length === 0">
+                                        <td colspan="2">Belum memilih wewenang</td>
+                                    </tr>
                                     <tr v-for="(wewenang, index) in wewenang" :key="wewenang.id_wewenang">
                                         <td>{{ index + 1 }}</td>
                                         <td>{{ wewenang.wewenang }}</td>
@@ -91,6 +100,9 @@
                                     </th>
                                 </thead>
                                 <tbody>
+                                    <tr v-if="wewenangLainnya.length === 0">
+                                        <td colspan="2">Belum ada wewenang tambahan</td>
+                                    </tr>
                                     <tr v-for="(wewenang, index) in wewenangLainnya" :key="wewenang.id_wewenang">
                                         <td>{{ index + 1 }}</td>
                                         <td><textarea class="form-control form-control-sm" v-model="wewenang.wewenang" rows="1"></textarea></td>
@@ -113,6 +125,9 @@
                                     </tr>
                                 </thead>
                                 <tbody id="list-table">
+                                    <tr v-if="korelasiJabatan.length === 0">
+                                        <td colspan="3">Belum mengisi korelasi jabatan</td>
+                                    </tr>
                                     <tr class="row-list" v-for="(korelasiJabatan) in korelasiJabatan" :key="korelasiJabatan.id_tbl_korelasi_jabatan">
                                         <td><textarea v-model="korelasiJabatan.nama_jabatan" class="form-control form-control-sm nama-jabatan" rows="1"></textarea></td>
                                         <td><textarea v-model="korelasiJabatan.unit_kerja" class="form-control form-control-sm unit-kerja" rows="1"></textarea></td>
@@ -240,6 +255,9 @@
                                     </tr>
                                 </thead>
                                 <tbody id="list-table-resiko">
+                                    <tr v-if="resikoBahaya.length === 0">
+                                        <td colspan="2">Belum mengisi resiko bahaya</td>
+                                    </tr>
                                     <tr class="row-list-resiko" v-for="(resikoBahaya) in resikoBahaya" :key="resikoBahaya.id_resiko_bahaya">
                                         <td><textarea v-model="resikoBahaya.nama_resiko" class="form-control form-control-sm nama-resiko" rows="1"></textarea></td>
                                         <td><textarea v-model="resikoBahaya.penyebab" class="form-control form-control-sm penyebab" rows="1"></textarea></td>

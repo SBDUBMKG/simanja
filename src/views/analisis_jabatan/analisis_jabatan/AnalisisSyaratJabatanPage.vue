@@ -26,6 +26,9 @@
                                     </tr>
                                 </thead>
                                 <tbody id="list-table-keterampilan">
+                                    <tr v-if="keterampilanKerja.length === 0">
+                                        <td>Belum mengisi keterampilan kerja</td>
+                                    </tr>
                                     <tr class="row-list-keterampilan" v-for="(keterampilanKerja) in keterampilanKerja" :key="keterampilanKerja.id_tbl_keterampilan">
                                         <td><textarea v-model="keterampilanKerja.keterampilan_kerja" class="form-control form-control-sm keterampilan-kerja" rows="1"></textarea></td>
                                     </tr>
@@ -53,6 +56,9 @@
                                     <th>Uraian</th>
                                 </thead>
                                 <tbody>
+                                    <tr v-if="bakatKerja.length === 0">
+                                        <td colspan="3">Belum memilih bakat kerja</td>
+                                    </tr>
                                     <tr v-for="(bakatKerja, index) in bakatKerja" :key="bakatKerja.id_bakat_kerja">
                                         <td>{{ index + 1 }}</td>
                                         <td>{{ bakatKerja.bakat_kerja }}</td>
@@ -82,6 +88,9 @@
                                     <th>Uraian</th>
                                 </thead>
                                 <tbody>
+                                    <tr v-if="bakatKerja.length === 0">
+                                        <td colspan="3">Belum memilih temperamen kerja</td>
+                                    </tr>
                                     <tr v-for="(temperamenKerja, index) in temperamenKerja" :key="temperamenKerja.id_temperamen_kerja">
                                         <td>{{ index + 1 }}</td>
                                         <td>{{ temperamenKerja.temperamen_kerja }}</td>
@@ -111,6 +120,9 @@
                                     <th>Uraian</th>
                                 </thead>
                                 <tbody>
+                                    <tr v-if="minatKerja.length === 0">
+                                        <td colspan="3">Belum memilih minat kerja</td>
+                                    </tr>
                                     <tr v-for="(minatKerja, index) in minatKerja" :key="minatKerja.id_minat_kerja">
                                         <td>{{ index + 1 }}</td>
                                         <td>{{ minatKerja.minat_kerja }}</td>
@@ -140,6 +152,9 @@
                                     <th>Uraian</th>
                                 </thead>
                                 <tbody>
+                                    <tr v-if="upayaFisik.length === 0">
+                                        <td colspan="3">Belum memilih upaya fisik</td>
+                                    </tr>
                                     <tr v-for="(upayaFisik, index) in upayaFisik" :key="upayaFisik.id_tbl_upaya_fisik">
                                         <td>{{ index + 1 }}</td>
                                         <td>{{ upayaFisik.upaya_fisik }}</td>
@@ -225,6 +240,9 @@
                                     <th>Uraian</th>
                                 </thead>
                                 <tbody>
+                                    <tr v-if="fungsiPekerjaan.length === 0">
+                                        <td colspan="3">Belum memilih fungsi pekerjaan</td>
+                                    </tr>
                                     <tr v-for="(fungsiPekerjaan, index) in fungsiPekerjaan" :key="fungsiPekerjaan.id_tbl_fungsi_pekerjaan">
                                         <td>{{ index + 1 }}</td>
                                         <td>{{ fungsiPekerjaan.fungsi_pekerjaan }}</td>

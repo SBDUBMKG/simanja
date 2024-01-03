@@ -37,6 +37,9 @@
                                     <th>Kebutuhan Pegawai</th>
                                 </thead>
                                 <tbody>
+                                    <tr v-if="tugas.length === 0">
+                                        <td colspan="7">Belum memilih tugas</td>
+                                    </tr>
                                     <tr v-for="(tugas, index) in tugas" :key="tugas.id_tugas">
                                         <td>{{ index + 1 }}</td>
                                         <td>{{ tugas.uraian_tugas }}</td>
@@ -61,6 +64,9 @@
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-minus" width="15" height="15" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /></svg>
                                             </button>
                                         </th>
+                                    </tr>
+                                    <tr v-if="tugasLainnya.length === 0">
+                                        <td colspan="7">Belum ada tugas lainnya</td>
                                     </tr>
                                     <tr v-for="(tugas, index) in tugasLainnya" :key="tugas.id_tugas">
                                         <td>{{ index + 1 }}</td>
@@ -96,6 +102,9 @@
                                     <th>Hasil Kerja</th>
                                 </thead>
                                 <tbody>
+                                    <tr v-if="tugas.length === 0">
+                                        <td colspan="2">Belum memilih tugas</td>
+                                    </tr>
                                     <tr v-for="(tugas, index) in tugas" :key="tugas.id_tugas">
                                         <td>{{ index + 1 }}</td>
                                         <td>{{ tugas.uraian_hasil_kerja }}</td>
@@ -105,6 +114,9 @@
                                     <th colspan="2">Hasil Kerja Lainnya</th>
                                 </thead>
                                 <tbody>
+                                    <tr v-if="tugasLainnya.length === 0">
+                                        <td colspan="2">Belum ada tugas lainnya</td>
+                                    </tr>
                                     <tr v-for="(tugas, index) in tugasLainnya" :key="tugas.id_tugas">
                                         <td>{{ index + 1 }}</td>
                                         <td><textarea class="form-control form-control-sm" v-model="tugas.uraian_hasil_kerja" rows="1"></textarea></td>
@@ -133,6 +145,9 @@
                                     <th>Penggunaan</th>
                                 </thead>
                                 <tbody>
+                                    <tr v-if="bahanKerja.length === 0">
+                                        <td colspan="3">Belum memilih bahan kerja</td>
+                                    </tr>
                                     <tr v-for="(bahanKerja, index) in bahanKerja" :key="bahanKerja.id_bahan_kerja">
                                         <td>{{ index + 1 }}</td>
                                         <td>{{ bahanKerja.bahan_kerja }}</td>
@@ -150,6 +165,9 @@
                                     </th>
                                 </thead>
                                 <tbody>
+                                    <tr v-if="bahanKerjaLainnya.length === 0">
+                                        <td colspan="3">Belum ada bahan kerja lainnya</td>
+                                    </tr>
                                     <tr v-for="(bahanKerja, index) in bahanKerjaLainnya" :key="bahanKerja.id_bahan_kerja">
                                         <td>{{ index + 1 }}</td>
                                         <td><textarea class="form-control form-control-sm" v-model="bahanKerja.bahan_kerja" rows="1"></textarea></td>
@@ -179,6 +197,9 @@
                                     <th>Penggunaan</th>
                                 </thead>
                                 <tbody>
+                                    <tr v-if="perangkatKerja.length === 0">
+                                        <td colspan="3">Belum memilih tugas</td>
+                                    </tr>
                                     <tr v-for="(perangkatKerja, index) in perangkatKerja" :key="perangkatKerja.id_perangkat_kerja">
                                         <td>{{ index + 1 }}</td>
                                         <td>{{ perangkatKerja.perangkat_kerja }}</td>
@@ -196,6 +217,9 @@
                                     </th>
                                 </thead>
                                 <tbody>
+                                    <tr v-if="perangkatKerjaLainnya.length === 0">
+                                        <td colspan="3">Belum memilih tugas</td>
+                                    </tr>
                                     <tr v-for="(perangkatKerja, index) in perangkatKerjaLainnya" :key="perangkatKerja.id_bahan_kerja">
                                         <td>{{ index + 1 }}</td>
                                         <td><textarea class="form-control form-control-sm" v-model="perangkatKerja.perangkat_kerja" rows="1"></textarea></td>

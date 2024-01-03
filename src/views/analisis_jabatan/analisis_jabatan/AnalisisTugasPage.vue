@@ -53,16 +53,13 @@
                                 </tbody>
                                 <tbody>
                                     <tr>
-                                        <th colspan="6" class="table-head">Tugas Lainnya</th>
-                                        <th colspan="1" class="table-head">
-                                            <div class="d-flex justify-content-around">
-                                                <button @click="addRow($event, 'tugas-pokok')" class="btn btn-sm btn-info btn-add-lainnya">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="15" height="15" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
-                                                </button>
-                                                <button @click="deleteRow($event, 'tugas-pokok')" class="btn btn-sm btn-warning btn-add-lainnya">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-minus" width="15" height="15" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /></svg>
-                                                </button>
-                                            </div>
+                                        <th colspan="7" class="table-head">Tugas Lainnya
+                                            <button @click="addRow($event, 'tugas-pokok')" class="btn btn-sm btn-info btn-add-lainnya mr-2 ml-3">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="15" height="15" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
+                                            </button>
+                                            <button @click="deleteRow($event, 'tugas-pokok')" class="btn btn-sm btn-warning btn-add-lainnya">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-minus" width="15" height="15" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /></svg>
+                                            </button>
                                         </th>
                                     </tr>
                                     <tr v-for="(tugas, index) in tugasLainnya" :key="tugas.id_tugas">

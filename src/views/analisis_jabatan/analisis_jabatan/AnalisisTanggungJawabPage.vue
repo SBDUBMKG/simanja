@@ -80,6 +80,22 @@
                                         <td>{{ wewenang.wewenang }}</td>
                                     </tr>
                                 </tbody>
+                                <thead class="table-head">
+                                    <th colspan="3">Wewenang Lainnya
+                                        <button @click="addRow($event, 'wewenang')" class="btn btn-sm btn-info btn-add-lainnya mr-2 ml-3">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="15" height="15" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
+                                        </button>
+                                        <button @click="deleteRow($event, 'wewenang')" class="btn btn-sm btn-warning btn-add-lainnya">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-minus" width="15" height="15" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /></svg>
+                                        </button>
+                                    </th>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(wewenang, index) in wewenangLainnya" :key="wewenang.id_wewenang">
+                                        <td>{{ index + 1 }}</td>
+                                        <td><textarea class="form-control form-control-sm" v-model="wewenang.wewenang" rows="1"></textarea></td>
+                                    </tr>
+                                </tbody>
                             </table>
                         </div>
                         <div class="korelasi-jabatan">
@@ -273,6 +289,9 @@ export default {
             wewenang: [],
             wewenangDb: [],
             wewenangBuffer: [],
+            wewenangLainnya: [],
+            wewenangLainnyaDb: [],
+            wewenangLainnyaBuffer: [],
             wewenangLoaded: false,
             korelasiJabatan: [],
             korelasiJabatanDb: [],
@@ -311,16 +330,9 @@ export default {
                     tanggung_jawab: null,
                     is_lainnya: true
                 })
-            } else if (param === 'bahan-kerja') {
-                this.bahanKerjaLainnya.push({
-                    bahan_kerja: null,
-                    penggunaan: null,
-                    is_lainnya: true
-                })
-            } else if (param === 'perangkat-kerja') {
-                this.perangkatKerjaLainnya.push({
-                    perangkat_kerja: null,
-                    penggunaan: null,
+            } else if (param === 'wewenang') {
+                this.wewenangLainnya.push({
+                    wewenang: null,
                     is_lainnya: true
                 })
             }
@@ -330,10 +342,8 @@ export default {
         deleteRow (e, param) {
             if (param === 'tanggung-jawab') {
                 this.tanggungJawabLainnya.pop()
-            } else if (param === 'bahan-kerja') {
-                this.bahanKerjaLainnya.pop()
-            } else if (param === 'perangkat-kerja') {
-                this.perangkatKerjaLainnya.pop()
+            } else if (param === 'wewenang') {
+                this.wewenangLainnya.pop()
             }
             e.preventDefault()
         },
@@ -471,8 +481,11 @@ export default {
                 this.masterWewenangLoaded = true
 
                 const responseWewenang = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/wewenang/jabatan/${this.dataJabatan[0].id_jabatan}`, config);
-                this.wewenang = responseWewenang.data.data.wewenang
-                this.wewenangDb = responseWewenang.data.data.wewenang
+                this.wewenang = responseWewenang.data.data.wewenang.filter(wewenang => wewenang.is_lainnya === false)
+                this.wewenangDb = responseWewenang.data.data.wewenang.filter(wewenang => wewenang.is_lainnya === false)
+                this.wewenangLainnya = responseWewenang.data.data.wewenang.filter(wewenang => wewenang.is_lainnya === true)
+                this.wewenangLainnyaDb = responseWewenang.data.data.wewenang.filter(wewenang => wewenang.is_lainnya === true)
+
                 this.wewenangLoaded = true
 
             } catch (error) {
@@ -659,6 +672,19 @@ export default {
                 await axios.post(`${process.env.VUE_APP_BACKENDHOST}/wewenang`, payloadWewenang, config)
                 .then(
                     this.wewenangBuffer.push(this.wewenang[i].id_wewenang)
+                )
+            }
+
+            for (let i = 0; i < this.wewenangLainnya.length; i++) {
+                const payloadWewenang = {
+                    idjabatan: this.dataJabatan[0].id_jabatan,
+                    idsatker: this.dataJabatan[0].id_satker,
+                    wewenang: this.wewenangLainnya[i].wewenang,
+                    islainnya: true
+                }
+                await axios.post(`${process.env.VUE_APP_BACKENDHOST}/wewenang-lainnya`, payloadWewenang, config)
+                .then(
+                    this.wewenangLainnyaBuffer.push(this.wewenangLainnya[i].wewenang)
                 )
             }
         },

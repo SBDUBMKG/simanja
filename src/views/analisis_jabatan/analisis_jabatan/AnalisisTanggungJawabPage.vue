@@ -37,6 +37,22 @@
                                         <td>{{ tanggungJawab.tanggung_jawab }}</td>
                                     </tr>
                                 </tbody>
+                                <thead class="table-head">
+                                    <th colspan="3">Tanggung Jawab Lainnya
+                                        <button @click="addRow($event, 'tanggung-jawab')" class="btn btn-sm btn-info btn-add-lainnya mr-2 ml-3">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="15" height="15" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
+                                        </button>
+                                        <button @click="deleteRow($event, 'tanggung-jawab')" class="btn btn-sm btn-warning btn-add-lainnya">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-minus" width="15" height="15" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /></svg>
+                                        </button>
+                                    </th>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(tanggungJawab, index) in tanggungJawabLainnya" :key="tanggungJawab.id_tanggung_jawab">
+                                        <td>{{ index + 1 }}</td>
+                                        <td><textarea class="form-control form-control-sm" v-model="tanggungJawab.tanggung_jawab" rows="1"></textarea></td>
+                                    </tr>
+                                </tbody>
                             </table>
                         </div>
                         <div class="wewenang">
@@ -69,8 +85,8 @@
                         <div class="korelasi-jabatan">
                             <h6>12. Korelasi Jabatan</h6>
                             <div class="row-controller d-flex justify-content-start">
-                                <button @click="addRow" class="btn btn-info btn-sm">Tambah Baris</button>
-                                <button @click="deleteRow" class="btn btn-secondary btn-sm">Kurangi Baris</button>
+                                <button @click="addRowKorelasi" class="btn btn-info btn-sm">Tambah Baris</button>
+                                <button @click="deleteRowKorelasi" class="btn btn-secondary btn-sm">Kurangi Baris</button>
                             </div>
                             <table class="table table-bordered table-sm table-hover table-responsive-xl">
                                 <thead>
@@ -250,6 +266,9 @@ export default {
             tanggungJawab: [],
             tanggungJawabDb: [],
             tanggungJawabBuffer: [],
+            tanggungJawabLainnya: [],
+            tanggungJawabLainnyaDb: [],
+            tanggungJawabLainnyaBuffer: [],
             tanggungJawabLoaded: false,
             wewenang: [],
             wewenangDb: [],
@@ -286,7 +305,40 @@ export default {
             this.$router.go(-1)
         },
 
-        addRow (e) {
+        addRow (e, param) {
+            if (param === 'tanggung-jawab') {
+                this.tanggungJawabLainnya.push({
+                    tanggung_jawab: null,
+                    is_lainnya: true
+                })
+            } else if (param === 'bahan-kerja') {
+                this.bahanKerjaLainnya.push({
+                    bahan_kerja: null,
+                    penggunaan: null,
+                    is_lainnya: true
+                })
+            } else if (param === 'perangkat-kerja') {
+                this.perangkatKerjaLainnya.push({
+                    perangkat_kerja: null,
+                    penggunaan: null,
+                    is_lainnya: true
+                })
+            }
+            e.preventDefault()
+        },
+
+        deleteRow (e, param) {
+            if (param === 'tanggung-jawab') {
+                this.tanggungJawabLainnya.pop()
+            } else if (param === 'bahan-kerja') {
+                this.bahanKerjaLainnya.pop()
+            } else if (param === 'perangkat-kerja') {
+                this.perangkatKerjaLainnya.pop()
+            }
+            e.preventDefault()
+        },
+
+        addRowKorelasi (e) {
             const korelasiJabatan = document.getElementById("list-table")
 
             const row = document.createElement('tr')
@@ -301,7 +353,7 @@ export default {
             e.preventDefault()
         },
 
-        deleteRow (e) {
+        deleteRowKorelasi (e) {
             const korelasiJabatan = document.getElementById("list-table")
             korelasiJabatan.removeChild(korelasiJabatan.lastElementChild)
             e.preventDefault()
@@ -382,8 +434,11 @@ export default {
                 this.masterTanggungJawabLoaded = true
 
                 const responseTanggungJawab = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/tanggung-jawab/jabatan/${this.dataJabatan[0].id_jabatan}`, config);
-                this.tanggungJawab = responseTanggungJawab.data.data.tanggungJawab
-                this.tanggungJawabDb = responseTanggungJawab.data.data.tanggungJawab
+                this.tanggungJawab = responseTanggungJawab.data.data.tanggungJawab.filter(tanggungJawab => tanggungJawab.is_lainnya === false)
+                this.tanggungJawabDb = responseTanggungJawab.data.data.tanggungJawab.filter(tanggungJawab => tanggungJawab.is_lainnya === false)
+                this.tanggungJawabLainnya = responseTanggungJawab.data.data.tanggungJawab.filter(tanggungJawab => tanggungJawab.is_lainnya === true)
+                this.tanggungJawabLainnyaDb = responseTanggungJawab.data.data.tanggungJawab.filter(tanggungJawab => tanggungJawab.is_lainnya === true)
+
                 this.tanggungJawabLoaded = true
 
             } catch (error) {
@@ -563,6 +618,19 @@ export default {
                 await axios.post(`${process.env.VUE_APP_BACKENDHOST}/tanggung-jawab`, payloadTanggungJawab, config)
                 .then(
                     this.tanggungJawabBuffer.push(this.tanggungJawab[i].id_tanggung_jawab)
+                )
+            }
+
+            for (let i = 0; i < this.tanggungJawabLainnya.length; i++) {
+                const payloadTanggungJawab = {
+                    idjabatan: this.dataJabatan[0].id_jabatan,
+                    idsatker: this.dataJabatan[0].id_satker,
+                    tanggungjawab: this.tanggungJawabLainnya[i].tanggung_jawab,
+                    islainnya: true
+                }
+                await axios.post(`${process.env.VUE_APP_BACKENDHOST}/tanggung-jawab-lainnya`, payloadTanggungJawab, config)
+                .then(
+                    this.tanggungJawabLainnyaBuffer.push(this.tanggungJawabLainnya[i].tanggung_jawab)
                 )
             }
         },

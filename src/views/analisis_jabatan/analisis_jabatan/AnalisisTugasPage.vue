@@ -56,10 +56,10 @@
                                         <th colspan="6" class="table-head">Tugas Lainnya</th>
                                         <th colspan="1" class="table-head">
                                             <div class="d-flex justify-content-around">
-                                                <button @click="addRow" class="btn btn-sm btn-info btn-add-lainnya">
+                                                <button @click="addRow($event, 'tugas-pokok')" class="btn btn-sm btn-info btn-add-lainnya">
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="15" height="15" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
                                                 </button>
-                                                <button @click="deleteRow" class="btn btn-sm btn-warning btn-add-lainnya">
+                                                <button @click="deleteRow($event, 'tugas-pokok')" class="btn btn-sm btn-warning btn-add-lainnya">
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-minus" width="15" height="15" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /></svg>
                                                 </button>
                                             </div>
@@ -142,6 +142,23 @@
                                         <td>{{ bahanKerja.penggunaan }}</td>
                                     </tr>
                                 </tbody>
+                                <thead class="table-head">
+                                    <th colspan="3">Bahan Kerja Lainnya
+                                        <button @click="addRow($event, 'bahan-kerja')" class="btn btn-sm btn-info btn-add-lainnya mr-2 ml-3">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="15" height="15" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
+                                        </button>
+                                        <button @click="deleteRow($event, 'bahan-kerja')" class="btn btn-sm btn-warning btn-add-lainnya">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-minus" width="15" height="15" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /></svg>
+                                        </button>
+                                    </th>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(bahanKerja, index) in bahanKerjaLainnya" :key="bahanKerja.id_bahan_kerja">
+                                        <td>{{ index + 1 }}</td>
+                                        <td><textarea class="form-control form-control-sm" v-model="bahanKerja.bahan_kerja" rows="1"></textarea></td>
+                                        <td><textarea class="form-control form-control-sm" v-model="bahanKerja.penggunaan" rows="1"></textarea></td>
+                                    </tr>
+                                </tbody>
                             </table>
                         </div>
                         <div class="perangkat-kerja">
@@ -217,6 +234,9 @@ export default {
             bahanKerja: [],
             bahanKerjaDb: [],
             bahanKerjaBuffer: [],
+            bahanKerjaLainnya: [],
+            bahanKerjaLainnyaDb: [],
+            bahanKerjaLainnyaBuffer: [],
             bahanKerjaLoaded: false,
             perangkatKerja: [],
             perangkatKerjaDb: [],
@@ -253,21 +273,33 @@ export default {
             this.$router.go(-1)
         },
 
-        addRow (e) {
-            this.tugasLainnya.push({
-                uraian_tugas: null,
-                hasil_kerja: null,
-                uraian_hasil_kerja: null,
-                vol_hasil_kerja: null,
-                waktu_penyelesaian: null,
-                waktu_efektif: null,
-                is_lainnya: true
-            })
+        addRow (e, param) {
+            if (param === 'tugas-pokok') {
+                this.tugasLainnya.push({
+                    uraian_tugas: null,
+                    hasil_kerja: null,
+                    uraian_hasil_kerja: null,
+                    vol_hasil_kerja: null,
+                    waktu_penyelesaian: null,
+                    waktu_efektif: null,
+                    is_lainnya: true
+                })
+            } else if (param === 'bahan-kerja') {
+                this.bahanKerjaLainnya.push({
+                    bahan_kerja: null,
+                    penggunaan: null,
+                    is_lainnya: true
+                })
+            }
             e.preventDefault()
         },
 
-        deleteRow (e) {
-            this.tugasLainnya.pop()
+        deleteRow (e, param) {
+            if (param === 'tugas-pokok') {
+                this.tugasLainnya.pop()
+            } else if (param === 'bahan-kerja') {
+                this.bahanKerjaLainnya.pop()
+            }
             e.preventDefault()
         },
 
@@ -361,8 +393,11 @@ export default {
                 this.masterBahanKerjaLoaded = true
 
                 const responseBahanKerja = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/bahan-kerja/jabatan/${this.dataJabatan[0].id_jabatan}`, config);
-                this.bahanKerja = responseBahanKerja.data.data.bahanKerja
-                this.bahanKerjaDb = responseBahanKerja.data.data.bahanKerja
+                this.bahanKerja = responseBahanKerja.data.data.bahanKerja.filter(bahanKerja => bahanKerja.is_lainnya === false)
+                this.bahanKerjaDb = responseBahanKerja.data.data.bahanKerja.filter(bahanKerja => bahanKerja.is_lainnya === false)
+                this.bahanKerjaLainnya = responseBahanKerja.data.data.bahanKerja.filter(bahanKerja => bahanKerja.is_lainnya === true)
+                this.bahanKerjaLainnyaDb = responseBahanKerja.data.data.bahanKerja.filter(bahanKerja => bahanKerja.is_lainnya === true)
+
                 this.bahanKerjaLoaded = true
 
             } catch (error) {
@@ -500,6 +535,20 @@ export default {
                 await axios.post(`${process.env.VUE_APP_BACKENDHOST}/bahan-kerja`, payloadBahanKerja, config)
                 .then(
                     this.bahanKerjaBuffer.push(this.bahanKerja[i].id_bahan_kerja)
+                )
+            }
+
+            for (let i = 0; i < this.bahanKerjaLainnya.length; i++) {
+                const payloadBahanKerja = {
+                    idjabatan: this.dataJabatan[0].id_jabatan,
+                    idsatker: this.dataJabatan[0].id_satker,
+                    bahankerja: this.bahanKerjaLainnya[i].bahan_kerja,
+                    penggunaan: this.bahanKerjaLainnya[i].penggunaan,
+                    islainnya: true
+                }
+                await axios.post(`${process.env.VUE_APP_BACKENDHOST}/bahan-kerja-lainnya`, payloadBahanKerja, config)
+                .then(
+                    this.bahanKerjaLainnyaBuffer.push(this.bahanKerjaLainnya[i].bahan_kerja)
                 )
             }
         },

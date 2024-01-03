@@ -185,6 +185,23 @@
                                         <td>{{ perangkatKerja.penggunaan }}</td>
                                     </tr>
                                 </tbody>
+                                <thead class="table-head">
+                                    <th colspan="3">Perangkat Kerja Lainnya
+                                        <button @click="addRow($event, 'perangkat-kerja')" class="btn btn-sm btn-info btn-add-lainnya mr-2 ml-3">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="15" height="15" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
+                                        </button>
+                                        <button @click="deleteRow($event, 'perangkat-kerja')" class="btn btn-sm btn-warning btn-add-lainnya">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-minus" width="15" height="15" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /></svg>
+                                        </button>
+                                    </th>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(perangkatKerja, index) in perangkatKerjaLainnya" :key="perangkatKerja.id_bahan_kerja">
+                                        <td>{{ index + 1 }}</td>
+                                        <td><textarea class="form-control form-control-sm" v-model="perangkatKerja.perangkat_kerja" rows="1"></textarea></td>
+                                        <td><textarea class="form-control form-control-sm" v-model="perangkatKerja.penggunaan" rows="1"></textarea></td>
+                                    </tr>
+                                </tbody>
                             </table>
                         </div>
                     </form>
@@ -238,6 +255,9 @@ export default {
             perangkatKerja: [],
             perangkatKerjaDb: [],
             perangkatKerjaBuffer: [],
+            perangkatKerjaLainnya: [],
+            perangkatKerjaLainnyaDb: [],
+            perangkatKerjaLainnyaBuffer: [],
             perangkatKerjaLoaded: false,
         };
     },
@@ -287,6 +307,12 @@ export default {
                     penggunaan: null,
                     is_lainnya: true
                 })
+            } else if (param === 'perangkat-kerja') {
+                this.perangkatKerjaLainnya.push({
+                    perangkat_kerja: null,
+                    penggunaan: null,
+                    is_lainnya: true
+                })
             }
             e.preventDefault()
         },
@@ -296,6 +322,8 @@ export default {
                 this.tugasLainnya.pop()
             } else if (param === 'bahan-kerja') {
                 this.bahanKerjaLainnya.pop()
+            } else if (param === 'perangkat-kerja') {
+                this.perangkatKerjaLainnya.pop()
             }
             e.preventDefault()
         },
@@ -427,8 +455,11 @@ export default {
                 this.masterPerangkatKerjaLoaded = true
 
                 const responsePerangkatKerja = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/perangkat-kerja/jabatan/${this.dataJabatan[0].id_jabatan}`, config);
-                this.perangkatKerja = responsePerangkatKerja.data.data.perangkatKerja
-                this.perangkatKerjaDb = responsePerangkatKerja.data.data.perangkatKerja
+                this.perangkatKerja = responsePerangkatKerja.data.data.perangkatKerja.filter(perangkatKerja => perangkatKerja.is_lainnya === false)
+                this.perangkatKerjaDb = responsePerangkatKerja.data.data.perangkatKerja.filter(perangkatKerja => perangkatKerja.is_lainnya === false)
+                this.perangkatKerjaLainnya = responsePerangkatKerja.data.data.perangkatKerja.filter(perangkatKerja => perangkatKerja.is_lainnya === true)
+                this.perangkatKerjaLainnyaDb = responsePerangkatKerja.data.data.perangkatKerja.filter(perangkatKerja => perangkatKerja.is_lainnya === true)
+
                 this.perangkatKerjaLoaded = true
 
             } catch (error) {
@@ -575,6 +606,20 @@ export default {
                 await axios.post(`${process.env.VUE_APP_BACKENDHOST}/perangkat-kerja`, payloadPerangkatKerja, config)
                 .then(
                     this.perangkatKerjaBuffer.push(this.perangkatKerja[i].id_perangkat_kerja)
+                )
+            }
+
+            for (let i = 0; i < this.perangkatKerjaLainnya.length; i++) {
+                const payloadPerangkatKerja = {
+                    idjabatan: this.dataJabatan[0].id_jabatan,
+                    idsatker: this.dataJabatan[0].id_satker,
+                    perangkatkerja: this.perangkatKerjaLainnya[i].perangkat_kerja,
+                    penggunaan: this.perangkatKerjaLainnya[i].penggunaan,
+                    islainnya: true
+                }
+                await axios.post(`${process.env.VUE_APP_BACKENDHOST}/perangkat-kerja-lainnya`, payloadPerangkatKerja, config)
+                .then(
+                    this.perangkatKerjaLainnyaBuffer.push(this.perangkatKerjaLainnya[i].perangkat_kerja)
                 )
             }
         },

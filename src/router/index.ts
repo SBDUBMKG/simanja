@@ -80,7 +80,8 @@ import AnalisisJabatanPage from '@/views/analisis_jabatan/analisis_jabatan/Anali
 import AnalisisBiodataPage from '@/views/analisis_jabatan/analisis_jabatan/AnalisisBiodataPage.vue';
 import AnalisisTugasPage from '@/views/analisis_jabatan/analisis_jabatan/AnalisisTugasPage.vue';
 import AnalisisTanggungJawabPage from '@/views/analisis_jabatan/analisis_jabatan/AnalisisTanggungJawabPage.vue';
-import AnalisisSyaratJabatan from '@/views/analisis_jabatan/analisis_jabatan/AnalisisSyaratJabatanPage.vue';
+import AnalisisSyaratJabatanPage from '@/views/analisis_jabatan/analisis_jabatan/AnalisisSyaratJabatanPage.vue';
+import PreviewPage from '@/views/analisis_jabatan/analisis_jabatan/PreviewPage.vue';
 
 const routes = [
   {
@@ -410,7 +411,12 @@ const routes = [
   {
     path: '/analisis-jabatan/syarat-jabatan/:jabatanid',
     name: 'AnalisisSyaratJabatan',
-    component: AnalisisSyaratJabatan,
+    component: AnalisisSyaratJabatanPage,
+  },
+  {
+    path: '/analisis-jabatan/preview/:jabatanid',
+    name: 'PreviewAnalisis',
+    component: PreviewPage,
   },
 ];
 

@@ -11,8 +11,9 @@
                     </button>
                     <h2 class="title-content">Master Ikhtisar Jabatan</h2>
                     <h6 class="subtitle-content" v-if="dataLoaded">List Ikhtisar Jabatan {{ fungsionalData.fungsional }}</h6>
-                    <div class="d-flex justify-content-start add-button">
-                        <button @click="addIkhtisarJabatan" class="btn btn-success">Tambah Ikhtisar Jabatan</button>
+                    <div v-if="ikhtisarJabatanLoaded" class="d-flex justify-content-start add-button">
+                        <button v-if="daftarIkhtisarJabatan.length === 0" @click="addIkhtisarJabatan" class="btn btn-success">Tambah Ikhtisar Jabatan</button>
+                        <button v-else @click="addIkhtisarJabatan" class="btn btn-secondary" disabled>Tambah Ikhtisar Jabatan</button>
                     </div>
                     <DataTable v-if="ikhtisarJabatanLoaded" class="table table-bordered table-sm table-hover table-responsive-xl display">
                         <thead>

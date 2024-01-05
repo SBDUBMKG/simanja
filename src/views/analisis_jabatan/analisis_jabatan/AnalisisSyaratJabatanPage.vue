@@ -16,8 +16,8 @@
                         <div class="keterampilan-kerja">
                             <h6>a. Keterampilan Kerja</h6>
                             <div class="row-controller d-flex justify-content-start">
-                                <button @click="addRowKeterampilan" class="btn btn-info btn-sm">Tambah Baris</button>
-                                <button @click="deleteRowKeterampilan" class="btn btn-secondary btn-sm">Kurangi Baris</button>
+                                <button @click="addRow($event, 'keterampilan-kerja')" class="btn btn-info btn-sm">Tambah Baris</button>
+                                <button @click="deleteRow($event, 'keterampilan-kerja')" class="btn btn-secondary btn-sm">Kurangi Baris</button>
                             </div>
                             <table class="table table-bordered table-sm table-hover table-responsive-xl">
                                 <thead>
@@ -370,22 +370,19 @@ export default {
             this.$router.go(-1)
         },
 
-        addRowKeterampilan (e) {
-            const listKeterampilanKerja = document.getElementById("list-table-keterampilan")
-
-            const row = document.createElement('tr')
-            let html = `<td><textarea class="form-control form-control-sm keterampilan-kerja" rows="1"></textarea></td>`
-
-            row.innerHTML = html            
-            row.classList.add('row-list-keterampilan')
-
-            listKeterampilanKerja.appendChild(row)
+        addRow (e, param) {
+            if (param === 'keterampilan-kerja') {
+                this.keterampilanKerja.push({
+                    keterampilan_kerja: null,
+                })
+            }
             e.preventDefault()
         },
 
-        deleteRowKeterampilan (e) {
-            const listKeterampilanKerja = document.getElementById("list-table-keterampilan")
-            listKeterampilanKerja.removeChild(listKeterampilanKerja.lastElementChild)
+        deleteRow (e, param) {
+            if (param === 'keterampilan-kerja') {
+                this.keterampilanKerja.pop()
+            }
             e.preventDefault()
         },
 
@@ -745,22 +742,7 @@ export default {
                 }
             }
 
-            const keterampilanKerjaClass = document.getElementsByClassName('row-list-keterampilan')
-            const keterampilanKerjaList = []
-
-            for (let i=0; i < keterampilanKerjaClass.length; i++) {
-                let keterampilanKerja = keterampilanKerjaClass[i].childNodes[0].childNodes[0].value
-                if (keterampilanKerja === '') {
-                    return this.$swal.fire({
-                        icon: 'info',
-                        title: 'Warning!!',
-                        text: 'Kolom korelasi jabatan tidak boleh kosong'
-                    })
-                }
-                keterampilanKerjaList.push(keterampilanKerja)
-            }
-
-            if (keterampilanKerjaList.length === 0) {
+            if (this.keterampilanKerja.length === 0) {
                 await this.badRequestException("Keterampilan kerja harus diisi minimal satu")
             }
 
@@ -768,14 +750,14 @@ export default {
                 await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/keterampilan-kerja/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
             }
 
-            for (let i = 0; i < keterampilanKerjaList.length; i++) {
+            for (let i = 0; i < this.keterampilanKerja.length; i++) {
                 const payloadKeterampilanKerja = {
                     idjabatan: this.dataJabatan[0].id_jabatan,
-                    keterampilankerja: keterampilanKerjaList[i]
+                    keterampilankerja: this.keterampilanKerja[i].keterampilan_kerja
                 }
                 await axios.post(`${process.env.VUE_APP_BACKENDHOST}/keterampilan-kerja`, payloadKeterampilanKerja, config)
                 .then(
-                    this.keterampilanKerjaBuffer.push(keterampilanKerjaList[i])
+                    this.keterampilanKerjaBuffer.push(this.keterampilanKerja[i].keterampilan_kerja)
                 )
             }
         },

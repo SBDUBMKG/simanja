@@ -206,7 +206,7 @@
                                 </thead>
                                 <tbody>
                                     <tr v-if="perangkatKerja.length === 0">
-                                        <td colspan="3">Belum memilih tugas</td>
+                                        <td colspan="3">Belum memilih perangkat kerja</td>
                                     </tr>
                                     <tr v-for="(perangkatKerja, index) in perangkatKerja" :key="perangkatKerja.id_perangkat_kerja">
                                         <td>{{ index + 1 }}</td>
@@ -226,7 +226,7 @@
                                 </thead>
                                 <tbody>
                                     <tr v-if="perangkatKerjaLainnya.length === 0">
-                                        <td colspan="3">Belum memilih tugas</td>
+                                        <td colspan="3">Belum ada perangkat kerja tambahan</td>
                                     </tr>
                                     <tr v-for="(perangkatKerja, index) in perangkatKerjaLainnya" :key="perangkatKerja.id_bahan_kerja">
                                         <td>{{ index + 1 }}</td>

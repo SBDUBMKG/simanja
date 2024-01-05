@@ -113,8 +113,8 @@
                         <div class="korelasi-jabatan">
                             <h6>12. Korelasi Jabatan</h6>
                             <div class="row-controller d-flex justify-content-start">
-                                <button @click="addRowKorelasi" class="btn btn-info btn-sm">Tambah Baris</button>
-                                <button @click="deleteRowKorelasi" class="btn btn-secondary btn-sm">Kurangi Baris</button>
+                                <button @click="addRow($event, 'korelasi-jabatan')" class="btn btn-info btn-sm">Tambah Baris</button>
+                                <button @click="deleteRow($event, 'korelasi-jabatan')" class="btn btn-secondary btn-sm">Kurangi Baris</button>
                             </div>
                             <table class="table table-bordered table-sm table-hover table-responsive-xl">
                                 <thead>
@@ -244,8 +244,8 @@
                         <div class="resiko-bahaya">
                             <h6>14. Resiko Bahaya</h6>
                             <div class="row-controller d-flex justify-content-start">
-                                <button @click="addRowResiko" class="btn btn-info btn-sm">Tambah Baris</button>
-                                <button @click="deleteRowResiko" class="btn btn-secondary btn-sm">Kurangi Baris</button>
+                                <button @click="addRow($event, 'resiko-bahaya')" class="btn btn-info btn-sm">Tambah Baris</button>
+                                <button @click="deleteRow($event, 'resiko-bahaya')" class="btn btn-secondary btn-sm">Kurangi Baris</button>
                             </div>
                             <table class="table table-bordered table-sm table-hover table-responsive-xl">
                                 <thead>
@@ -353,6 +353,17 @@ export default {
                     wewenang: null,
                     is_lainnya: true
                 })
+            } else if (param === 'korelasi-jabatan') {
+                this.korelasiJabatan.push({
+                    nama_jabatan: null,
+                    unit_kerja: null,
+                    dalam_hal: null
+                })
+            } else if (param === 'resiko-bahaya') {
+                this.resikoBahaya.push({
+                    nama_resiko: null,
+                    penyebab: null
+                })
             }
             e.preventDefault()
         },
@@ -362,48 +373,11 @@ export default {
                 this.tanggungJawabLainnya.pop()
             } else if (param === 'wewenang') {
                 this.wewenangLainnya.pop()
+            } else if (param === 'korelasi-jabatan') {
+                this.korelasiJabatan.pop()
+            } else if (param === 'resiko-bahaya') {
+                this.resikoBahaya.pop()
             }
-            e.preventDefault()
-        },
-
-        addRowKorelasi (e) {
-            const korelasiJabatan = document.getElementById("list-table")
-
-            const row = document.createElement('tr')
-            let html = `<td><textarea class="form-control form-control-sm nama-jabatan" rows="1"></textarea></td>`
-            html += `<td><textarea class="form-control form-control-sm unit-kerja" rows="1"></textarea></td>`
-            html += `<td><textarea class="form-control form-control-sm dalam-hal" rows="1"></textarea></td>`
-
-            row.innerHTML = html            
-            row.classList.add('row-list')
-
-            korelasiJabatan.appendChild(row)
-            e.preventDefault()
-        },
-
-        deleteRowKorelasi (e) {
-            const korelasiJabatan = document.getElementById("list-table")
-            korelasiJabatan.removeChild(korelasiJabatan.lastElementChild)
-            e.preventDefault()
-        },
-
-        addRowResiko (e) {
-            const listResikoBahaya = document.getElementById("list-table-resiko")
-
-            const row = document.createElement('tr')
-            let html = `<td><textarea class="form-control form-control-sm nama-resiko" rows="1"></textarea></td>`
-            html += `<td><textarea class="form-control form-control-sm penyebab" rows="1"></textarea></td>`
-
-            row.innerHTML = html            
-            row.classList.add('row-list-resiko')
-
-            listResikoBahaya.appendChild(row)
-            e.preventDefault()
-        },
-
-        deleteRowResiko (e) {
-            const listResikoBahaya = document.getElementById("list-table-resiko")
-            listResikoBahaya.removeChild(listResikoBahaya.lastElementChild)
             e.preventDefault()
         },
 
@@ -715,28 +689,7 @@ export default {
                 }
             }
 
-            const korelasiJabatan = document.getElementsByClassName('row-list')
-            const namaJabatanList = []
-            const unitKerjaList = []
-            const dalamHalList = []
-
-            for (let i=0; i < korelasiJabatan.length; i++) {
-                let namaJabatan = korelasiJabatan[i].childNodes[0].childNodes[0].value
-                let unitKerja = korelasiJabatan[i].childNodes[1].childNodes[0].value
-                let dalamHal = korelasiJabatan[i].childNodes[2].childNodes[0].value
-                if (namaJabatan === '' || unitKerja === '' || dalamHal === "") {
-                    return this.$swal.fire({
-                        icon: 'info',
-                        title: 'Warning!!',
-                        text: 'Kolom korelasi jabatan tidak boleh kosong'
-                    })
-                }
-                namaJabatanList.push(namaJabatan)
-                unitKerjaList.push(unitKerja)
-                dalamHalList.push(dalamHal)
-            }
-
-            if (namaJabatanList.length === 0) {
+            if (this.korelasiJabatan.length === 0) {
                 await this.badRequestException("Korelasi jabatan harus diisi minimal satu")
             }
 
@@ -744,16 +697,16 @@ export default {
                 await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/korelasi-jabatan/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
             }
 
-            for (let i = 0; i < namaJabatanList.length; i++) {
+            for (let i = 0; i < this.korelasiJabatan.length; i++) {
                 const payloadKorelasiJabatan = {
                     idjabatan: this.dataJabatan[0].id_jabatan,
-                    namajabatan: namaJabatanList[i],
-                    unitkerja: unitKerjaList[i],
-                    dalamhal: dalamHalList[i]
+                    namajabatan: this.korelasiJabatan[i].nama_jabatan,
+                    unitkerja: this.korelasiJabatan[i].unit_kerja,
+                    dalamhal: this.korelasiJabatan[i].dalam_hal
                 }
                 await axios.post(`${process.env.VUE_APP_BACKENDHOST}/korelasi-jabatan`, payloadKorelasiJabatan, config)
                 .then(
-                    this.korelasiJabatanBuffer.push(namaJabatanList[i])
+                    this.korelasiJabatanBuffer.push(this.korelasiJabatan[i].nama_jabatan)
                 )
             }
         },
@@ -790,25 +743,7 @@ export default {
                 }
             }
 
-            const resikoBahaya = document.getElementsByClassName('row-list-resiko')
-            const namaResikoList = []
-            const penyebabList = []
-
-            for (let i=0; i < resikoBahaya.length; i++) {
-                let namaResiko = resikoBahaya[i].childNodes[0].childNodes[0].value
-                let penyebab = resikoBahaya[i].childNodes[1].childNodes[0].value
-                if (namaResiko === '' || penyebab === '') {
-                    return this.$swal.fire({
-                        icon: 'info',
-                        title: 'Warning!!',
-                        text: 'Kolom korelasi jabatan tidak boleh kosong'
-                    })
-                }
-                namaResikoList.push(namaResiko)
-                penyebabList.push(penyebab)
-            }
-
-            if (namaResikoList.length === 0) {
+            if (this.resikoBahaya.length === 0) {
                 await this.badRequestException("Resiko bahaya harus diisi minimal satu")
             }
 
@@ -816,15 +751,15 @@ export default {
                 await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/resiko-bahaya/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
             }
 
-            for (let i = 0; i < namaResikoList.length; i++) {
+            for (let i = 0; i < this.resikoBahaya.length; i++) {
                 const payloadResikoBahaya = {
                     idjabatan: this.dataJabatan[0].id_jabatan,
-                    namaresiko: namaResikoList[i],
-                    penyebab: penyebabList[i],
+                    namaresiko: this.resikoBahaya[i].nama_resiko,
+                    penyebab: this.resikoBahaya[i].penyebab,
                 }
                 await axios.post(`${process.env.VUE_APP_BACKENDHOST}/resiko-bahaya`, payloadResikoBahaya, config)
                 .then(
-                    this.resikoBahayaBuffer.push(namaResikoList[i])
+                    this.resikoBahayaBuffer.push(this.resikoBahaya[i].nama_resiko)
                 )
             }
         },

@@ -88,8 +88,16 @@
                                         <td><input type="number" class="form-control form-control-sm" disabled :value="jumlahPegawai"></td>
                                     </tr>
                                     <tr>
-                                        <td colspan="6">Jumlah Pegawai</td>
+                                        <td colspan="6">Jumlah Kebutuhan Pegawai</td>
                                         <td><input type="number" class="form-control form-control-sm" disabled :value="jumlahPegawaiRounded"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="6">Jumlah Pegawai Saat Ini</td>
+                                        <td v-if="jabatanLoaded"><input type="number" class="form-control form-control-sm" v-model="dataJabatan[0].jumlah_pegawai_existing"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="6">Selisih Kelebihan/Kekurangan</td>
+                                        <td v-if="jabatanLoaded"><input type="number" class="form-control form-control-sm" disabled :value="dataJabatan[0].jumlah_pegawai_existing - jumlahPegawaiRounded"></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -526,6 +534,10 @@ export default {
                 await this.badRequestException("Tugas harus diisi minimal satu")
             }
 
+            if (this.dataJabatan[0].jumlah_pegawai_existing === null) {
+                await this.badRequestException("Jumlah pegawai saat ini wajib diisi")
+            }
+
             if (this.tugasDb.length !== 0 || this.tugasBuffer.length !== 0) {
                 await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/tugas/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
             }
@@ -560,6 +572,12 @@ export default {
                     this.tugasLainnyaBuffer.push(this.tugasLainnya[i].uraian_tugas)
                 )
             }
+
+            const payloadJumlahPegawaiExisting = {
+                jumlahpegawaiexisting: this.dataJabatan[0].jumlah_pegawai_existing
+            }
+
+            await axios.put(`${process.env.VUE_APP_BACKENDHOST}/jabatan/jumlahpegawaiexisting/${this.dataJabatan[0].id_jabatan}`, payloadJumlahPegawaiExisting, config)
         },
 
         async saveBahanKerja () {

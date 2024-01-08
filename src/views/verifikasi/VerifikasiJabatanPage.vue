@@ -11,7 +11,8 @@
                         <thead>
                             <tr class="table-head">
                                 <th width="5%" class="column-title">No.</th>
-                                <th width="50%" class="column-title">FUNGSIONAL</th>
+                                <th width="30%" class="column-title">FUNGSIONAL</th>
+                                <th width="20%" class="column-title">SATKER</th>
                                 <th width="10%" class="column-title">TAHUN ANJAB</th>
                                 <th width="25%" class="column-title">STATUS</th>
                                 <th width="10%" class="column-title">ACTION</th>
@@ -21,14 +22,12 @@
                             <tr v-for="(jabatan, index) in daftarJabatan" :key="jabatan.id_jabatan">
                                 <td>{{ index+1 }}</td>
                                 <td>{{ jabatan.fungsional }}</td>
+                                <td>{{ jabatan.satker }}</td>
                                 <td>{{ jabatan.tahun_jabatan }}</td>
                                 <td>{{ jabatan.status }}</td>
                                 <td>
                                     <div class="d-flex justify-content-around">
-                                        <button v-if="jabatan.status === 'Sudah Dikirim' || jabatan.status === 'Sudah Diverifikasi'" class="btn btn-secondary btn-sm" disabled>
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" /><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" /></svg>
-                                        </button>
-                                        <button v-else @click="editBtn(jabatan.id_jabatan)" class="btn btn-info btn-sm">
+                                        <button @click="editBtn(jabatan.id_jabatan)" class="btn btn-warning btn-sm">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" /><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" /></svg>
                                         </button>
                                         <button @click="previewBtn(jabatan.id_jabatan)" class="btn btn-info btn-sm">
@@ -86,8 +85,7 @@ export default {
 
         async loadDataJabatan() {
             try {
-                const token = localStorage.getItem('token');
-                const idsatker = localStorage.getItem('idsatker');
+                const token = localStorage.getItem('token')
 
                 const config = {
                     headers: {
@@ -95,7 +93,7 @@ export default {
                     },
                 };
 
-                const response = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/jabatan/satker/${idsatker}`, config);
+                const response = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/jabatan/verificator`, config);
 
                 this.daftarJabatan = response.data.data.jabatan
                 this.jabatanLoaded = true
@@ -115,7 +113,7 @@ export default {
         },
 
         editBtn (id_jabatan) {
-            this.$router.push({ name: 'AnalisisBiodata', params: { jabatanid: id_jabatan } })    
+            this.$router.push({ name: 'VerifikasiBiodata', params: { jabatanid: id_jabatan } })    
         },
 
         previewBtn (id_jabatan) {

@@ -279,15 +279,16 @@
                                         <h6>18. Catatan Verifikator</h6>
                                     </td>
                                     <td>
-                                        <textarea v-model="dataJabatan[0].catatan_verifikator" class="form-control form-control-sm" disabled></textarea>
+                                        <textarea v-model="dataJabatan[0].catatan_verifikator" class="form-control form-control-sm"></textarea>
                                     </td>
                                 </tr>
                             </table>
                         </div>
                     </form>
                     <div class="d-flex justify-content-end action-button">
-                        <button @click="saveAll('save')" class="btn btn-success btn-save">Save</button>
-                        <button @click="saveAll('continue')" class="btn btn-primary btn-continue">Save & Send</button>
+                        <button @click="saveAll" class="btn btn-success btn-save">Edit</button>
+                        <button @click="verifikasi" class="btn btn-primary btn-continue">Verifikasi</button>
+                        <button @click="backToSatker" class="btn btn-primary btn-continue">Kembalikan</button>
                     </div>
                 </div>
             </div>
@@ -990,7 +991,26 @@ export default {
             )
         },
 
-        async saveLog () {
+        async saveCatatanVerifikator () {
+            const token = localStorage.getItem('token')
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+
+            if (this.dataJabatan[0].catatan_verifikator === '') {
+                await this.badRequestException("Catatan verifikator harus diisi")
+            }
+             
+            const payloadCatatanVerifikator = {
+                catatanverifikator: this.dataJabatan[0].catatan_verifikator
+            }
+
+            await axios.put(`${process.env.VUE_APP_BACKENDHOST}/jabatan/catatanverifikator/${this.dataJabatan[0].id_jabatan}`, payloadCatatanVerifikator, config)
+        },
+
+        async saveLog (event) {
             const token = localStorage.getItem('token');
 
             const config = {
@@ -1001,30 +1021,13 @@ export default {
                 
             const payloadLog = {
                 idjabatan: this.dataJabatan[0].id_jabatan,
-                event: 'Telah menyimpan form Syarat Jabatan'
+                event: event
             }
 
             await axios.post(`${process.env.VUE_APP_BACKENDHOST}/log-analisis`, payloadLog, config)
         },
 
-        async saveLogSend () {
-            const token = localStorage.getItem('token');
-
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            }
-                
-            const payloadLog = {
-                idjabatan: this.dataJabatan[0].id_jabatan,
-                event: 'Telah mengirim analisis jabatan kepada verifikator'
-            }
-
-            await axios.post(`${process.env.VUE_APP_BACKENDHOST}/log-analisis`, payloadLog, config)
-        },
-
-        async saveAll (action) {
+        async saveAll () {
             this.$swal.fire({
                 text: 'Loading....',
                 showConfirmButton: false
@@ -1044,20 +1047,11 @@ export default {
                 this.$swal.fire({
                 icon: 'success',
                 title: 'Success',
-                text: 'Data Berhasil Disimpan'
+                text: 'Data Berhasil Diubah'
             }))
             .then(
-                this.saveLog()
+                this.saveLog('Telah mengubah form Syarat Jabatan')
             )
-            .then(async () => {
-                if (action === 'continue') {
-                    await this.changStatusSendToVerificator()
-                    await this.saveLogSend()
-                    .then (
-                        this.$router.push({ name: 'AnalisisJabatan' })
-                    )
-                }
-            })
             .catch((error) => {
                 if (error.response.status === 401) {
                     this.$router.push({ name: 'Home' })
@@ -1071,41 +1065,74 @@ export default {
             })
         },
 
-        async changStatusSendToVerificator () {
-            try {
-                const token = localStorage.getItem('token');
+        async verifikasi () {
+            this.$swal.fire({
+                text: 'Loading....',
+                showConfirmButton: false
+            })
+            await this.changeStatus('Sudah Diverifikasi')
+            await this.saveLog('Telah memverifikasi Analisis Jabatan')
+            .then(
+                this.$swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Data Berhasil Diverifikasi'
+            }))
+            .then (
+                this.$router.push({ name: 'VerifikasiJabatan' })
+            )
+        },
 
-                const config = {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-                 
-                const payloadStatus = {
-                    status: 'Sudah Dikirim'
-                }
-                await axios.put(`${process.env.VUE_APP_BACKENDHOST}/jabatan/status/${this.dataJabatan[0].id_jabatan}`, payloadStatus, config)
-                
-            } catch (error) {
+        async backToSatker () {
+            this.$swal.fire({
+                text: 'Loading....',
+                showConfirmButton: false
+            })
+
+            await Promise.all([
+                this.saveCatatanVerifikator()
+            ])
+            .then(
+                this.$swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'Data Berhasil Dikembalikan'
+                })
+            )
+            .then(async ()=> {
+                await this.changeStatus('Dikembalikan')
+                await this.saveLog('Telah mengembalikan Analisis Jabatan ke Satker untuk dilakukan revisi')
+                .then (
+                    this.$router.push({ name: 'VerifikasiJabatan' })
+                )}
+            )
+            .catch((error) => {
                 if (error.response.status === 401) {
                     this.$router.push({ name: 'Home' })
                 } else {
                     this.$swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: 'Status ' + error.response.data.message
+                        text: error.response.data.message
                     })
                 }
-            }
+            })
         },
 
-        // async saveSend () {
-        //     await this.saveAll ()
-        //     .then(
-        //         await this.changStatusSendToVerificator()
-        //     )
-        //     .then(this.$router.push({ name: 'AnalisisJabatan' }))
-        // }
+        async changeStatus (status) {
+            const token = localStorage.getItem('token')
+
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+             
+            const payloadStatus = {
+                status: status
+            }
+            await axios.put(`${process.env.VUE_APP_BACKENDHOST}/jabatan/status/${this.dataJabatan[0].id_jabatan}`, payloadStatus, config)
+        }
     },
 };
 </script>

@@ -118,7 +118,12 @@ export default {
 							title: 'Analisis Jabatan'
 						},
 					]
-				}
+				},
+				{
+					href: '/verifikasi',
+					title: 'Verifikasi',
+					icon: 'fa fa-check-square-o'
+				},
 			]
 		}
     },

@@ -84,6 +84,13 @@ import AnalisisSyaratJabatanPage from '@/views/analisis_jabatan/analisis_jabatan
 import PreviewPage from '@/views/analisis_jabatan/analisis_jabatan/PreviewPage.vue';
 import LogPage from '@/views/analisis_jabatan/analisis_jabatan/LogPage.vue';
 
+// Verifikasi Menu Views
+import VerifikasiJabatanPage from '@/views/verifikasi/VerifikasiJabatanPage.vue';
+import VerifikasiBiodataPage from '@/views/verifikasi/VerifikasiBiodataPage.vue';
+import VerifikasiTugasPage from '@/views/verifikasi/VerifikasiTugasPage.vue';
+import VerifikasiTanggungJawabPage from '@/views/verifikasi/VerifikasiTanggungJawabPage.vue';
+import VerifikasiSyaratJabatanPage from '@/views/verifikasi/VerifikasiSyaratJabatanPage.vue';
+
 const routes = [
   {
     path: '/',
@@ -423,6 +430,33 @@ const routes = [
     path: '/analisis-jabatan/log/:jabatanid',
     name: 'LogAnalisis',
     component: LogPage,
+  },
+
+  // Verifikasi Menu
+  {
+    path: '/verifikasi',
+    name: 'VerifikasiJabatan',
+    component: VerifikasiJabatanPage,
+  },
+  {
+    path: '/verifikasi/biodata/:jabatanid',
+    name: 'VerifikasiBiodata',
+    component: VerifikasiBiodataPage,
+  },
+  {
+    path: '/verifikasi/tugas/:jabatanid',
+    name: 'VerifikasiTugas',
+    component: VerifikasiTugasPage,
+  },
+  {
+    path: '/verifikasi/tanggung-jawab/:jabatanid',
+    name: 'VerifikasiTanggungJawab',
+    component: VerifikasiTanggungJawabPage,
+  },
+  {
+    path: '/verifikasi/syarat-jabatan/:jabatanid',
+    name: 'VerifikasiSyaratJabatan',
+    component: VerifikasiSyaratJabatanPage,
   },
 ];
 

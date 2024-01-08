@@ -82,6 +82,7 @@ import AnalisisTugasPage from '@/views/analisis_jabatan/analisis_jabatan/Analisi
 import AnalisisTanggungJawabPage from '@/views/analisis_jabatan/analisis_jabatan/AnalisisTanggungJawabPage.vue';
 import AnalisisSyaratJabatanPage from '@/views/analisis_jabatan/analisis_jabatan/AnalisisSyaratJabatanPage.vue';
 import PreviewPage from '@/views/analisis_jabatan/analisis_jabatan/PreviewPage.vue';
+import LogPage from '@/views/analisis_jabatan/analisis_jabatan/LogPage.vue';
 
 const routes = [
   {
@@ -417,6 +418,11 @@ const routes = [
     path: '/analisis-jabatan/preview/:jabatanid',
     name: 'PreviewAnalisis',
     component: PreviewPage,
+  },
+  {
+    path: '/analisis-jabatan/log/:jabatanid',
+    name: 'LogAnalisis',
+    component: LogPage,
   },
 ];
 

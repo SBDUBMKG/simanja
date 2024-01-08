@@ -982,6 +982,40 @@ export default {
             )
         },
 
+        async saveLog () {
+            const token = localStorage.getItem('token');
+
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+                
+            const payloadLog = {
+                idjabatan: this.dataJabatan[0].id_jabatan,
+                event: 'Telah menyimpan form Syarat Jabatan'
+            }
+
+            await axios.post(`${process.env.VUE_APP_BACKENDHOST}/log-analisis`, payloadLog, config)
+        },
+
+        async saveLogSend () {
+            const token = localStorage.getItem('token');
+
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+                
+            const payloadLog = {
+                idjabatan: this.dataJabatan[0].id_jabatan,
+                event: 'Telah mengirim analisis jabatan kepada verifikator'
+            }
+
+            await axios.post(`${process.env.VUE_APP_BACKENDHOST}/log-analisis`, payloadLog, config)
+        },
+
         async saveAll (action) {
             this.$swal.fire({
                 text: 'Loading....',
@@ -1004,9 +1038,13 @@ export default {
                 title: 'Success',
                 text: 'Data Berhasil Disimpan'
             }))
+            .then(
+                this.saveLog()
+            )
             .then(async () => {
                 if (action === 'continue') {
                     await this.changStatusSendToVerificator()
+                    await this.saveLogSend()
                     .then (
                         this.$router.push({ name: 'AnalisisJabatan' })
                     )

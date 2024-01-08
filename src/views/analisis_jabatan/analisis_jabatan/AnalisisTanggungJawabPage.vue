@@ -764,6 +764,23 @@ export default {
             }
         },
 
+        async saveLog () {
+            const token = localStorage.getItem('token');
+
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+                
+            const payloadLog = {
+                idjabatan: this.dataJabatan[0].id_jabatan,
+                event: 'Telah menyimpan form Tanggung Jawab'
+            }
+
+            await axios.post(`${process.env.VUE_APP_BACKENDHOST}/log-analisis`, payloadLog, config)
+        },
+
         async saveAll (action) {
             this.$swal.fire({
                 text: 'Loading....',
@@ -783,6 +800,9 @@ export default {
                     title: 'Success',
                     text: 'Data Berhasil Disimpan'
                 })            
+            )
+            .then(
+                this.saveLog()
             )
             .then(() => {
                 if (action === 'continue') {

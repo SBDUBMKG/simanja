@@ -28,14 +28,7 @@
                         <tbody id="list-table">
                             <tr class="row-list">
                                 <td><textarea class="form-control form-control-sm uraian-tugas" rows="1"></textarea></td>
-                                <td>
-                                    <select class="form-control form-control-sm hasil-kerja">
-                                        <option value="Data">Data</option>
-                                        <option value="Laporan">Laporan</option>
-                                        <option value="Kegiatan">Kegiatan</option>
-                                        <option value="Dokumen">Dokumen</option>
-                                    </select>
-                                </td>
+                                <td><input type="text" class="form-control form-control-sm hasil-kerja"></td>
                                 <td><input type="number" class="form-control form-control-sm waktu-penyelesaian"></td>
                                 <td><input type="number" class="form-control form-control-sm waktu-efektif"></td>
                                 <td><textarea class="form-control form-control-sm uraian-hasil-kerja" rows="1"></textarea></td>
@@ -121,13 +114,7 @@ export default {
 
             const row = document.createElement('tr')
             let html = `<td><textarea class="form-control form-control-sm uraian-tugas" rows="1"></textarea></td>`
-            html += `<td>`
-            html += `<select class="form-control form-control-sm hasil-kerja">`
-            html += `<option value="Data">Data</option>`
-            html += `<option value="Laporan">Laporan</option>`
-            html += `<option value="Kegiatan">Kegiatan</option>`
-            html += `<option value="Dokumen">Dokumen</option>`
-            html += `</select>`
+            html += `<td><input type="text" class="form-control form-control-sm hasil-kerja"></td>`
             html += `<td><input type="number" class="form-control form-control-sm waktu-penyelesaian"></td>`
             html += `<td><input type="number" class="form-control form-control-sm waktu-efektif"></td>`
             html += `<td><textarea class="form-control form-control-sm uraian-hasil-kerja" rows="1"></textarea></td>`

@@ -148,7 +148,7 @@
                         </tr>
                     </table>
                     <div class="d-flex justify-content-end action-button">
-                        <button @click="saveAll" class="btn btn-success btn-save">Edit</button>
+                        <button @click="saveAll" class="btn btn-warning btn-save">Edit</button>
                         <button @click="continuePage" class="btn btn-primary btn-continue">Continue</button>
                     </div>
                 </div>

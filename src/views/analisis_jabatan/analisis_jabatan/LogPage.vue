@@ -184,10 +184,12 @@ export default {
     margin-left: 5px;
     font-size: 15px;
     font-weight: 600;
+    color: #505050;
 }
 
 .log-event {
     font-size: 15px;
+    color: #505050;
 }
 </style>
   

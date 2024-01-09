@@ -286,9 +286,9 @@
                         </div>
                     </form>
                     <div class="d-flex justify-content-end action-button">
-                        <button @click="saveAll" class="btn btn-success btn-save">Edit</button>
-                        <button @click="verifikasi" class="btn btn-primary btn-continue">Verifikasi</button>
-                        <button @click="backToSatker" class="btn btn-primary btn-continue">Kembalikan</button>
+                        <button @click="saveAll" class="btn btn-warning btn-save">Edit</button>
+                        <button @click="backToSatker" class="btn btn-danger btn-continue">Kembalikan</button>
+                        <button @click="verifikasi" class="btn btn-success btn-continue">Verifikasi</button>
                     </div>
                 </div>
             </div>

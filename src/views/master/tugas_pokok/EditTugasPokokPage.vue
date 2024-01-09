@@ -18,12 +18,7 @@
                         </div>
                         <div class="form-group">
                             <label for="hasil-kerja">Hasil Kerja</label>
-                            <select v-model="tugasData.hasil_kerja" class="form-control hasil-kerja">
-                                <option value="Data">Data</option>
-                                <option value="Laporan">Laporan</option>
-                                <option value="Kegiatan">Kegiatan</option>
-                                <option value="Dokumen">Dokumen</option>
-                            </select>
+                            <input v-model="tugasData.hasil_kerja" type="text" class="form-control" id="hasil-kerja">
                         </div>
                         <div class="form-group">
                             <label for="waktu-penyelesaian">Waktu Penyelesaian</label>

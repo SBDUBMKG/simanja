@@ -5,7 +5,7 @@
             <div class="container-content">
                 <NavbarDashboard/>
                 <div class="main-content shadow">
-                    <h2 class="title-content">Analisis Jabatan</h2>
+                    <h2 class="title-content">Verifikasi Jabatan</h2>
                     <h6 class="subtitle-content">List Data Jabatan</h6>
                     <DataTable v-if="jabatanLoaded" class="table table-sm table-hover table-bordered table-responsive-xl display">
                         <thead>

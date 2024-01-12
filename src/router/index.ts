@@ -91,6 +91,9 @@ import VerifikasiTugasPage from '@/views/verifikasi/VerifikasiTugasPage.vue';
 import VerifikasiTanggungJawabPage from '@/views/verifikasi/VerifikasiTanggungJawabPage.vue';
 import VerifikasiSyaratJabatanPage from '@/views/verifikasi/VerifikasiSyaratJabatanPage.vue';
 
+// Report Menu Views
+import CetakLaporanPage from '@/views/report/CetakLaporanPage.vue';
+
 const routes = [
   {
     path: '/',
@@ -457,6 +460,13 @@ const routes = [
     path: '/verifikasi/syarat-jabatan/:jabatanid',
     name: 'VerifikasiSyaratJabatan',
     component: VerifikasiSyaratJabatanPage,
+  },
+
+  // Report Menu
+  {
+    path: '/cetak-laporan',
+    name: 'CetakLaporan',
+    component: CetakLaporanPage,
   },
 ];
 

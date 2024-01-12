@@ -124,6 +124,16 @@ export default {
 					title: 'Verifikasi',
 					icon: 'fa fa-check-square-o'
 				},
+				{
+					title: 'Report',
+					icon: 'fa fa-file-text',
+					child: [
+						{
+							href: '/cetak-laporan',
+							title: 'Cetak Laporan'
+						}
+					]
+				},
 			]
 		}
     },

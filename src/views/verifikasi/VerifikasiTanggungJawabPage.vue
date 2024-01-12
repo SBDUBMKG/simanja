@@ -131,7 +131,16 @@
                                     <tr class="row-list" v-for="(korelasiJabatan) in korelasiJabatan" :key="korelasiJabatan.id_tbl_korelasi_jabatan">
                                         <td><textarea v-model="korelasiJabatan.nama_jabatan" class="form-control form-control-sm nama-jabatan" rows="1"></textarea></td>
                                         <td><textarea v-model="korelasiJabatan.unit_kerja" class="form-control form-control-sm unit-kerja" rows="1"></textarea></td>
-                                        <td><textarea v-model="korelasiJabatan.dalam_hal" class="form-control form-control-sm dalam-hal" rows="1"></textarea></td>
+                                        <td>
+                                            <select class="form-control form-control-sm dalam-hal" v-model="korelasiJabatan.dalam_hal">
+                                                <option>Koordinasi</option>
+                                                <option>Konsultasi</option>
+                                                <option>Petunjuk dan Laporan</option>
+                                                <option>Arahan</option>
+                                                <option>Pembinaan</option>
+                                                <option>Kolaborasi</option>
+                                            </select>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

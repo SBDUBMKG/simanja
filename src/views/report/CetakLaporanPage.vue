@@ -7,40 +7,69 @@
                 <div class="main-content shadow">
                     <h2 class="title-content">Cetak Laporan</h2>
                     <h6 class="subtitle-content">List Data Jabatan</h6>
-                    <div class="export-section d-flex justify-content-between total-selected">
+                    <div v-if="satkerLoaded" class="query-container d-flex justify-content-start">
+                        <div class="query-select query-satker">
+                            <label>Satker</label>
+                            <VueMultiselect
+                                v-model="satkerSelected"
+                                :options="masterSatker"
+                                :close-on-select="true"
+                                :allow-empty="false"
+                                label="satker"
+                                track-by="satker"
+                            >
+                            </VueMultiselect>
+                        </div>
+                        <div class="query-select ml-3">
+                            <label>Tahun</label>
+                            <VueDatePicker v-model="tahunSelected" year-picker></VueDatePicker>
+                        </div>
+                        <div class="query-select ml-3">
+                            <label for=""></label>
+                            <div>
+                                <button class="btn btn-success btn-search" @click="searchQuery">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-if="jabatanLoaded" class="export-section d-flex justify-content-between total-selected">
                         <div>
                             {{ totalReport.length }} Laporan Dipilih
                         </div>
                         <div>
-                            <button @click="exportReport" class="btn btn-success btn-sm btn-export">
+                            <button v-if="totalReport.length > 0" @click="exportReport" class="btn btn-success btn-sm btn-export">
+                                Export
+                            </button>
+                            <button v-else class="btn btn-secondary btn-sm btn-export" disabled>
                                 Export
                             </button>
                         </div>
                     </div>
-                    <DataTable v-if="jabatanLoaded" class="table table-sm table-hover table-bordered table-responsive-xl display">
-                        <thead>
-                            <tr class="table-head">
-                                <th width="5%" class="column-title">No.</th>
-                                <th width="30%" class="column-title">FUNGSIONAL</th>
-                                <th width="20%" class="column-title">SATKER</th>
-                                <th width="10%" class="column-title">TAHUN ANJAB</th>
-                                <th width="3%" class="column-title">SELECT</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(jabatan, index) in daftarJabatan" :key="jabatan.id_jabatan">
-                                <td>{{ index+1 }}</td>
-                                <td>{{ jabatan.fungsional }}</td>
-                                <td>{{ jabatan.satker }}</td>
-                                <td>{{ jabatan.tahun_jabatan }}</td>
-                                <td>
-                                    <div class="form-group form-check d-flex justify-content-center">
-                                        <input type="checkbox" class="form-check-input" v-model="jabatan['selected']">
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </DataTable>
+                    <div v-if="jabatanLoaded" class="data-table">
+                        <DataTable :options="dataTableOptions" class="table table-sm table-hover table-bordered table-responsive-xl display">
+                            <thead>
+                                <tr class="table-head">
+                                    <th width="5%" class="column-title">No.</th>
+                                    <th width="30%" class="column-title">FUNGSIONAL</th>
+                                    <th width="20%" class="column-title">SATKER</th>
+                                    <th width="10%" class="column-title">TAHUN ANJAB</th>
+                                    <th width="3%" class="column-title">SELECT</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="table-body" v-for="(jabatan, index) in daftarJabatan" :key="jabatan.id_jabatan">
+                                    <td>{{ index+1 }}</td>
+                                    <td>{{ jabatan.fungsional }}</td>
+                                    <td>{{ jabatan.satker }}</td>
+                                    <td>{{ jabatan.tahun_jabatan }}</td>
+                                    <td>
+                                        <div class="form-group form-check d-flex justify-content-center">
+                                            <input type="checkbox" class="form-check-input" v-model="jabatan['selected']">
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </DataTable>
+                    </div>
                 </div>
             </div>
         </div>
@@ -53,6 +82,9 @@ import NavbarDashboard from '@/components/NavbarDashboard.vue';
 import SidebarMenu from '@/components/SidebarMenu.vue';
 import DataTable from 'datatables.net-vue3';
 import DataTablesCore from 'datatables.net-bs5';
+import VueMultiselect from 'vue-multiselect'
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
 
 DataTable.use(DataTablesCore)
 
@@ -60,18 +92,29 @@ export default {
     components: {
         NavbarDashboard,
         SidebarMenu,
-        DataTable
+        DataTable,
+        VueMultiselect,
+        VueDatePicker
     },
     data() {
         return {
+            isDisabled: true,
             daftarJabatan: [],
             jabatanLoaded: false,
+            satkerLoaded: false,
+            masterSatker: [],
+            satkerSelected: [],
+            daftarTahun: [],
+            tahunSelected:[],
             logAnalisis: [],
+            dataTableOptions: {
+                searching: false
+            }
         };
     },
     mounted () {
         this.checkAuthentication()
-        this.loadDataJabatan()
+        this.loadSatker()
     },
     computed: {
         totalReport () {
@@ -79,6 +122,44 @@ export default {
         }
     },
     methods: {
+        async searchQuery () {
+            try {
+                const token = localStorage.getItem('token')
+
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                };
+
+                const queryPayload = {
+                    idsatkerpayload: this.satkerSelected.id_satker,
+                    tahun: this.tahunSelected
+                }
+
+                const response = await axios.post(`${process.env.VUE_APP_BACKENDHOST}/jabatan/report`, queryPayload, config);
+
+                this.daftarJabatan = []
+
+                for (let i = 0; i < response.data.data.jabatan.length; i++) {
+                    this.daftarJabatan.push(response.data.data.jabatan[i])
+                    this.daftarJabatan[i].selected = false
+                }
+                // this.daftarJabatan = response.data.data.jabatan
+                this.jabatanLoaded = true
+            } catch (error) {
+                if (error.response.status === 401) {
+                    this.$router.push({ name: 'Home' })
+                } else {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: error.response.data.message
+                    })
+                }
+            }
+        },
+
         async exportReport () {
             try {
                 const token = localStorage.getItem('token')
@@ -145,7 +226,7 @@ export default {
             }
         },
 
-        async loadDataJabatan() {
+        async loadSatker () {
             try {
                 const token = localStorage.getItem('token')
 
@@ -155,17 +236,13 @@ export default {
                     },
                 };
 
-                const response = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/jabatan/report`, config);
+                const response = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/master/satker/aktif`, config);
 
-                for (let i = 0; i < response.data.data.jabatan.length; i++) {
-                    this.daftarJabatan.push(response.data.data.jabatan[i])
-                    this.daftarJabatan[i].selected = false
-                }
-                // this.daftarJabatan = response.data.data.jabatan
-                this.jabatanLoaded = true
+                this.masterSatker = response.data.data.satker
+                this.satkerLoaded = true
             } catch (error) {
                 if (error.response.status === 404) {
-                    this.jabatanLoaded = true
+                    this.satkerLoaded = true
                 } else if (error.response.status === 401) {
                     this.$router.push({ name: 'Home' })
                 } else {
@@ -176,7 +253,7 @@ export default {
                     })
                 }
             }
-        }
+        },
     },
 };
 </script>
@@ -184,6 +261,20 @@ export default {
 <style scoped>
 .container-analisis-jabatan {
     display: flex;
+}
+
+label {
+    margin: 0 0 -5px 3px;
+    font-size: small;
+    color: rgb(112, 112, 112);
+}
+
+.query-container {
+    margin-bottom: 20px;
+}
+
+.query-satker {
+    width: 50%;
 }
 
 .total-selected {
@@ -196,8 +287,14 @@ export default {
 
 .btn-export {
     border-radius: 30px;
-    padding: 1px 15px;
+    padding: 1px 10px;
     font-size: 13px;
+}
+
+.data-table {
+    padding: 10px;
+    background-color: rgb(244, 244, 244);
+    border-radius: 10px;
 }
 </style>
   

@@ -20,6 +20,10 @@
                             <label for="fungsional">Fungsional</label>
                             <textarea v-model="fungsionalData.fungsional" class="form-control" id="fungsional" rows="2"></textarea>
                         </div>
+                        <div class="form-group">
+                            <label for="id-fungsional">Kelas Jabatan</label>
+                            <input type="number" v-model="fungsionalData.job_grade" class="form-control" id="job-grade"/>
+                        </div>
                         <div class="form-group">Is Aktif:
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" value="true" v-model="fungsionalData.is_aktif" />
@@ -108,6 +112,7 @@ export default {
         async saveJabatan () {
             const idFungsional = this.fungsionalData.id_fungsional
             const fungsional = this.fungsionalData.fungsional
+            const jobGrade = this.fungsionalData.job_grade
             const isAktif = this.fungsionalData.is_aktif
 
             if (idFungsional === '' || fungsional === '' || isAktif === '') {
@@ -129,6 +134,7 @@ export default {
                 const payload = {
                     idfungsional: idFungsional,
                     fungsional: fungsional,
+                    jobgrade: jobGrade,
                     isaktif: isAktif
                 }
 

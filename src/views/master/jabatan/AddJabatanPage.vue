@@ -18,14 +18,16 @@
                     <table class="table table-bordered table-sm table-hover table-responsive-xl">
                         <thead>
                             <tr class="table-head">
-                                <th class="column-title" width="10%">ID</th>
+                                <th class="column-title" width="20%">ID</th>
                                 <th class="column-title">FUNGSIONAL</th>
+                                <th class="column-title" width="15%">KELAS JABATAN</th>
                             </tr>
                         </thead>
                         <tbody id="list-table">
                             <tr class="row-list">
                                 <td><textarea class="form-control form-control-sm id-fungsional" rows="1"></textarea></td>
                                 <td><textarea class="form-control form-control-sm fungsional" rows="1"></textarea></td>
+                                <td><input type="number" class="form-control form-control-sm job-grade" rows="1"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -76,6 +78,7 @@ export default {
             const row = document.createElement('tr')
             let html = `<td><textarea class="form-control form-control-sm id-fungsional" rows="1"></textarea></td>`
             html += `<td><textarea class="form-control form-control-sm fungsional" rows="1"></textarea></td>`
+            html += `<td><input type="number" class="form-control form-control-sm job-grade" rows="1"></td>`
 
             row.innerHTML = html            
             row.classList.add('row-list')
@@ -92,12 +95,14 @@ export default {
             const listJabatan = document.getElementsByClassName('row-list')
             const idFungsionalList = []
             const fungsionalList = []
+            const jobGradeList = []
 
             for (let i=0; i < listJabatan.length; i++) {
                 let idFungsional = listJabatan[i].childNodes[0].childNodes[0].value
                 let fungsional = listJabatan[i].childNodes[1].childNodes[0].value
+                let jobGrade = listJabatan[i].childNodes[2].childNodes[0].value
 
-                if (idFungsional === '' || fungsional === '') {
+                if (idFungsional === '' || fungsional === '' || jobGrade === '') {
                     return this.$swal.fire({
                         icon: 'info',
                         title: 'Warning!!',
@@ -107,6 +112,7 @@ export default {
 
                 idFungsionalList.push(idFungsional)
                 fungsionalList.push(fungsional)
+                jobGradeList.push(jobGrade)
             }
 
             if (idFungsionalList.length === fungsionalList.length) {
@@ -123,6 +129,7 @@ export default {
                         const payload = {
                             idfungsional: idFungsionalList[i],
                             fungsional: fungsionalList[i],
+                            jobgrade: jobGradeList[i],
                             isaktif: true
                         }
     
@@ -136,7 +143,8 @@ export default {
                         )
                         .then(
                             listJabatan[0].childNodes[0].childNodes[0].value = '',
-                            listJabatan[0].childNodes[1].childNodes[0].value = ''
+                            listJabatan[0].childNodes[1].childNodes[0].value = '',
+                            listJabatan[0].childNodes[2].childNodes[0].value = ''
                         )
                         .then(this.$router.push({ name: 'Jabatan' }))
 

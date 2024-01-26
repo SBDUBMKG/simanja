@@ -39,6 +39,7 @@
                                 <th>Nama Jabatan</th>
                                 <th>Jumlah Pegawai Saat Ini</th>
                                 <th>Jumlah Kebutuhan Pegawai</th>
+                                <th>Kekurangan / Kelebihan</th>
                             </thead>
                             <tbody>
                                 <tr v-for="(jabatan, index) in daftarJabatan" :key="jabatan.id_jabatan">
@@ -47,11 +48,13 @@
                                     <td>{{ jabatan.fungsional }}</td>
                                     <td>{{ jabatan.jumlah_pegawai_existing }}</td>
                                     <td>{{ jabatan.jumlah_kebutuhan_pegawai }}</td>
+                                    <td>{{ jabatan.jumlah_pegawai_existing - jabatan.jumlah_kebutuhan_pegawai }}</td>
                                 </tr>
                                 <tr>
                                     <td colspan="3"><strong>Total</strong></td>
                                     <td><strong>{{ jumlahPegawaiExisting }}</strong></td>
                                     <td><strong>{{ jumlahKebutuhanPegawai }}</strong></td>
+                                    <td><strong>{{ jumlahPegawaiExisting - jumlahKebutuhanPegawai }}</strong></td>
                                 </tr>
                             </tbody>
                         </table>

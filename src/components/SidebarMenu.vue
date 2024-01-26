@@ -129,6 +129,10 @@ export default {
 					icon: 'fa fa-file-text',
 					child: [
 						{
+							href: '/rekapitulasi-jabatan',
+							title: 'Rekapitulasi Jabatan'
+						},
+						{
 							href: '/cetak-laporan',
 							title: 'Cetak Laporan'
 						}

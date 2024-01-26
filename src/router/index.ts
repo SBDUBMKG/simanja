@@ -92,6 +92,7 @@ import VerifikasiTanggungJawabPage from '@/views/verifikasi/VerifikasiTanggungJa
 import VerifikasiSyaratJabatanPage from '@/views/verifikasi/VerifikasiSyaratJabatanPage.vue';
 
 // Report Menu Views
+import RekapitulasiJabatanPage from '@/views/report/RekapitulasiJabatanPage.vue';
 import CetakLaporanPage from '@/views/report/CetakLaporanPage.vue';
 
 const routes = [
@@ -463,6 +464,11 @@ const routes = [
   },
 
   // Report Menu
+  {
+    path: '/rekapitulasi-jabatan',
+    name: 'RekapitulasiJabatan',
+    component: RekapitulasiJabatanPage,
+  },
   {
     path: '/cetak-laporan',
     name: 'CetakLaporan',

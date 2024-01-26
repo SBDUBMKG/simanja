@@ -8,14 +8,12 @@
           <div class="auth-wrapper auth-v2">
             <div class="row auth-inner m-0">
               <a href="#" target="_self" class="brand-logo">
-                <a href="#" class="logo text-left mb-1">
-                  <img src="@/assets/logo-BMKG.png" alt="logo" class="max-h-100px">
-                </a>
+                
                   <b-img src="@/assets/logo-BMKG.png"></b-img>
               </a>
               <div class="d-none d-lg-flex align-items-center p-5 col-lg-9">
                 <div class="w-100 d-lg-flex align-items-center justify-content-center">
-                  <img src="@/assets/login-bg.jpg" alt="Login" class="img-fluid">
+                  <img src="@/assets/login-bg2.jpg" alt="Login" class="img-fluid">
                 </div>
               </div>
               <div class="d-flex align-items-center auth-bg px-2 p-lg-3 col-lg-3">

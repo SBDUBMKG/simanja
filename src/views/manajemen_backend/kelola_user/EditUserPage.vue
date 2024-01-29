@@ -39,6 +39,7 @@
                         <div class="form-group">
                             <label for="password">Password</label>
                             <input type="password" v-model="userPassword.password" class="form-control" id="password">
+                            <small>Password harus memiliki minimal 8 karakter dengan kombinasi angka, simbol dan huruf besar</small>
                         </div>
                         <div class="form-group">
                             <label for="confirm-password">Konfirmasi Password</label>
@@ -202,6 +203,24 @@ export default {
         async resetPassword (password, confirmPassword) {
             if (password !== '' || confirmPassword !== '') {
                 if (password === confirmPassword) {
+                    if (password === password.toLowerCase()) {
+                        this.badRequestException('Password harus memiliki minimal 1 huruf kapital')
+                    }
+
+                    if (password.length < 8) {
+                        this.badRequestException('Password harus memiliki minimal 8 karakter')
+                    }
+
+                    if (!/\d/.test(password)) {
+                        this.badRequestException('Password harus memiliki minimal 1 angka')
+                    }
+
+                    // eslint-disable-next-line
+                    const symbol = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/
+
+                    if (!symbol.test(password)) {
+                        this.badRequestException('Password harus memiliki minimal 1 symbol')
+                    }
                     const token = localStorage.getItem('token');
                     const config = {
                         headers: {
@@ -215,18 +234,22 @@ export default {
     
                     await axios.put(`${process.env.VUE_APP_BACKENDHOST}/user/change-password/${this.userId}`, payload, config)
                 } else {
-                    const exception = new Error();
-                    exception.name = "Bad Request";
-                    exception.response = {
-                        status: 400,
-                        data: {
-                            message: 'Password dan Konfirmasi Password harus sama'
-                        }
-                    }
-                    throw exception
+                    this.badRequestException('Password dan Konfirmasi Password harus sama')
                 }
 
             }
+        },
+
+        badRequestException (message) {
+            const exception = new Error();
+            exception.name = "Bad Request";
+            exception.response = {
+                status: 400,
+                data: {
+                    message: message
+                }
+            }
+            throw exception
         }
     },
 };
@@ -235,6 +258,10 @@ export default {
 <style scoped>
 .container-edit-user{
     display: flex;
+}
+
+small {
+    color: orangered;
 }
 </style>
   

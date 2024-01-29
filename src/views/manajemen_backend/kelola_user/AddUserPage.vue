@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="container-edit-user">
+        <div class="container-add-user">
             <SidebarMenu/>
             <div class="container-content">
                 <NavbarDashboard/>
@@ -10,11 +10,8 @@
                         Back
                     </button>
                     <h2 class="title-content">Kelola User</h2>
-                    <div class="d-flex justify-content-between subtitle-content">
-                        <h6 id="subtitle-content">Edit User</h6>
-                        <button @click="resetPassword" class="btn btn-info btn-sm btn-reset">Reset Password</button>
-                    </div>
-                    <form v-if="userLoaded">
+                    <h6 class="subtitle-content">Tambah User</h6>
+                    <form>
                         <div class="form-group">
                             <label for="username">Username</label>
                             <input type="text" v-model="userData.username" class="form-control" id="username">
@@ -32,12 +29,12 @@
                             </VueMultiselect>
                         </div>
                         <div class="form-group">
-                            <label for="role">Role</label>
-                            <select v-model="userData.id_role" class="form-control">
-                                <option value="3">User</option>
-                                <option value="2">Verifikator</option>
-                                <option value="1">Administrator</option>
-                            </select>
+                            <label for="password">Password</label>
+                            <input type="password" v-model="userData.password" class="form-control" id="password">
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm-password">Konfirmasi Password</label>
+                            <input type="password" v-model="userData.confirm_password" class="form-control" id="confirm-password">
                         </div>
                     </form>
                     <div class="d-flex justify-content-end">
@@ -63,17 +60,19 @@ export default {
     },
     data() {
         return {
-            userId: this.$route.params.userid,
-            userData: null,
-            userLoaded: false,
+            userData: {
+                username: '',
+                satker: '',
+                password: '',
+                confirm_password: '',
+            },
             satkerLoaded: false,
             masterSatker: [],
             satkerSelected: null,
-        }
+        };
     },
     mounted () {
         this.checkAuthentication()
-        this.loadUserData()
         this.loadSatker()
     },
     methods: {
@@ -83,38 +82,6 @@ export default {
             if (!token) {
                 console.error('Token not available');
                 this.$router.push({ name: 'Home' })
-            }
-        },
-
-        async loadUserData() {
-            try {
-                const token = localStorage.getItem('token');
-
-                const config = {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                };
-
-                const response = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/user/${this.userId}`, config);
-                
-                this.userData = response.data.data.user
-                this.userLoaded = true
-                this.satkerSelected = {
-                    id_satker: response.data.data.user.id_satker,
-                    satker: response.data.data.user.satker
-                }
-            } catch (error) {
-                if (error.response.status === 401) {
-                    this.$router.push({ name: 'Home' })
-                } else {
-                    this.$swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: error.response.data.message
-                    })
-
-                }
             }
         },
 
@@ -163,79 +130,19 @@ export default {
                 const payload = {
                     username: this.userData.username,
                     idsatker: this.satkerSelected.id_satker,
-                    role: this.userData.id_role
+                    password: this.userData.password
                 }
 
-                await axios.put(`${process.env.VUE_APP_BACKENDHOST}/user/${this.userId}`, payload, config)
+                await axios.post(`${process.env.VUE_APP_BACKENDHOST}/user`, payload, config)
                 .then(
                     this.$swal.fire({
                         icon: 'success',
                         title: 'Success',
-                        text: 'User Berhasil Diperbarui'
+                        text: 'Berhasil Menambah User'
                     })
                 )
                 .then(this.$router.push({ name: 'KelolaUser' }))
                 
-            } catch (error) {
-                if (error.status === 401) {
-                    this.$router.push({ name: 'Home' })
-                } else {
-                    this.$swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: error.response.data.message
-                    })
-                }
-            }
-        },
-
-        async resetPassword () {
-            const {value: formValues} = await this.$swal.fire({
-                title: 'Reset Password',
-                html:
-                    '<input type="password" id="swal-input1" class="form-control" placeholder="Masukan Password Baru" style="margin-bottom: 20px;">' +
-                    '<input type="password" id="swal-input2" class="form-control" placeholder="Konfirmasi Password Baru">',
-                focusConfirm: false,
-                preConfirm: () => {
-                    return [
-                        document.getElementById('swal-input1').value,
-                        document.getElementById('swal-input2').value
-                    ]
-                }
-            })
-            if (formValues[0] === '' || formValues[1] === '') {
-                this.$swal.fire({
-                    icon: 'warning',
-                    title: 'Warning',
-                    text: 'Form Tidak Boleh Kosong'
-                })
-            } else if (formValues[0] !== formValues[1]) {
-                this.$swal.fire({
-                    icon: 'warning',
-                    title: 'Warning',
-                    text: 'Password yang dimasukan tidak sama'
-                })
-            }
-            try {
-                const token = localStorage.getItem('token');
-                const config = {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    }
-                }
-
-                const payload = {
-                    password: formValues[0]
-                }
-
-                await axios.put(`${process.env.VUE_APP_BACKENDHOST}/user/change-password/${this.userId}`, payload, config)
-                .then(
-                    this.$swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: 'Password Berhasil Diperbarui'
-                    })
-                )                
             } catch (error) {
                 if (error.status === 401) {
                     this.$router.push({ name: 'Home' })
@@ -253,13 +160,8 @@ export default {
 </script>
 
 <style scoped>
-.container-edit-user{
+.container-add-user{
     display: flex;
-}
-
-#subtitle-content {
-    position: relative;
-    top: 10px;
 }
 </style>
   

@@ -6,7 +6,10 @@
                 <NavbarDashboard/>
                 <div class="main-content shadow">
                     <h2 class="title-content">Kelola User</h2>
-                    <h6 class="subtitle-content">List User</h6>
+                    <div class="d-flex justify-content-between subtitle-content">
+                        <h6 id="subtitle-content">List User</h6>
+                        <button @click="addUser" class="btn btn-success btn-sm btn-reset">Tambah User</button>
+                    </div>
                     <div v-if="usersLoaded">
                         <DataTable class="table table-sm table-hover table-responsive-xl display">
                             <thead>
@@ -103,6 +106,10 @@ export default {
             }
         },
 
+        addUser () {
+            this.$router.push({ name: 'AddUser' })
+        },
+
         editBtn (id_user) {
             this.$router.push({ name: 'EditUser', params: { userid: id_user } })    
         },
@@ -113,6 +120,11 @@ export default {
 <style scoped>
 .container-analisis-jabatan {
     display: flex;
+}
+
+#subtitle-content {
+    position: relative;
+    top: 10px;
 }
 
 label {

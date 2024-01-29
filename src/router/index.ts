@@ -98,6 +98,7 @@ import CetakLaporanPage from '@/views/report/CetakLaporanPage.vue';
 // Manajemen backend Menu Views
 import KelolaUserPage from '@/views/manajemen_backend/kelola_user/KelolaUserPage.vue';
 import EditUserPage from '@/views/manajemen_backend/kelola_user/EditUserPage.vue';
+import AddUserPage from '@/views/manajemen_backend/kelola_user/AddUserPage.vue';
 
 const routes = [
   {
@@ -489,6 +490,11 @@ const routes = [
     path: '/kelola-user/edit/:userid',
     name: 'EditUser',
     component: EditUserPage,
+  },
+  {
+    path: '/kelola-user/add',
+    name: 'AddUser',
+    component: AddUserPage,
   },
 ];
 

@@ -8,7 +8,7 @@
                     <h2 class="title-content">Rekapitulasi Jabatan</h2>
                     <h6 class="subtitle-content">List Data Jabatan</h6>
                     <div v-if="satkerLoaded" class="query-container d-flex justify-content-start">
-                        <div class="query-select query-satker">
+                        <div v-if="role==='Administrator' || role==='Verifikator'" class="query-select query-satker">
                             <label>Satker</label>
                             <VueMultiselect
                                 v-model="satkerSelected"
@@ -20,7 +20,11 @@
                             >
                             </VueMultiselect>
                         </div>
-                        <div class="query-select ml-3">
+                        <div v-if="role==='Administrator' || role==='Verifikator'" class="query-select ml-3">
+                            <label>Tahun</label>
+                            <VueDatePicker v-model="tahunSelected" year-picker></VueDatePicker>
+                        </div>
+                        <div v-else class="query-select">
                             <label>Tahun</label>
                             <VueDatePicker v-model="tahunSelected" year-picker></VueDatePicker>
                         </div>
@@ -82,6 +86,7 @@ export default {
     },
     data() {
         return {
+            role: localStorage.getItem('role'),
             daftarJabatan: [],
             jabatanLoaded: false,
             satkerLoaded: false,
@@ -116,9 +121,18 @@ export default {
                     },
                 };
 
-                const queryPayload = {
-                    idsatkerpayload: this.satkerSelected.id_satker,
-                    tahun: this.tahunSelected
+                let queryPayload
+
+                if (this.role === 'Administrator' || this.role === 'Verifikator') {
+                    queryPayload = {
+                        idsatkerpayload: this.satkerSelected.id_satker,
+                        tahun: this.tahunSelected
+                    }
+                } else {
+                    queryPayload = {
+                        idsatkerpayload: localStorage.getItem('idsatker'),
+                        tahun: this.tahunSelected
+                    }
                 }
 
                 const response = await axios.post(`${process.env.VUE_APP_BACKENDHOST}/jabatan/rekapitulasi`, queryPayload, config);

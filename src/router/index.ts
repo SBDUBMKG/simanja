@@ -2,7 +2,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 // Import your Vue components here
-// import HomePage from '@/views/HomePage.vue';
+import HomePage from '@/views/HomePage.vue';
 import UserLoginPage from '@/views/login/UserLoginPage.vue';
 import DashBoard from '@/views/DashBoard.vue';
 
@@ -103,9 +103,8 @@ import AddUserPage from '@/views/manajemen_backend/kelola_user/AddUserPage.vue';
 const routes = [
   {
     path: '/',
-    redirect: '/login',
-    // name: 'Home',
-    // component: HomePage,
+    name: 'Home',
+    component: UserLoginPage,
   },
   {
     path: '/login',

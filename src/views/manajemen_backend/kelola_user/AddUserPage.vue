@@ -31,6 +31,7 @@
                         <div class="form-group">
                             <label for="password">Password</label>
                             <input type="password" v-model="userData.password" class="form-control" id="password">
+                            <small>Password harus memiliki minimal 8 karakter dengan kombinasi angka, simbol dan huruf besar</small>
                         </div>
                         <div class="form-group">
                             <label for="confirm-password">Konfirmasi Password</label>
@@ -127,6 +128,31 @@ export default {
                     }
                 }
 
+                if (this.userData.password === '' || this.userData.confirm_password === '') {
+                    this.badRequestException('Kolom password dan konfirmasi password tidak boleh kosong')
+                }
+
+                if (this.userData.password !== this.userData.confirm_password) {
+                    this.badRequestException('Password dan konfirmasi password harus sama')
+                }
+
+                if (this.userData.password === this.userData.password.toLowerCase()) {
+                    this.badRequestException('Password harus memiliki minimal 1 huruf kapital')
+                }
+
+                if (this.userData.password.length < 8) {
+                    this.badRequestException('Password harus memiliki minimal 8 karakter')
+                }
+
+                if (!/\d/.test(this.userData.password)) {
+                    this.badRequestException('Password harus memiliki minimal 1 angka')
+                }
+                // eslint-disable-next-line
+                const symbol = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/
+                if (!symbol.test(this.userData.password)) {
+                    this.badRequestException('Password harus memiliki minimal 1 symbol')
+                }
+
                 const payload = {
                     username: this.userData.username,
                     idsatker: this.satkerSelected.id_satker,
@@ -154,6 +180,18 @@ export default {
                     })
                 }
             }
+        },
+
+        badRequestException (message) {
+            const exception = new Error();
+            exception.name = "Bad Request";
+            exception.response = {
+                status: 400,
+                data: {
+                    message: message
+                }
+            }
+            throw exception
         }
     },
 };
@@ -162,6 +200,10 @@ export default {
 <style scoped>
 .container-add-user{
     display: flex;
+}
+
+small {
+    color: orangered;
 }
 </style>
   

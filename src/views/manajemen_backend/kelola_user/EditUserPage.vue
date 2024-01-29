@@ -10,10 +10,7 @@
                         Back
                     </button>
                     <h2 class="title-content">Kelola User</h2>
-                    <div class="d-flex justify-content-between subtitle-content">
-                        <h6 id="subtitle-content">Edit User</h6>
-                        <button @click="resetPassword" class="btn btn-info btn-sm btn-reset">Reset Password</button>
-                    </div>
+                    <h6 class="subtitle-content">Edit User</h6>
                     <form v-if="userLoaded">
                         <div class="form-group">
                             <label for="username">Username</label>
@@ -38,6 +35,14 @@
                                 <option value="2">Verifikator</option>
                                 <option value="1">Administrator</option>
                             </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" v-model="userPassword.password" class="form-control" id="password">
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm-password">Konfirmasi Password</label>
+                            <input type="password" v-model="userPassword.confirmPassword" class="form-control" id="confirm-password">
                         </div>
                     </form>
                     <div class="d-flex justify-content-end">
@@ -65,6 +70,10 @@ export default {
         return {
             userId: this.$route.params.userid,
             userData: null,
+            userPassword: {
+                password: '',
+                confirmPassword: ''
+            },
             userLoaded: false,
             satkerLoaded: false,
             masterSatker: [],
@@ -168,72 +177,13 @@ export default {
 
                 await axios.put(`${process.env.VUE_APP_BACKENDHOST}/user/${this.userId}`, payload, config)
                 .then(
-                    this.$swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: 'User Berhasil Diperbarui'
-                    })
+                    await this.resetPassword(this.userPassword.password, this.userPassword.confirmPassword)
                 )
-                .then(this.$router.push({ name: 'KelolaUser' }))
-                
-            } catch (error) {
-                if (error.status === 401) {
-                    this.$router.push({ name: 'Home' })
-                } else {
-                    this.$swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: error.response.data.message
-                    })
-                }
-            }
-        },
-
-        async resetPassword () {
-            const {value: formValues} = await this.$swal.fire({
-                title: 'Reset Password',
-                html:
-                    '<input type="password" id="swal-input1" class="form-control" placeholder="Masukan Password Baru" style="margin-bottom: 20px;">' +
-                    '<input type="password" id="swal-input2" class="form-control" placeholder="Konfirmasi Password Baru">',
-                focusConfirm: false,
-                preConfirm: () => {
-                    return [
-                        document.getElementById('swal-input1').value,
-                        document.getElementById('swal-input2').value
-                    ]
-                }
-            })
-            if (formValues[0] === '' || formValues[1] === '') {
-                this.$swal.fire({
-                    icon: 'warning',
-                    title: 'Warning',
-                    text: 'Form Tidak Boleh Kosong'
-                })
-            } else if (formValues[0] !== formValues[1]) {
-                this.$swal.fire({
-                    icon: 'warning',
-                    title: 'Warning',
-                    text: 'Password yang dimasukan tidak sama'
-                })
-            }
-            try {
-                const token = localStorage.getItem('token');
-                const config = {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    }
-                }
-
-                const payload = {
-                    password: formValues[0]
-                }
-
-                await axios.put(`${process.env.VUE_APP_BACKENDHOST}/user/change-password/${this.userId}`, payload, config)
                 .then(
                     this.$swal.fire({
                         icon: 'success',
                         title: 'Success',
-                        text: 'Password Berhasil Diperbarui'
+                        text: 'User Berhasil Diperbarui'
                     })
                 )                
             } catch (error) {
@@ -247,6 +197,36 @@ export default {
                     })
                 }
             }
+        },
+
+        async resetPassword (password, confirmPassword) {
+            if (password !== '' || confirmPassword !== '') {
+                if (password === confirmPassword) {
+                    const token = localStorage.getItem('token');
+                    const config = {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        }
+                    }
+    
+                    const payload = {
+                        password: password
+                    }
+    
+                    await axios.put(`${process.env.VUE_APP_BACKENDHOST}/user/change-password/${this.userId}`, payload, config)
+                } else {
+                    const exception = new Error();
+                    exception.name = "Bad Request";
+                    exception.response = {
+                        status: 400,
+                        data: {
+                            message: 'Password dan Konfirmasi Password harus sama'
+                        }
+                    }
+                    throw exception
+                }
+
+            }
         }
     },
 };
@@ -255,11 +235,6 @@ export default {
 <style scoped>
 .container-edit-user{
     display: flex;
-}
-
-#subtitle-content {
-    position: relative;
-    top: 10px;
 }
 </style>
   

@@ -101,18 +101,14 @@ import EditUserPage from '@/views/manajemen_backend/kelola_user/EditUserPage.vue
 import AddUserPage from '@/views/manajemen_backend/kelola_user/AddUserPage.vue';
 
 const routes = [
-  // {
-  //   path: '/',
-  //   name: 'Home',
-  //   component: HomePage,
-  // },
-  {
-    path: '/login',
-    name: 'UserLogin',
-    component: UserLoginPage,
-  },
   {
     path: '/',
+    redirect: '/login',
+    // name: 'Home',
+    // component: HomePage,
+  },
+  {
+    path: '/login',
     name: 'UserLogin',
     component: UserLoginPage,
   },

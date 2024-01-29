@@ -138,6 +138,16 @@ export default {
 						}
 					]
 				},
+				{
+					title: 'Pengaturan',
+					icon: 'fa fa-cog',
+					child: [
+						{
+							href: '/kelola-user',
+							title: 'Kelola User'
+						}
+					]
+				},
 			]
 		}
     },

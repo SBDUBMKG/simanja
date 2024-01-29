@@ -95,6 +95,10 @@ import VerifikasiSyaratJabatanPage from '@/views/verifikasi/VerifikasiSyaratJaba
 import RekapitulasiJabatanPage from '@/views/report/RekapitulasiJabatanPage.vue';
 import CetakLaporanPage from '@/views/report/CetakLaporanPage.vue';
 
+// Manajemen backend Menu Views
+import KelolaUserPage from '@/views/manajemen_backend/kelola_user/KelolaUserPage.vue';
+import EditUserPage from '@/views/manajemen_backend/kelola_user/EditUserPage.vue';
+
 const routes = [
   {
     path: '/',
@@ -473,6 +477,18 @@ const routes = [
     path: '/cetak-laporan',
     name: 'CetakLaporan',
     component: CetakLaporanPage,
+  },
+
+  // Manajemen Backend Menu
+  {
+    path: '/kelola-user',
+    name: 'KelolaUser',
+    component: KelolaUserPage,
+  },
+  {
+    path: '/kelola-user/edit/:userid',
+    name: 'EditUser',
+    component: EditUserPage,
   },
 ];
 

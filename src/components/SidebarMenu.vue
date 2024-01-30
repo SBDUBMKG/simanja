@@ -290,6 +290,11 @@ export default {
 							title: 'Cetak Laporan'
 						}
 					]
+				},
+				{
+					href: '/profile',
+					title: 'Profile',
+					icon: 'fa fa-user'
 				}
 			],
 			menuUser: [
@@ -325,6 +330,11 @@ export default {
 							title: 'Cetak Laporan'
 						}
 					]
+				},
+				{
+					href: '/profile',
+					title: 'Profile',
+					icon: 'fa fa-user'
 				}
 			],
 		}

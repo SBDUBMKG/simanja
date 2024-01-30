@@ -232,7 +232,7 @@ export default {
                         password: password
                     }
     
-                    await axios.put(`${process.env.VUE_APP_BACKENDHOST}/user/change-password/${this.userId}`, payload, config)
+                    await axios.put(`${process.env.VUE_APP_BACKENDHOST}/user/reset-password/${this.userId}`, payload, config)
                 } else {
                     this.badRequestException('Password dan Konfirmasi Password harus sama')
                 }

@@ -71,6 +71,7 @@ export default {
         localStorage.setItem('token', response.data.data.accessToken);
         localStorage.setItem('satker', response.data.data.satker);
         localStorage.setItem('idsatker', response.data.data.idsatker);
+        localStorage.setItem('iduser', response.data.data.iduser);
         localStorage.setItem('role', response.data.data.role);
 
         axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.data.accessToken}`;

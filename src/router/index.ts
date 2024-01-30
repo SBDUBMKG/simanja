@@ -100,6 +100,9 @@ import KelolaUserPage from '@/views/manajemen_backend/kelola_user/KelolaUserPage
 import EditUserPage from '@/views/manajemen_backend/kelola_user/EditUserPage.vue';
 import AddUserPage from '@/views/manajemen_backend/kelola_user/AddUserPage.vue';
 
+// Profile Menu View
+import ProfilePage from '@/views/profile/ProfilePage.vue';
+
 const routes = [
   {
     path: '/',
@@ -495,6 +498,13 @@ const routes = [
     path: '/kelola-user/add',
     name: 'AddUser',
     component: AddUserPage,
+  },
+
+  // Profile Menu
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: ProfilePage,
   },
 ];
 

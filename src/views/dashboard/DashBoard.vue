@@ -32,33 +32,35 @@
                             </select>
                         </div>
                     </div>
-                    <div class="row-1 d-flex justify-content-between">
-                        <div class="graph shadow" style="width: 75%;">
+                    <div v-if="selectedYear">
+                        <div class="row-1 d-flex justify-content-between">
+                            <div class="graph shadow" style="width: 75%;">
+                                <div class="graph-header">
+                                    <h6 class="graph-title">Komposisi Pegawai Existing dan Kebutuhan</h6>
+                                </div>
+                                <VueApexCharts type="bar" height="250" :options="dashboardKomposisiPegawai.chartOptions" :series="dashboardKomposisiPegawai.series"></VueApexCharts>
+                            </div>
+                            <div class="graph shadow" style="width: 24%;">
+                                <div class="graph-header">
+                                    <h6 class="graph-title">Komposisi Pegawai</h6>
+                                </div>
+                                <div class="d-flex justity-content-center">
+                                    <VueApexCharts type="donut" height="250" :options="dashboardKomposisiPegawaiDonut.chartOptions" :series="dashboardKomposisiPegawaiDonut.series"></VueApexCharts>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="graph shadow">
                             <div class="graph-header">
-                                <h6 class="graph-title">Komposisi Pegawai Existing dan Kebutuhan</h6>
+                                <h6 class="graph-title">Status Progress Analisis Jabatan</h6>
                             </div>
-                            <VueApexCharts type="bar" height="250" :options="dashboardKomposisiPegawai.chartOptions" :series="dashboardKomposisiPegawai.series"></VueApexCharts>
+                            <VueApexCharts type="bar" height="350" :options="dashboardStatusProgress.chartOptions" :series="dashboardStatusProgress.series"></VueApexCharts>
                         </div>
-                        <div class="graph shadow" style="width: 24%;">
+                        <div class="graph shadow">
                             <div class="graph-header">
-                                <h6 class="graph-title">Komposisi Pegawai</h6>
+                                <h6 class="graph-title">Jumlah Kebutuhan Pegawai</h6>
                             </div>
-                            <div class="d-flex justity-content-center">
-                                <VueApexCharts type="donut" height="250" :options="dashboardKomposisiPegawaiDonut.chartOptions" :series="dashboardKomposisiPegawaiDonut.series"></VueApexCharts>
-                            </div>
+                            <VueApexCharts type="bar" height="350" :options="dashboardJumlahJabfung.chartOptions" :series="dashboardJumlahJabfung.series"></VueApexCharts>
                         </div>
-                    </div>
-                    <div class="graph shadow">
-                        <div class="graph-header">
-                            <h6 class="graph-title">Status Progress Analisis Jabatan</h6>
-                        </div>
-                        <VueApexCharts type="bar" height="350" :options="dashboardStatusProgress.chartOptions" :series="dashboardStatusProgress.series"></VueApexCharts>
-                    </div>
-                    <div class="graph shadow">
-                        <div class="graph-header">
-                            <h6 class="graph-title">Jumlah Kebutuhan Pegawai</h6>
-                        </div>
-                        <VueApexCharts type="bar" height="350" :options="dashboardJumlahJabfung.chartOptions" :series="dashboardJumlahJabfung.series"></VueApexCharts>
                     </div>
                 </div>
             </div>
@@ -81,7 +83,7 @@ export default {
     data () {
         return {
             years: [],
-            selectedYear: 2024,
+            selectedYear: null,
             selectedSatker: '01%',
             dashboardStatusProgress: {
                 series: [],
@@ -217,7 +219,8 @@ export default {
                     },
                     legend: {
                         position: 'right',
-                        offsetY: 40
+                        offsetY: 40,
+                        width: 200
                     }
                 },
             },
@@ -273,7 +276,6 @@ export default {
     mounted () {
         this.checkAuthentication()
         this.getDistinctYear()
-        this.getDashboard()
     },
     methods: {
         async checkAuthentication () {
@@ -299,6 +301,11 @@ export default {
                 const result = response.data.data.tahun
 
                 this.years = result
+                
+                const latestYear = result.slice(-1)
+                this.selectedYear = latestYear[0].tahun_jabatan
+
+                this.getDashboard()
             } catch (error) {
                 if (error.response.status === 401) {
                     this.$router.push({ name: 'Home' })

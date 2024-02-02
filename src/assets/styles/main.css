@@ -10,6 +10,11 @@
     border-radius: 5px;
 }
 
+.main-content-dashboard {
+    padding: 20px;
+    margin-top: 50px;
+}
+
 .title-content {
     font-size: 25px;
     font-weight: bold;

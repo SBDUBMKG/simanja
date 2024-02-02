@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@vuepic/vue-datepicker": "^7.4.1",
+    "apexcharts": "^3.45.2",
     "axios": "^1.5.1",
     "bootstrap": "^4.6.0",
     "datatables.net-bs5": "^1.13.7",
@@ -26,6 +27,7 @@
     "vue-search-select": "^3.2.0",
     "vue-sidebar-menu": "^5.2.12",
     "vue-sweetalert2": "^5.0.5",
+    "vue3-apexcharts": "^1.4.4",
     "vue3-carousel": "^0.3.1",
     "vuex": "^4.0.0"
   },

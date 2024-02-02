@@ -4,7 +4,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 // Import your Vue components here
 import HomePage from '@/views/HomePage.vue';
 import UserLoginPage from '@/views/login/UserLoginPage.vue';
-import DashBoard from '@/views/DashBoard.vue';
+import DashBoard from '@/views/dashboard/DashBoard.vue';
 
 
 // Master Menu Views

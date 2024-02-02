@@ -322,7 +322,6 @@ export default {
         async getDashboard () {
             await Promise.all([
                 this.getStatusProgress(),
-                this.getJumlahJabfung(),
                 this.getKomposisiPegawai()
             ])
         },
@@ -390,63 +389,6 @@ export default {
             }
         },
 
-        async getJumlahJabfung () {
-            try {
-                const token = localStorage.getItem('token');
-
-                const config = {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                };
-
-                const payload = {
-                    idsatker: this.selectedSatker,
-                    tahun: this.selectedYear
-                }
-
-                const response = await axios.post(`${process.env.VUE_APP_BACKENDHOST}/dashboard/kebutuhan-pegawai`, payload, config);
-                const result = response.data.data.jabfung
-
-                this.dashboardJumlahJabfung.series = []
-                this.dashboardJumlahJabfung.chartOptions.xaxis.categories.length = 0
-
-                const satker = []
-                const jumlahKebutuhan = []
-                
-                for (let i=0; i<result.length; i++) {
-                    for (let j=0; j<result[i].jumlah_per_satker.length; j++) {
-                        if (i === 0) {
-                            satker.push(result[i].jumlah_per_satker[j].satker)
-                        }
-                        if (jumlahKebutuhan[j] === undefined) {
-                            jumlahKebutuhan[j] = []
-                        }
-                        jumlahKebutuhan[j].push(result[i].jumlah_per_satker[j].jumlah_kebutuhan)
-                    }
-                    this.dashboardJumlahJabfung.chartOptions.xaxis.categories.push(result[i].jabatan_fungsional)
-                }
-
-                this.dashboardJumlahJabfung.series = satker.map((satker, index) => {
-                    return {
-                        name: satker,
-                        data: jumlahKebutuhan[index]
-                    }
-                })
-
-            } catch (error) {
-                if (error.response.status === 401) {
-                    this.$router.push({ name: 'Home' })
-                } else {
-                    this.$swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: error.response.data.message
-                    })
-                }
-            }
-        },
-
         async getKomposisiPegawai () {
             try {
                 const token = localStorage.getItem('token');
@@ -465,6 +407,9 @@ export default {
                 const response = await axios.post(`${process.env.VUE_APP_BACKENDHOST}/dashboard/komposisi-pegawai`, payload, config);
                 const result = response.data.data.komposisi
 
+                this.dashboardJumlahJabfung.series = []
+                this.dashboardJumlahJabfung.chartOptions.xaxis.categories.length = 0
+
                 this.dashboardKomposisiPegawai.series[0].data = []
                 this.dashboardKomposisiPegawaiDonut.series = []
 
@@ -474,6 +419,9 @@ export default {
 
                 const sumKebutuhan = []
                 const sumExisting = []
+
+                const satker = []
+                const jumlahKebutuhanJFT = []
                 
                 for (let i=0; i<result.length; i++) {
                     jabfung.push(result[i].jabatan_fungsional)
@@ -484,13 +432,28 @@ export default {
                     }
 
                     for (let j=0; j<result[i].jumlah_per_satker.length; j++) {
+                        if (i === 0) {
+                            satker.push(result[i].jumlah_per_satker[j].satker)
+                        }
+                        if (jumlahKebutuhanJFT[j] === undefined) {
+                            jumlahKebutuhanJFT[j] = []
+                        }
+                        jumlahKebutuhanJFT[j].push(result[i].jumlah_per_satker[j].jumlah_kebutuhan)
                         jumlahKebutuhan[i].push(Number(result[i].jumlah_per_satker[j].jumlah_kebutuhan))
                         jumlahExisting[i].push(Number(result[i].jumlah_per_satker[j].jumlah_existing))
                     }
+                    this.dashboardJumlahJabfung.chartOptions.xaxis.categories.push(result[i].jabatan_fungsional)
 
                     sumKebutuhan.push(jumlahKebutuhan[i].reduce((a, b) =>  a + b, 0))
                     sumExisting.push(jumlahExisting[i].reduce((a, b) => a + b, 0))
                 }
+
+                this.dashboardJumlahJabfung.series = satker.map((satker, index) => {
+                    return {
+                        name: satker,
+                        data: jumlahKebutuhanJFT[index]
+                    }
+                })
 
                 this.dashboardKomposisiPegawai.series[0].data = jabfung.map((jabfung, index) => {
                     return {

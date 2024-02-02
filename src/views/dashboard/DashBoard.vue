@@ -503,7 +503,7 @@ export default {
 .graph {
     border-radius: 5px;
     padding: 10px 10px 0 10px;
-    margin-top: 10px;
+    margin: 10px 0;
     background-color: white;
 }
 

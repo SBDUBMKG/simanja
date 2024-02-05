@@ -8,7 +8,6 @@
           <div class="auth-wrapper auth-v2">
             <div class="row auth-inner m-0">
               <a href="#" target="_self" class="brand-logo">
-                
                   <b-img src="@/assets/logo-BMKG.png"></b-img>
               </a>
               <div class="d-none d-lg-flex align-items-center p-5 col-lg-9">
@@ -78,7 +77,11 @@ export default {
         
         this.$router.push('/dashboard');
       } catch (error) {
-        console.error('Error saat login:', error);
+          this.$swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: error.response.data.message
+          })
       }
     },
   },

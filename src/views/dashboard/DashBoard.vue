@@ -618,7 +618,6 @@ export default {
                 this.dashboardKomposisiPegawaiDonut.series.push(sumKebutuhan.reduce((a, b) => a + b, 0))
 
             } catch (error) {
-                console.log(error)
                 if (error.response.status === 401) {
                     this.$router.push({ name: 'Home' })
                 } else {

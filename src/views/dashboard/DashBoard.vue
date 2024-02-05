@@ -101,15 +101,15 @@
                         </div>
                         <div class="graph shadow">
                             <div class="graph-header">
-                                <h6 class="graph-title">Status Progress Analisis Jabatan</h6>
-                            </div>
-                            <VueApexCharts type="bar" height="350" :options="dashboardStatusProgress.chartOptions" :series="dashboardStatusProgress.series"></VueApexCharts>
-                        </div>
-                        <div class="graph shadow">
-                            <div class="graph-header">
                                 <h6 class="graph-title">Jumlah Kebutuhan Pegawai</h6>
                             </div>
                             <VueApexCharts type="bar" height="350" :options="dashboardJumlahJabfung.chartOptions" :series="dashboardJumlahJabfung.series"></VueApexCharts>
+                        </div>
+                        <div class="graph shadow">
+                            <div class="graph-header">
+                                <h6 class="graph-title">Status Progress Analisis Jabatan</h6>
+                            </div>
+                            <VueApexCharts type="bar" height="350" :options="dashboardStatusProgress.chartOptions" :series="dashboardStatusProgress.series"></VueApexCharts>
                         </div>
                     </div>
                 </div>
@@ -187,7 +187,11 @@ export default {
                             showDuplicates: true,
                             maxHeight: 100,
                             trim: true
-                        }
+                        },
+                        decimalsInFloat: 0,
+                    },
+                    yaxis: {
+                        forceNiceScale: true
                     },
                     legend: {
                         position: 'right',
@@ -263,12 +267,16 @@ export default {
                             showDuplicates: true,
                             maxHeight: 100,
                             trim: true
-                        }
+                        },
+                        forceNiceScale: true,
+                        decimalsInFloat: 2,
                     },
                     yaxis: {
                         title: {
                             text: undefined
                         },
+                        forceNiceScale: true,
+                        decimalsInFloat: 2,
                     },
                     fill: {
                         opacity: 1
@@ -314,6 +322,11 @@ export default {
                         type: 'donut'
                     },
                     labels: ['Jumlah Existing', 'Jumlah Kebutuhan'],
+                    dataLabels: {
+                        formatter: function (val, opts) {
+                            return opts.w.config.series[opts.seriesIndex]
+                        },
+                    },
                     responsive: [{
                         breakpoint: 1000,
                         options: {
@@ -525,7 +538,7 @@ export default {
                         if (jumlahKebutuhanJFT[j] === undefined) {
                             jumlahKebutuhanJFT[j] = []
                         }
-                        jumlahKebutuhanJFT[j].push(result[i].jumlah_per_satker[j].jumlah_kebutuhan)
+                        jumlahKebutuhanJFT[j].push(Number(result[i].jumlah_per_satker[j].jumlah_kebutuhan))
                         jumlahKebutuhan[i].push(Number(result[i].jumlah_per_satker[j].jumlah_kebutuhan))
                         jumlahExisting[i].push(Number(result[i].jumlah_per_satker[j].jumlah_existing))
                     }

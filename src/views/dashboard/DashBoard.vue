@@ -60,21 +60,7 @@
                         <div class="filter-graph d-flex justify-content-start">
                             <label class="mr-2 mt-1">Satker</label>
                             <select v-model="selectedSatker" class="form-control form-control-sm mr-4" style="width: 300px;" @change="getDashboard">
-                                <option value="01%">BMKG Pusat</option>
-                                <option value="0105%">Kedeputian Meteorologi</option>
-                                <option value="0104%">Kedeputian Klimatologi</option>
-                                <option value="0102%">Kedeputian Geofisika</option>
-                                <option value="0103%">Kedeputian Inskalrekjarkom</option>
-                                <option value="0109%">Sekretariat Utama</option>
-                                <option value="0108%">Pusat Penelitian dan Pengembangan</option>
-                                <option value="0107%">Pusat Pendidikan dan Pelatihan</option>
-                                <option value="0106%">Inspektorat</option>
-                                <option value="07%">STMKG</option>
-                                <option value="02%">Balai I</option>
-                                <option value="03%">Balai II</option>
-                                <option value="04%">Balai III</option>
-                                <option value="05%">Balai IV</option>
-                                <option value="06%">Balai V</option>
+                                <option v-for="satker in satker" :value="satker" :key="satker.id">{{ satker.satker }}</option>
                             </select>
                             <label class="mr-2 mt-1">Tahun</label>
                             <select v-if="years.length !== 0" v-model="selectedYear" class="form-control form-control-sm" style="width: 100px;" @change="getDashboard">
@@ -88,14 +74,14 @@
                                 <div class="graph-header">
                                     <h6 class="graph-title">Komposisi Pegawai Existing dan Kebutuhan</h6>
                                 </div>
-                                <VueApexCharts type="bar" height="250" :options="dashboardKomposisiPegawai.chartOptions" :series="dashboardKomposisiPegawai.series"></VueApexCharts>
+                                <VueApexCharts ref="komposisiPegawaiChart" type="bar" height="300" :options="dashboardKomposisiPegawai.chartOptions" :series="dashboardKomposisiPegawai.series"></VueApexCharts>
                             </div>
                             <div class="graph shadow" style="width: 24%;">
                                 <div class="graph-header">
                                     <h6 class="graph-title">Komposisi Pegawai</h6>
                                 </div>
                                 <div class="d-flex justity-content-center">
-                                    <VueApexCharts type="donut" height="250" :options="dashboardKomposisiPegawaiDonut.chartOptions" :series="dashboardKomposisiPegawaiDonut.series"></VueApexCharts>
+                                    <VueApexCharts type="donut" height="300" :options="dashboardKomposisiPegawaiDonut.chartOptions" :series="dashboardKomposisiPegawaiDonut.series"></VueApexCharts>
                                 </div>
                             </div>
                         </div>
@@ -103,13 +89,13 @@
                             <div class="graph-header">
                                 <h6 class="graph-title">Jumlah Kebutuhan Pegawai</h6>
                             </div>
-                            <VueApexCharts type="bar" height="350" :options="dashboardJumlahJabfung.chartOptions" :series="dashboardJumlahJabfung.series"></VueApexCharts>
+                            <VueApexCharts ref="jumlahJabfungChart" type="bar" height="350" :options="dashboardJumlahJabfung.chartOptions" :series="dashboardJumlahJabfung.series"></VueApexCharts>
                         </div>
                         <div class="graph shadow">
                             <div class="graph-header">
                                 <h6 class="graph-title">Status Progress Analisis Jabatan</h6>
                             </div>
-                            <VueApexCharts type="bar" height="350" :options="dashboardStatusProgress.chartOptions" :series="dashboardStatusProgress.series"></VueApexCharts>
+                            <VueApexCharts ref="statusProgressChart" type="bar" height="350" :options="dashboardStatusProgress.chartOptions" :series="dashboardStatusProgress.series"></VueApexCharts>
                         </div>
                     </div>
                 </div>
@@ -140,7 +126,27 @@ export default {
             },
             years: [],
             selectedYear: null,
-            selectedSatker: '01%',
+            satker: [
+                { id: '01%', satker: 'BMKG Pusat' },
+                { id: '0105%', satker: 'Kedeputian Meteorologi' },
+                { id: '0104%', satker: 'Kedeputian Klimatologi' },
+                { id: '0102%', satker: 'Kedeputian Geofisika' },
+                { id: '0103%', satker: 'Kedeputian Inskalrekjarkom' },
+                { id: '0109%', satker: 'Sekretariat Utama' },
+                { id: '0108%', satker: 'Pusat Penelitian dan Pengembangan' },
+                { id: '0107%', satker: 'Pusat Pendidikan dan Pelatihan' },
+                { id: '0106%', satker: 'Inspektorat' },
+                { id: '07%', satker: 'STMKG' },
+                { id: '02%', satker: 'Balai I' },
+                { id: '03%', satker: 'Balai II' },
+                { id: '04%', satker: 'Balai III' },
+                { id: '05%', satker: 'Balai IV' },
+                { id: '06%', satker: 'Balai V' },
+            ],
+            selectedSatker: {
+                id: '01%',
+                satker: 'BMKG Pusat'
+            },
             dashboardStatusProgress: {
                 series: [],
                 chartOptions: {
@@ -201,7 +207,7 @@ export default {
                         opacity: 1
                     },
                     title: {
-                        text: 'Status Progress Analisis Jabatan',
+                        text: undefined,
                         align: 'center',
                         margin: 10,
                         floating: false,
@@ -211,7 +217,7 @@ export default {
                             color:  '#263238'
                         },
                     }
-                },
+                }
             },
             dashboardJumlahJabfung: {
                 series: [],
@@ -309,10 +315,22 @@ export default {
                     legend: {
                         show: true,
                         showForSingleSeries: true,
+                        customLegendItems: ['Jumlah Pegawai Existing', 'Jumlah Kebutuhan Pegawai'],
                         markers: {
                             fillColors: ['#00E396', '#775DD0']
                         }
-                    }
+                    },
+                    title: {
+                        text: undefined,
+                        align: 'center',
+                        margin: 10,
+                        floating: false,
+                        style: {
+                            fontSize:  '14px',
+                            fontWeight:  'bold',
+                            color:  '#263238'
+                        },
+                    },
                 },
             },
             dashboardKomposisiPegawaiDonut: {
@@ -324,7 +342,10 @@ export default {
                     labels: ['Jumlah Existing', 'Jumlah Kebutuhan'],
                     dataLabels: {
                         formatter: function (val, opts) {
-                            return opts.w.config.series[opts.seriesIndex]
+                            return `${opts.w.config.series[opts.seriesIndex]} / ${Math.round(val*100)/100}%`
+                        },
+                        style: {
+                            colors: ['#111111', '#111111']
                         },
                     },
                     responsive: [{
@@ -437,7 +458,7 @@ export default {
                 };
 
                 const payload = {
-                    idsatker: this.selectedSatker,
+                    idsatker: this.selectedSatker.id,
                     tahun: this.selectedYear
                 }
 
@@ -446,6 +467,13 @@ export default {
 
                 this.dashboardStatusProgress.series = []
                 this.dashboardStatusProgress.chartOptions.xaxis.categories.length = 0
+
+                const statusProgressChart = this.$refs.statusProgressChart.chart
+                statusProgressChart.updateOptions({
+                    title: {
+                        text: `Status Progress Analisis Jabatan ${this.selectedSatker.satker} Tahun ${this.selectedYear}`
+                    }
+                })
 
                 const belumDikirim = {
                     name: 'Belum Dikirim',
@@ -477,6 +505,7 @@ export default {
 
                 this.dashboardStatusProgress.series.push(belumDikirim, sudahDikirim, dikembalikan, sudahDiverifikasi)
             } catch (error) {
+                console.log(error)
                 if (error.response.status === 401) {
                     this.$router.push({ name: 'Home' })
                 } else {
@@ -500,7 +529,7 @@ export default {
                 };
 
                 const payload = {
-                    idsatker: this.selectedSatker,
+                    idsatker: this.selectedSatker.id,
                     tahun: this.selectedYear
                 }
 
@@ -512,6 +541,20 @@ export default {
 
                 this.dashboardKomposisiPegawai.series[0].data = []
                 this.dashboardKomposisiPegawaiDonut.series = []
+
+                const jumlahJabfungChart = this.$refs.jumlahJabfungChart.chart
+                jumlahJabfungChart.updateOptions({
+                    title: {
+                        text: `Jumlah Kebutuhan Pegawai JFT dan JFU ${this.selectedSatker.satker} Tahun ${this.selectedYear}`
+                    }
+                })  
+                
+                const komposisiPegawaiChart = this.$refs.komposisiPegawaiChart.chart
+                komposisiPegawaiChart.updateOptions({
+                    title: {
+                        text: `Komposisi Pegawai Existing dan Kebutuhan ${this.selectedSatker.satker} Tahun ${this.selectedYear}`
+                    }
+                })  
 
                 const jabfung = []
                 const jumlahKebutuhan = []

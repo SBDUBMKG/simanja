@@ -6,6 +6,56 @@
                 <NavbarDashboard/>
                 <div class="main-content-dashboard">
 					<h2 class="title-content">Dashboard</h2>
+                    <div class="d-flex justify-content-between">
+                        <div class="box shadow">
+                            <div class="content-box d-flex justify-content-between">
+                                <div>
+                                    <h4 class="total-text sudah-diverifikasi">{{ totalProgress.sudah_diverifikasi }}</h4>
+                                    <h6 class="subtotal-text">Jabatan</h6>
+                                </div>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-checks" width="40" height="40" viewBox="0 0 24 24" stroke-width="2" stroke="#636363" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 12l5 5l10 -10" /><path d="M2 12l5 5m5 -5l5 -5" /></svg>
+                            </div>
+                            <div class="lower-box sudah-diverifikasi">
+                                <h6>Sudah Diverifikasi</h6>
+                            </div>
+                        </div>
+                        <div class="box shadow">
+                            <div class="content-box d-flex justify-content-between">
+                                <div>
+                                    <h4 class="total-text dikembalikan">{{ totalProgress.dikembalikan }}</h4>
+                                    <h6 class="subtotal-text">Jabatan</h6>
+                                </div>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-forward" width="40" height="40" viewBox="0 0 24 24" stroke-width="2" stroke="#636363" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 11l4 4l-4 4m4 -4h-11a4 4 0 0 1 0 -8h1" /></svg>
+                            </div>
+                            <div class="lower-box dikembalikan">
+                                <h6>Dikembalikan</h6>
+                            </div>
+                        </div>
+                        <div class="box shadow">
+                            <div class="content-box d-flex justify-content-between">
+                                <div>
+                                    <h4 class="total-text sudah-dikirim">{{ totalProgress.sudah_dikirim }}</h4>
+                                    <h6 class="subtotal-text">Jabatan</h6>
+                                </div>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-send" width="40" height="40" viewBox="0 0 24 24" stroke-width="2" stroke="#636363" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 14l11 -11" /><path d="M21 3l-6.5 18a.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a.55 .55 0 0 1 0 -1l18 -6.5" /></svg>
+                            </div>
+                            <div class="lower-box sudah-dikirim">
+                                <h6>Sudah Dikirim</h6>
+                            </div>
+                        </div>
+                        <div class="box shadow">
+                            <div class="content-box d-flex justify-content-between">
+                                <div>
+                                    <h4 class="total-text belum-dikirim">{{ totalProgress.belum_dikirim }}</h4>
+                                    <h6 class="subtotal-text">Jabatan</h6>
+                                </div>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-report" width="40" height="40" viewBox="0 0 24 24" stroke-width="2" stroke="#636363" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h5.697" /><path d="M18 14v4h4" /><path d="M18 11v-4a2 2 0 0 0 -2 -2h-2" /><path d="M8 3m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z" /><path d="M18 18m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" /><path d="M8 11h4" /><path d="M8 15h3" /></svg>
+                            </div>
+                            <div class="lower-box belum-dikirim">
+                                <h6>Belum Dikirim</h6>
+                            </div>
+                        </div>
+                    </div>
                     <div class="graph shadow">
                         <div class="filter-graph d-flex justify-content-start">
                             <label class="mr-2 mt-1">Satker</label>
@@ -82,6 +132,12 @@ export default {
     },
     data () {
         return {
+            totalProgress: {
+                sudah_diverifikasi: 0,
+                dikembalikan: 0,
+                sudah_dikirim: 0,
+                belum_dikirim: 0
+            },
             years: [],
             selectedYear: null,
             selectedSatker: '01%',
@@ -275,6 +331,7 @@ export default {
     },
     mounted () {
         this.checkAuthentication()
+        this.getTotalProgress()
         this.getDistinctYear()
     },
     methods: {
@@ -284,6 +341,36 @@ export default {
             if (!token) {
                 console.error('Token not available');
                 this.$router.push({ name: 'Home' })
+            }
+        },
+
+        async getTotalProgress () {
+            try {
+                const token = localStorage.getItem('token');
+
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                };
+
+                const response = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/dashboard/total-progress`, config);
+                const result = response.data.data.status[0]
+
+                this.totalProgress.sudah_diverifikasi = Number(result.sudah_diverifikasi)
+                this.totalProgress.dikembalikan = Number(result.dikembalikan)
+                this.totalProgress.sudah_dikirim = Number(result.sudah_dikirim)
+                this.totalProgress.belum_dikirim = Number(result.belum_dikirim)
+            } catch (error) {
+                if (error.response.status === 401) {
+                    this.$router.push({ name: 'Home' })
+                } else {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: error.response.data.message
+                    })
+                }
             }
         },
 
@@ -507,8 +594,65 @@ export default {
     background-color: white;
 }
 
+.box {
+    background-color: white;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    width: 24%;
+    height: 150px;
+    overflow: hidden;
+}
+
+.box .content-box {
+    padding: 30px 30px 20px 30px;
+}
+
+.subtotal-text {
+    color: grey;
+}
+
+.total-text.sudah-diverifikasi {
+    color: rgb(43, 183, 38);
+}
+
+.total-text.dikembalikan {
+    color: #b72626;
+}
+
+.total-text.sudah-dikirim {
+    color: #266bb7;
+}
+
+.total-text.belum-dikirim {
+    color: #b77826;
+}
+
+.lower-box {
+    color: white;
+    height: 40px;
+    padding: 8px 15px 8px 15px;
+}
+
+.lower-box.sudah-diverifikasi {
+    background: rgb(43,183,38);
+    background: linear-gradient(90deg, rgba(43,183,38,1) 0%, rgba(77,214,72,1) 50%, rgba(97,255,89,1) 100%);
+}
+
+.lower-box.dikembalikan {
+    background: rgb(183,38,38);
+    background: linear-gradient(90deg, rgba(183,38,38,1) 0%, rgba(214,72,72,1) 50%, rgba(255,89,89,1) 100%);
+}
+
+.lower-box.sudah-dikirim {
+    background: rgb(38,107,183);
+    background: linear-gradient(90deg, rgba(38,107,183,1) 0%, rgba(72,142,214,1) 50%, rgba(89,179,255,1) 100%);
+}
+
+.lower-box.belum-dikirim {
+    background: rgb(183,120,38);
+    background: linear-gradient(90deg, rgba(183,120,38,1) 0%, rgba(214,155,72,1) 50%, rgba(255,183,89,1) 100%);
+}
 .graph-header {
-    /* padding: 5px; */
     border-bottom-style: solid;
     border-bottom-color: grey;
     border-bottom-width: 2px;

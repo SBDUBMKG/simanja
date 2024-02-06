@@ -4,7 +4,7 @@
             <SidebarMenu/>
             <div class="container-content">
                 <NavbarDashboard/>
-                <div class="main-content-dashboard">
+                <div v-if="role" class="main-content-dashboard">
 					<h2 class="title-content">Dashboard</h2>
                     <div class="d-flex justify-content-between">
                         <div class="box shadow">
@@ -59,8 +59,11 @@
                     <div class="graph shadow">
                         <div class="filter-graph d-flex justify-content-start">
                             <label class="mr-2 mt-1">Satker</label>
-                            <select v-model="selectedSatker" class="form-control form-control-sm mr-4" style="width: 300px;" @change="getDashboard">
+                            <select v-if="role === 'Administrator' || role === 'Verifikator'" v-model="selectedSatker" class="form-control form-control-sm mr-4" style="width: 300px;" @change="getDashboard">
                                 <option v-for="satker in satker" :value="satker" :key="satker.id">{{ satker.satker }}</option>
+                            </select>
+                            <select v-else v-model="selectedSatker" disabled class="form-control form-control-sm mr-4" style="width: 300px;">
+                                <option :value="selectedSatker">{{ selectedSatker.satker }}</option>
                             </select>
                             <label class="mr-2 mt-1">Tahun</label>
                             <select v-if="years.length !== 0" v-model="selectedYear" class="form-control form-control-sm" style="width: 100px;" @change="getDashboard">
@@ -118,6 +121,7 @@ export default {
     },
     data () {
         return {
+            role: null,
             totalProgress: {
                 sudah_diverifikasi: 0,
                 dikembalikan: 0,
@@ -376,6 +380,15 @@ export default {
                 console.error('Token not available');
                 this.$router.push({ name: 'Home' })
             }
+
+            this.role = localStorage.getItem('role')
+
+            if (this.role !== 'Administrator' && this.role !== 'Verifikator') {
+                this.selectedSatker = {
+                    id: `${localStorage.getItem('idsatker')}%`,
+                    satker: localStorage.getItem('satker')
+                }
+            }
         },
 
         async getTotalProgress () {
@@ -388,7 +401,11 @@ export default {
                     },
                 };
 
-                const response = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/dashboard/total-progress`, config);
+                const payload = {
+                    idsatker: this.selectedSatker.id
+                }
+
+                const response = await axios.post(`${process.env.VUE_APP_BACKENDHOST}/dashboard/total-progress`, payload, config);
                 const result = response.data.data.status[0]
 
                 this.totalProgress.sudah_diverifikasi = Number(result.sudah_diverifikasi)
@@ -416,9 +433,13 @@ export default {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
-                };
+                }
 
-                const response = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/dashboard/distinct-year`, config);
+                const payload = {
+                    idsatker: this.selectedSatker.id
+                }
+
+                const response = await axios.post(`${process.env.VUE_APP_BACKENDHOST}/dashboard/distinct-year`, payload, config);
                 const result = response.data.data.tahun
 
                 this.years = result

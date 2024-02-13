@@ -129,6 +129,8 @@ export default {
     methods: {
         async searchQuery () {
             try {
+                this.jabatanLoaded = false
+
                 const token = localStorage.getItem('token')
 
                 const config = {
@@ -141,25 +143,29 @@ export default {
 
                 if (this.role === 'Administrator' || this.role === 'Verifikator') {
                     queryPayload = {
-                        idsatkerpayload: this.satkerSelected.id_satker,
+                        idsatkerpayload: `${this.satkerSelected.id_satker}%`,
                         tahun: this.tahunSelected
                     }
                 } else {
                     queryPayload = {
-                        idsatkerpayload: localStorage.getItem('idsatker'),
+                        idsatkerpayload: `${localStorage.getItem('idsatker')}%`,
                         tahun: this.tahunSelected
                     }
                 }
 
                 const response = await axios.post(`${process.env.VUE_APP_BACKENDHOST}/jabatan/report`, queryPayload, config);
 
-                this.daftarJabatan = []
+                this.daftarJabatan = response.data.data.jabatan.map(jabatan => {
+                    return {
+                        fungsional: jabatan.fungsional,
+                        id_jabatan: jabatan.id_jabatan,
+                        satker: jabatan.satker,
+                        selected: false,
+                        status: jabatan.status,
+                        tahun_jabatan: jabatan.tahun_jabatan
+                    }
+                })
 
-                for (let i = 0; i < response.data.data.jabatan.length; i++) {
-                    this.daftarJabatan.push(response.data.data.jabatan[i])
-                    this.daftarJabatan[i].selected = false
-                }
-                // this.daftarJabatan = response.data.data.jabatan
                 this.jabatanLoaded = true
             } catch (error) {
                 if (error.response.status === 401) {
@@ -203,7 +209,7 @@ export default {
                 // Trigger download
                 const link = document.createElement('a');
                 link.href = docxFile;
-                link.download = 'output.docx';
+                link.download = `Report ${this.satkerSelected.satker} ${this.tahunSelected}.docx`;
                 link.click();
 
             } catch (error) {

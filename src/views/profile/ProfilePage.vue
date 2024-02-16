@@ -148,14 +148,15 @@ export default {
                             newPassword: newPassword
                         }
         
-                        await axios.put(`${process.env.VUE_APP_BACKENDHOST}/user/change-password/${iduser}`, payload, config)
-                        .then(
+                        const result = await axios.put(`${process.env.VUE_APP_BACKENDHOST}/user/change-password/${iduser}`, payload, config)
+
+                        if (result.data.status === "success") {
                             this.$swal.fire({
                                 icon: 'success',
                                 title: 'Success',
                                 text: 'Password berhasil diubah'
                             })
-                        )
+                        }
                     } else {
                         this.badRequestException('Password dan Konfirmasi Password harus sama')
                     }

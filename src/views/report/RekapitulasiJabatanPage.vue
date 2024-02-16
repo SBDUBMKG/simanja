@@ -39,7 +39,7 @@
                         <table class="table table-sm table-bordered table-responsive-xl display">
                             <thead class="table-head">
                                 <th>No</th>
-                                <th>Kode Jabatan</th>
+                                <th>Unit Kerja</th>
                                 <th>Nama Jabatan</th>
                                 <th>Jumlah Pegawai Saat Ini</th>
                                 <th>Jumlah Kebutuhan Pegawai</th>
@@ -48,7 +48,7 @@
                             <tbody>
                                 <tr v-for="(jabatan, index) in daftarJabatan" :key="jabatan.id_jabatan">
                                     <td>{{ index + 1 }}</td>
-                                    <td>{{ jabatan.id_fungsional }}</td>
+                                    <td>{{ jabatan.satker }}</td>
                                     <td>{{ jabatan.fungsional }}</td>
                                     <td>{{ jabatan.jumlah_pegawai_existing }}</td>
                                     <td>{{ jabatan.jumlah_kebutuhan_pegawai }}</td>
@@ -125,12 +125,12 @@ export default {
 
                 if (this.role === 'Administrator' || this.role === 'Verifikator') {
                     queryPayload = {
-                        idsatkerpayload: this.satkerSelected.id_satker,
+                        idsatkerpayload: `${this.satkerSelected.id_satker}%`,
                         tahun: this.tahunSelected
                     }
                 } else {
                     queryPayload = {
-                        idsatkerpayload: localStorage.getItem('idsatker'),
+                        idsatkerpayload: `${localStorage.getItem('idsatker')}%`,
                         tahun: this.tahunSelected
                     }
                 }

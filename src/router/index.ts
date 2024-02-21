@@ -2,7 +2,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 // Import your Vue components here
-import HomePage from '@/views/HomePage.vue';
+import HomePage from '@/views/portal/HomePage.vue';
 import UserLoginPage from '@/views/login/UserLoginPage.vue';
 import DashBoard from '@/views/dashboard/DashBoard.vue';
 
@@ -107,7 +107,7 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: UserLoginPage,
+    component: HomePage,
   },
   {
     path: '/login',

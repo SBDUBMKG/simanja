@@ -304,8 +304,12 @@ export default {
   .article-box {
     background-size: cover;
     background-position: center;
+    transition: transform 0.3s;
   }
 
+  .article-box:hover {
+    transform: scale(1.02);
+  }
   .overlay {
     background-color: rgba(0, 0, 0, 0.4);
     position: relative;

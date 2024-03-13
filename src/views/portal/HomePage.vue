@@ -1,37 +1,6 @@
 <template>
   <div>
-    <nav id="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" :class="{ 'transparent-navbar': transparentNavbar }">
-      <a class="navbar-brand" href="#">
-        <img src="@/assets/logo-simanja-white.svg" width="140" alt="simanja-logo">
-      </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>  
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Beranda</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Jabatan</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Unit Kerja</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Artikel</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Regulasi</a>
-          </li>
-        </ul>
-        <div class="form-inline my-2 my-lg-0">
-          <button class="btn btn-primary my-2 my-sm-0" @click="toLoginPage">
-            <svg style="margin-top: -3px;" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-login-2" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 8v-2a2 2 0 0 1 2 -2h7a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-7a2 2 0 0 1 -2 -2v-2" /><path d="M3 12h13l-3 -3" /><path d="M13 15l3 -3" /></svg> Login
-          </button>
-        </div>
-      </div>
-    </nav>
+    <NavbarPortal :transparent="transparentNavbar" @scroll="handleScroll"/>
     <div class="jumbotron jumbotron-fluid" ref="jumbotron">
       <div class="container" style="margin-top: 100px;">
         <div class="d-flex justify-content-center" style="margin-bottom: 10px;">
@@ -41,11 +10,6 @@
         <p class="lead">
           Sistem Informasi Manajemen Analisis Jabatan dan Beban Kerja<br>Badan Meteorologi, Klimatologi, dan Geofisika
         </p>
-        <!-- <div class="d-flex justify-content-center">
-          <button class="btn btn-primary my-2 my-sm-0" @click="toLoginPage">
-            <svg style="margin-top: -3px;" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-login-2" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 8v-2a2 2 0 0 1 2 -2h7a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-7a2 2 0 0 1 -2 -2v-2" /><path d="M3 12h13l-3 -3" /><path d="M13 15l3 -3" /></svg> Login
-          </button>
-        </div> -->
       </div>
     </div>
     <div class="process-steps container-fluid content" @scroll="handleScroll">
@@ -101,7 +65,7 @@
         </div>
       </div>
     </div>
-    <div class="articles container-fluid content">
+    <div v-if="articlesLoaded" class="articles container-fluid content">
       <div class="title-content text-center">
         <h5>
           Berita dan Artikel<br>
@@ -110,107 +74,97 @@
       </div>
       <div class="row container-fluid justify-content-center">
         <div class="column">
-          <div class="article-box article-1" :style="{ backgroundImage: `url(${require('@/assets/article-1.jpeg')})` }">
+          <div class="article-box article-1" :style="{ backgroundImage: `url(${backendHost}/image/${articles[0].img})` }">
             <div class="overlay">
-              <div class="article-content">
-                <h5 class="article-title">LOREM IPSUM DOLOR SIT AMET.</h5>
-                <div class="separator"></div>
-                <p class="article-upload-time">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock-up" width="14" height="14" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M20.983 12.548a9 9 0 1 0 -8.45 8.436" /><path d="M19 22v-6" /><path d="M22 19l-3 -3l-3 3" /><path d="M12 7v5l2.5 2.5" /></svg> 20 Februari 2024
-                </p>
-              </div>
+              <router-link :to="{ name: 'ArticleDetail', params: { articleid: articles[0].id_article } }">
+                <div class="article-content">
+                  <h5 class="article-title">{{ articles[0].title }}</h5>
+                  <div class="separator"></div>
+                  <p class="article-upload-time">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock-up" width="14" height="14" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M20.983 12.548a9 9 0 1 0 -8.45 8.436" /><path d="M19 22v-6" /><path d="M22 19l-3 -3l-3 3" /><path d="M12 7v5l2.5 2.5" /></svg> {{ changeDateFormat(articles[0].created_at) }}
+                  </p>
+                </div>
+              </router-link>
             </div>
           </div>
-          <div class="article-box article-4" :style="{ backgroundImage: `url(${require('@/assets/article-2.webp')})` }">
+          <div class="article-box article-4" :style="{ backgroundImage: `url(${backendHost}/image/${articles[3].img})` }">
             <div class="overlay">
-              <div class="article-content">
-                <h6 class="article-title">LOREM IPSUM DOLOR SIT AMET.</h6>
-                <div class="separator"></div>
-                <p class="article-upload-time">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock-up" width="14" height="14" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M20.983 12.548a9 9 0 1 0 -8.45 8.436" /><path d="M19 22v-6" /><path d="M22 19l-3 -3l-3 3" /><path d="M12 7v5l2.5 2.5" /></svg> 20 Februari 2024
-                </p>
-              </div>
+              <router-link :to="{ name: 'ArticleDetail', params: { articleid: articles[3].id_article } }">
+                <div class="article-content">
+                  <h6 class="article-title">{{ articles[3].title }}</h6>
+                  <div class="separator"></div>
+                  <p class="article-upload-time">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock-up" width="14" height="14" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M20.983 12.548a9 9 0 1 0 -8.45 8.436" /><path d="M19 22v-6" /><path d="M22 19l-3 -3l-3 3" /><path d="M12 7v5l2.5 2.5" /></svg> {{ changeDateFormat(articles[3].created_at) }}
+                  </p>
+                </div>
+              </router-link>
             </div>
           </div>
         </div>
         <div class="column">
-          <div class="article-box article-2" :style="{ backgroundImage: `url(${require('@/assets/article-2.webp')})` }">
+          <div class="article-box article-2" :style="{ backgroundImage: `url(${backendHost}/image/${articles[1].img})` }">
             <div class="overlay">
-              <div class="article-content">
-                <h6 class="article-title">LOREM IPSUM DOLOR SIT AMET.</h6>
-                <div class="separator"></div>
-                <p class="article-upload-time">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock-up" width="14" height="14" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M20.983 12.548a9 9 0 1 0 -8.45 8.436" /><path d="M19 22v-6" /><path d="M22 19l-3 -3l-3 3" /><path d="M12 7v5l2.5 2.5" /></svg> 20 Februari 2024
-                </p>
-              </div>
+              <router-link :to="{ name: 'ArticleDetail', params: { articleid: articles[1].id_article } }">
+                <div class="article-content">
+                  <h6 class="article-title">{{ articles[1].title }}</h6>
+                  <div class="separator"></div>
+                  <p class="article-upload-time">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock-up" width="14" height="14" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M20.983 12.548a9 9 0 1 0 -8.45 8.436" /><path d="M19 22v-6" /><path d="M22 19l-3 -3l-3 3" /><path d="M12 7v5l2.5 2.5" /></svg> {{ changeDateFormat(articles[1].created_at) }}
+                  </p>
+                </div>
+              </router-link>
             </div>
           </div>
-          <div class="article-box article-3" :style="{ backgroundImage: `url(${require('@/assets/article-3.jpg')})` }">
+          <div class="article-box article-3" :style="{ backgroundImage: `url(${backendHost}/image/${articles[2].img})` }">
             <div class="overlay">
-              <div class="article-content">
-                <h6 class="article-title">LOREM IPSUM DOLOR SIT AMET.</h6>
-                <div class="separator"></div>
-                <p class="article-upload-time">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock-up" width="14" height="14" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M20.983 12.548a9 9 0 1 0 -8.45 8.436" /><path d="M19 22v-6" /><path d="M22 19l-3 -3l-3 3" /><path d="M12 7v5l2.5 2.5" /></svg> 20 Februari 2024
-                </p>
-              </div>
+              <router-link :to="{ name: 'ArticleDetail', params: { articleid: articles[2].id_article } }">
+                <div class="article-content">
+                  <h6 class="article-title">{{ articles[2].title }}</h6>
+                  <div class="separator"></div>
+                  <p class="article-upload-time">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock-up" width="14" height="14" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M20.983 12.548a9 9 0 1 0 -8.45 8.436" /><path d="M19 22v-6" /><path d="M22 19l-3 -3l-3 3" /><path d="M12 7v5l2.5 2.5" /></svg> {{ changeDateFormat(articles[2].created_at) }}
+                  </p>
+                </div>
+              </router-link>
             </div>
           </div>
-          <div class="article-box article-5" :style="{ backgroundImage: `url(${require('@/assets/article-3.jpg')})` }">
+          <div class="article-box article-5" :style="{ backgroundImage: `url(${backendHost}/image/${articles[4].img})` }">
             <div class="overlay">
-              <div class="article-content">
-                <h6 class="article-title">LOREM IPSUM DOLOR SIT AMET.</h6>
-                <div class="separator"></div>
-                <p class="article-upload-time">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock-up" width="14" height="14" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M20.983 12.548a9 9 0 1 0 -8.45 8.436" /><path d="M19 22v-6" /><path d="M22 19l-3 -3l-3 3" /><path d="M12 7v5l2.5 2.5" /></svg> 20 Februari 2024
-                </p>
-              </div>
+              <router-link :to="{ name: 'ArticleDetail', params: { articleid: articles[4].id_article } }">
+                <div class="article-content">
+                  <h6 class="article-title">{{ articles[4].title }}</h6>
+                  <div class="separator"></div>
+                  <p class="article-upload-time">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock-up" width="14" height="14" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M20.983 12.548a9 9 0 1 0 -8.45 8.436" /><path d="M19 22v-6" /><path d="M22 19l-3 -3l-3 3" /><path d="M12 7v5l2.5 2.5" /></svg> {{ changeDateFormat(articles[4].created_at) }}
+                  </p>
+                </div>
+              </router-link>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="footer container-fluid">
-      <div class="row container-fluid d-flex justify-content-around">
-        <div class="col-md-2 footer-link">
-          <h1><strong>SIMANJA</strong></h1>
-          <h6>Sistem Informasi Manajemen Analisis Jabatan dan Beban Kerja</h6>
-          <h6>BMKG</h6>
-        </div>
-        <div class="col-md-2">
-          <h6 class="footer-link">Tautan</h6>
-          <p class="footer-link">Website BMKG</p>
-          <p class="footer-link">JDIH BMKG</p>
-          <p class="footer-link">New SIMAS BMKG</p>
-          <p class="footer-link">Dashboard Database Umum BMKG</p>
-        </div>
-        <div class="col-md-2">
-          <h6 class="footer-link">Kontak Kami</h6>
-          <div class="footer-link d-flex justify-content-start">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-at" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" /><path d="M16 12v1.5a2.5 2.5 0 0 0 5 0v-1.5a9 9 0 1 0 -5.5 8.28" /></svg>
-            <p>simanja@bmkg.go.id</p>
-          </div>
-          <div class="footer-link d-flex justify-content-start">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-map-pin-pin" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" /><path d="M12.783 21.326a2 2 0 0 1 -2.196 -.426l-4.244 -4.243a8 8 0 1 1 13.657 -5.62" /><path d="M21.121 20.121a3 3 0 1 0 -4.242 0c.418 .419 1.125 1.045 2.121 1.879c1.051 -.89 1.759 -1.516 2.121 -1.879z" /><path d="M19 18v.01" /></svg>
-            <p>Jl. Angkasa I No.2 Kemayoran, Jakarta Pusat</p>
-          </div>
-          <div class="footer-link d-flex justify-content-start">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-phone-call" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2" /><path d="M15 7a2 2 0 0 1 2 2" /><path d="M15 3a6 6 0 0 1 6 6" /></svg>
-            <p>(021) 196</p>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+import NavbarPortal from '@/components/NavbarPortal.vue';
+import Footer from '@/components/Footer.vue';
 
 export default {
   name: "HomePage",
+  components: {
+    NavbarPortal,
+    Footer
+  },
   data () {
     return {
-      transparentNavbar: true
+      backendHost: process.env.VUE_APP_BACKENDHOST,
+      transparentNavbar: true,
+      articles: null,
+      articlesLoaded: false
     }
   },
   created () {
@@ -219,24 +173,50 @@ export default {
   unmounted () {
     window.removeEventListener('scroll', this.handleScroll)
   },
+  mounted () {
+    this.loadArticles()
+  },
   methods: {
     handleScroll () {
       const jumbotronTop = this.$refs.jumbotron.getBoundingClientRect().top
       this.transparentNavbar = jumbotronTop >= 0
     },
-    toLoginPage () {
-      this.$router.push('/login')
-    }
+
+    changeDateFormat (upload_time) {
+        const date = new Date(upload_time)
+
+        const day = date.getDate()
+        const month = date.getMonth()
+        const year = date.getFullYear()
+
+        const months =  ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"]
+        
+        return (`${day} ${months[month]} ${year}`)
+    },
+
+    async loadArticles () {
+      try {
+        const response = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/articles/latest`)
+        this.articles = response.data.data.articles
+        this.articlesLoaded = true
+      } catch (error) {
+        if (error.response.status === 401) {
+          this.$router.push({ name: 'Home' })
+        } else {
+          this.$swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: error.response.data.message
+          })
+        }
+      }
+    },
   }
 };
 
 </script>
 
 <style scoped>
-  .transparent-navbar {
-    background-color: transparent !important;
-    transition: background-color 0.3s ease;
-  }
   .jumbotron {
     background-image: url('@/assets/jumbotron.jpg');
     background-size: cover;
@@ -333,7 +313,7 @@ export default {
     padding: 5px 20px;
   }
 
-  .article-content, .footer-link {
+  .article-content, .footer-link, router-link {
     color: rgb(240, 240, 240);
   }
 
@@ -350,26 +330,6 @@ export default {
 
   .article-content .article-upload-time {
     font-size: 14px;
-    margin: 0;
-  }
-
-  .footer {
-    margin-top: 50px;
-    background-color: #343A40;
-    padding: 40px 10px 30px 10px;
-  }
-
-  p.footer-link, div.footer-link {
-    margin: 10px 0;
-    color: rgb(210, 210, 210);
-    font-size: 15px;
-  }
-
-  div.footer-link svg {
-    margin-right: 5px;
-  }
-
-  div.footer-link p {
     margin: 0;
   }
 </style>

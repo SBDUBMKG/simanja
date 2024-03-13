@@ -3,9 +3,15 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 // Import your Vue components here
 import HomePage from '@/views/portal/HomePage.vue';
+import ArticlesListPage from '@/views/portal/ArticlesListPage.vue';
+import ArticleDetailPage from '@/views/portal/ArticleDetailPage.vue';
 import UserLoginPage from '@/views/login/UserLoginPage.vue';
 import DashBoard from '@/views/dashboard/DashBoard.vue';
 
+// Manajemen Frontend Views
+import ArticlePage from '@/views/manajemen_portal/artikel/ArticlePage.vue';
+import AddArticlePage from '@/views/manajemen_portal/artikel/AddArticlePage.vue';
+import EditArticlePage from '@/views/manajemen_portal/artikel/EditArticlePage.vue';
 
 // Master Menu Views
 import JabatanPage from '@/views/master/jabatan/JabatanPage.vue';
@@ -110,6 +116,16 @@ const routes = [
     component: HomePage,
   },
   {
+    path: '/articles',
+    name: 'ArticlesList',
+    component: ArticlesListPage,
+  },
+  {
+    path: '/articles/:articleid',
+    name: 'ArticleDetail',
+    component: ArticleDetailPage,
+  },
+  {
     path: '/login',
     name: 'UserLogin',
     component: UserLoginPage,
@@ -118,6 +134,23 @@ const routes = [
     path: '/dashboard',
     name: 'Dashboard',
     component: DashBoard,
+  },
+
+  // Manajemen Frontend
+  {
+    path: '/backend-artikel',
+    name: 'Article',
+    component: ArticlePage,
+  },
+  {
+    path: '/backend-artikel/add',
+    name: 'AddArticle',
+    component: AddArticlePage,
+  },
+  {
+    path: '/backend-artikel/edit/:articleid',
+    name: 'EditArticle',
+    component: EditArticlePage,
   },
 
   // Master Menu Path

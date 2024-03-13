@@ -77,6 +77,20 @@ export default {
 					icon: 'fa fa-bar-chart'
 				},
 				{
+					title: 'Manajemen Portal',
+					icon: 'fa fa-television',
+					child: [
+						{
+							href: '/backend-artikel',
+							title: 'Kelola Artikel'
+						},
+						{
+							href: '/backend-tautan',
+							title: 'Kelola Tautan'
+						},
+					]
+				},
+				{
 					title: 'Data Master',
 					icon: 'fa fa-book',
 					child: [

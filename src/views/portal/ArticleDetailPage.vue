@@ -20,7 +20,7 @@
         <div class="aside-container">
           <div class="aside-content d-flex" v-for="article in articles" :key="article.id_article">
             <div class="aside-img" :style="{ backgroundImage: `url(${backendHost}/image/${article.img})` }"></div>
-            <router-link class="aside-content-title" :to="{ name: 'ArticleDetail', params: { articleid: article.id_article } }">
+            <router-link class="aside-content-title" :to="{ name: 'RedirectArticle', params: { articleid: article.id_article } }">
               {{ article.title }}
             </router-link>
           </div>

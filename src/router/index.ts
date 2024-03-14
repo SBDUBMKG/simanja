@@ -5,6 +5,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HomePage from '@/views/portal/HomePage.vue';
 import ArticlesListPage from '@/views/portal/ArticlesListPage.vue';
 import ArticleDetailPage from '@/views/portal/ArticleDetailPage.vue';
+import Redirect from '@/views/portal/RedirectPage.vue';
 import UserLoginPage from '@/views/login/UserLoginPage.vue';
 import DashBoard from '@/views/dashboard/DashBoard.vue';
 
@@ -114,6 +115,11 @@ const routes = [
     path: '/',
     name: 'Home',
     component: HomePage,
+  },
+  {
+    path: '/redirect-article/:articleid',
+    name: 'RedirectArticle',
+    component: Redirect,
   },
   {
     path: '/articles',

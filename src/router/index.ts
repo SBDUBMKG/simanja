@@ -10,9 +10,15 @@ import UserLoginPage from '@/views/login/UserLoginPage.vue';
 import DashBoard from '@/views/dashboard/DashBoard.vue';
 
 // Manajemen Frontend Views
+// Artikel
 import ArticlePage from '@/views/manajemen_portal/artikel/ArticlePage.vue';
 import AddArticlePage from '@/views/manajemen_portal/artikel/AddArticlePage.vue';
 import EditArticlePage from '@/views/manajemen_portal/artikel/EditArticlePage.vue';
+
+// Tautan
+import LinkPage from '@/views/manajemen_portal/tautan/LinkPage.vue';
+import AddLinkPage from '@/views/manajemen_portal/tautan/AddLinkPage.vue';
+import EditLinkPage from '@/views/manajemen_portal/tautan/EditLinkPage.vue';
 
 // Master Menu Views
 import JabatanPage from '@/views/master/jabatan/JabatanPage.vue';
@@ -131,6 +137,8 @@ const routes = [
     name: 'ArticleDetail',
     component: ArticleDetailPage,
   },
+
+  // Login
   {
     path: '/login',
     name: 'UserLogin',
@@ -143,6 +151,7 @@ const routes = [
   },
 
   // Manajemen Frontend
+  // Artikel
   {
     path: '/backend-artikel',
     name: 'Article',
@@ -157,6 +166,23 @@ const routes = [
     path: '/backend-artikel/edit/:articleid',
     name: 'EditArticle',
     component: EditArticlePage,
+  },
+
+  // Tautan
+  {
+    path: '/backend-tautan',
+    name: 'Link',
+    component: LinkPage,
+  },
+  {
+    path: '/backend-tautan/add',
+    name: 'AddLink',
+    component: AddLinkPage,
+  },
+  {
+    path: '/backend-tautan/edit/:linkid',
+    name: 'EditLink',
+    component: EditLinkPage,
   },
 
   // Master Menu Path

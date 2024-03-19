@@ -717,6 +717,36 @@ export default {
 
             } catch (error) {
                 if (error.response.status === 404) {
+                    this.getKelasJabatanFromMaster()
+                } else if (error.response.status === 401) {
+                    this.$router.push({ name: 'Home' })
+                } else {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: error.response.data.message
+                    })
+                }
+            }
+        },
+
+        async getKelasJabatanFromMaster () {
+            try {
+                const token = localStorage.getItem('token');
+
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+
+                const responseKelasJabatan = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/master/fungsional/id/${this.dataJabatan[0].id_fungsional}`, config);
+                this.kelasJabatan = responseKelasJabatan.data.data.fungsional[0].job_grade
+                this.kelasJabatanDb = responseKelasJabatan.data.data.fungsional[0].job_grade
+                this.kelasJabatanLoaded = true
+
+            } catch (error) {
+                if (error.response.status === 404) {
                     this.kelasJabatanLoaded = true
                 } else if (error.response.status === 401) {
                     this.$router.push({ name: 'Home' })
@@ -964,30 +994,49 @@ export default {
         },
 
         async saveKelasJabatan () {
-            const token = localStorage.getItem('token')
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${token}`
+            try {
+                const token = localStorage.getItem('token')
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
                 }
+    
+                if (this.kelasJabatan === '') {
+                    await this.badRequestException("Kelas jabatan harus diisi")
+                }
+    
+                if (this.kelasJabatanDb !== '' || this.kelasJabatanBuffer !== '') {
+                    await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/kelas-jabatan/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
+                }
+                 
+                const payloadKelasJabatan = {
+                    idjabatan: this.dataJabatan[0].id_jabatan,
+                    kelasjabatan: this.kelasJabatan
+                }
+    
+                await axios.post(`${process.env.VUE_APP_BACKENDHOST}/kelas-jabatan`, payloadKelasJabatan, config)
+                .then(
+                    this.kelasJabatanBuffer = this.kelasJabatan
+                )
+            } catch (error) {
+                const token = localStorage.getItem('token')
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+                
+                const payloadKelasJabatan = {
+                    idjabatan: this.dataJabatan[0].id_jabatan,
+                    kelasjabatan: this.kelasJabatan
+                }
+    
+                await axios.post(`${process.env.VUE_APP_BACKENDHOST}/kelas-jabatan`, payloadKelasJabatan, config)
+                .then(
+                    this.kelasJabatanBuffer = this.kelasJabatan
+                )
             }
-
-            if (this.kelasJabatan === '') {
-                await this.badRequestException("Kelas jabatan harus diisi")
-            }
-
-            if (this.kelasJabatanDb !== '' || this.kelasJabatanBuffer !== '') {
-                await axios.delete(`${process.env.VUE_APP_BACKENDHOST}/kelas-jabatan/jabatan/${this.dataJabatan[0].id_jabatan}`, config)
-            }
-             
-            const payloadKelasJabatan = {
-                idjabatan: this.dataJabatan[0].id_jabatan,
-                kelasjabatan: this.kelasJabatan
-            }
-
-            await axios.post(`${process.env.VUE_APP_BACKENDHOST}/kelas-jabatan`, payloadKelasJabatan, config)
-            .then(
-                this.kelasJabatanBuffer = this.kelasJabatan
-            )
         },
 
         async saveLog () {

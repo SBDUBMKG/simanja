@@ -1026,7 +1026,7 @@ export default {
                         Authorization: `Bearer ${token}`
                     }
                 }
-                
+
                 const payloadKelasJabatan = {
                     idjabatan: this.dataJabatan[0].id_jabatan,
                     kelasjabatan: this.kelasJabatan
@@ -1146,15 +1146,7 @@ export default {
                     })
                 }
             }
-        },
-
-        // async saveSend () {
-        //     await this.saveAll ()
-        //     .then(
-        //         await this.changStatusSendToVerificator()
-        //     )
-        //     .then(this.$router.push({ name: 'AnalisisJabatan' }))
-        // }
+        }
     },
 };
 </script>

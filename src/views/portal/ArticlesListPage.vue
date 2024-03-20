@@ -10,13 +10,21 @@
       </div>
     </div>
     <div v-if="articlesLoaded" class="articles container">
-      <div class="grid-container">
-        <div class="grid-item" v-for="article in articles" :key="article.id_article">
-          <div class="article-image" :style="{ backgroundImage: `url(${backendHost}/image/${article.img})` }"></div>
-          <div class="card-body">
-            <h5 class="card-title">{{ truncateText(article.title, 50) }}</h5>
-            <p class="card-text">{{ removeHtmlTags(truncateText(article.content, 200)) }}</p>
-            <router-link :to="{ name: 'ArticleDetail', params: { articleid: article.id_article } }" class="btn btn-primary">Selengkapnya</router-link>
+      <div class="row">
+        <div class="col-md-4 mb-4" v-for="article in articles" :key="article.id_article">
+          <div class="card">
+            <div class="article-image card-img-top" :style="{ backgroundImage: `url(${backendHost}/image/${article.img})` }"></div>
+            <div class="card-body">
+              <router-link :to="{ name: 'ArticleDetail', params: { articleid: article.id_article } }" style="text-decoration: none;">
+                <h5 class="card-title">{{ truncateText(article.title, 100) }}</h5>
+              </router-link>
+            </div>
+            <div class="card-footer">
+              <div class="d-flex justify-content-start">
+                <svg xmlns="http://www.w3.org/2000/svg"  width="20"  height="20"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-calendar-event"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 5m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z" /><path d="M16 3l0 4" /><path d="M8 3l0 4" /><path d="M4 11l16 0" /><path d="M8 15h2v2h-2z" /></svg>
+                <h6> {{ changeDateFormat(article.created_at) }}</h6>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -85,10 +93,16 @@ export default {
       }
     },
 
-    removeHtmlTags(html) {
-      const tempElement = document.createElement('div');
-      tempElement.innerHTML = html;
-      return tempElement.textContent || tempElement.innerText || '';
+    changeDateFormat (upload_time) {
+      const date = new Date(upload_time)
+
+      const day = date.getDate()
+      const month = date.getMonth()
+      const year = date.getFullYear()
+
+      const months =  ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"]
+
+      return (`${day} ${months[month]} ${year}`)
     }
   }
 };
@@ -111,15 +125,18 @@ export default {
   color: #FEFEFE;
 }
 
-.articles {
-  padding: 100px 50px;
+.card {
+  height: 450px;
+  padding: 0;
 }
 
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 50px 30px;
-  grid-auto-flow: dense;
+.card-title {
+  margin-top: 20px;
+  color: rgb(58, 58, 58);
+}
+
+.articles {
+  padding: 100px 0;
 }
 
 .article-image {
@@ -129,16 +146,16 @@ export default {
   width: 100%;
   height: 200px;
 }
-
-.card-body {
-  padding: 0;
-}
-
-.card-title {
-  margin: 15px 0;
-}
 .card-text {
   color: rgb(121, 121, 121);
   line-height: 1.4;
+}
+
+.card-footer {
+  color: rgb(108, 108, 108);
+}
+
+.card-footer h6 {
+  margin: 1px 0 0 5px;
 }
 </style>

@@ -14,13 +14,7 @@
     </div>
     <div class="process-steps container-fluid content" @scroll="handleScroll">
       <div class="title-content text-center">
-        <h5>
-          Alur Analisis Jabatan<br>
-          <svg style="margin-top: -5px;" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-separator" width="100" height="50" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12l0 .01" /><path d="M7 12l10 0" /><path d="M21 12l0 .01" /></svg>
-        </h5>
-      </div>
-      <div class="text-center sub-title">
-        <p>User dapat melakukan analisis jabatan dengan alur sebagai berikut</p>
+        <p>Alur Analisis Jabatan</p>
       </div>
       <div class="container-fluid row d-flex justify-content-center">
         <div class="col-lg-2 item-content">
@@ -65,84 +59,51 @@
         </div>
       </div>
     </div>
-    <div v-if="articlesLoaded" class="articles container-fluid content">
+    <div v-if="statisticLoaded" class="statistic container-fluid content">
       <div class="title-content text-center">
-        <h5>
-          Berita dan Artikel<br>
-          <svg style="margin-top: -5px;" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-separator" width="100" height="50" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12l0 .01" /><path d="M7 12l10 0" /><path d="M21 12l0 .01" /></svg>
-        </h5>
+        <p>Statistik</p>
       </div>
-      <div class="row container-fluid justify-content-center">
-        <div class="column">
-          <div class="article-box article-1" :style="{ backgroundImage: `url(${backendHost}/image/${articles[0].img})` }">
-            <div class="overlay">
-              <router-link :to="{ name: 'ArticleDetail', params: { articleid: articles[0].id_article } }">
-                <div class="article-content">
-                  <h5 class="article-title">{{ articles[0].title }}</h5>
-                  <div class="separator"></div>
-                  <p class="article-upload-time">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock-up" width="14" height="14" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M20.983 12.548a9 9 0 1 0 -8.45 8.436" /><path d="M19 22v-6" /><path d="M22 19l-3 -3l-3 3" /><path d="M12 7v5l2.5 2.5" /></svg> {{ changeDateFormat(articles[0].created_at) }}
-                  </p>
-                </div>
-              </router-link>
-            </div>
+      <div class="stat-container container d-flex justify-content-center align-item-center text-center shadow">
+          <div class="col-lg-4">
+            <h1><strong>{{ statistic.fungsional }}</strong></h1>
+            <p class="badge bg-pale-blue">Jabatan Fungsional</p>
           </div>
-          <div class="article-box article-4" :style="{ backgroundImage: `url(${backendHost}/image/${articles[3].img})` }">
-            <div class="overlay">
-              <router-link :to="{ name: 'ArticleDetail', params: { articleid: articles[3].id_article } }">
-                <div class="article-content">
-                  <h6 class="article-title">{{ articles[3].title }}</h6>
-                  <div class="separator"></div>
-                  <p class="article-upload-time">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock-up" width="14" height="14" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M20.983 12.548a9 9 0 1 0 -8.45 8.436" /><path d="M19 22v-6" /><path d="M22 19l-3 -3l-3 3" /><path d="M12 7v5l2.5 2.5" /></svg> {{ changeDateFormat(articles[3].created_at) }}
-                  </p>
-                </div>
-              </router-link>
-            </div>
+          <div class="col-lg-4">
+            <h1><strong>{{ statistic.struktural }}</strong></h1>
+            <p class="badge bg-pale-green">Jabatan Struktural</p>
           </div>
-        </div>
-        <div class="column">
-          <div class="article-box article-2" :style="{ backgroundImage: `url(${backendHost}/image/${articles[1].img})` }">
-            <div class="overlay">
-              <router-link :to="{ name: 'ArticleDetail', params: { articleid: articles[1].id_article } }">
-                <div class="article-content">
-                  <h6 class="article-title">{{ articles[1].title }}</h6>
-                  <div class="separator"></div>
-                  <p class="article-upload-time">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock-up" width="14" height="14" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M20.983 12.548a9 9 0 1 0 -8.45 8.436" /><path d="M19 22v-6" /><path d="M22 19l-3 -3l-3 3" /><path d="M12 7v5l2.5 2.5" /></svg> {{ changeDateFormat(articles[1].created_at) }}
-                  </p>
-                </div>
-              </router-link>
-            </div>
+          <div class="col-lg-4">
+            <h1><strong>{{ statistic.satker }}</strong></h1>
+            <p class="badge bg-pale-grey">Unit Kerja</p>
           </div>
-          <div class="article-box article-3" :style="{ backgroundImage: `url(${backendHost}/image/${articles[2].img})` }">
-            <div class="overlay">
-              <router-link :to="{ name: 'ArticleDetail', params: { articleid: articles[2].id_article } }">
-                <div class="article-content">
-                  <h6 class="article-title">{{ articles[2].title }}</h6>
-                  <div class="separator"></div>
-                  <p class="article-upload-time">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock-up" width="14" height="14" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M20.983 12.548a9 9 0 1 0 -8.45 8.436" /><path d="M19 22v-6" /><path d="M22 19l-3 -3l-3 3" /><path d="M12 7v5l2.5 2.5" /></svg> {{ changeDateFormat(articles[2].created_at) }}
-                  </p>
-                </div>
-              </router-link>
-            </div>
-          </div>
-          <div class="article-box article-5" :style="{ backgroundImage: `url(${backendHost}/image/${articles[4].img})` }">
-            <div class="overlay">
-              <router-link :to="{ name: 'ArticleDetail', params: { articleid: articles[4].id_article } }">
-                <div class="article-content">
-                  <h6 class="article-title">{{ articles[4].title }}</h6>
-                  <div class="separator"></div>
-                  <p class="article-upload-time">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock-up" width="14" height="14" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M20.983 12.548a9 9 0 1 0 -8.45 8.436" /><path d="M19 22v-6" /><path d="M22 19l-3 -3l-3 3" /><path d="M12 7v5l2.5 2.5" /></svg> {{ changeDateFormat(articles[4].created_at) }}
-                  </p>
-                </div>
-              </router-link>
-            </div>
-          </div>
-        </div>
       </div>
+    </div>
+    <div v-if="articlesLoaded" class="articles container-fluid content">
+      <div class="title-content text-left">
+        <p>Berita dan Artikel</p>
+      </div>
+      <Carousel v-bind="settings" :autoplay="5000" :breakpoints="breakpoints">
+        <Slide v-for="article in articles" :key="article.id_article">
+          <div class="carousel__item" style="width: 450px; height: 500px; vertical-align: top;">
+            <router-link :to="{ name: 'ArticleDetail', params: { articleid: article.id_article } }" style="text-decoration: none;">
+              <div class="article-img" :style="{ backgroundImage: `url(${backendHost}/image/${article.img})` }"></div>
+              <div class="article-type">
+                <p class="text-left">ARTIKEL</p>
+              </div>
+              <div class="article-title">
+                <p class="text-justify">{{ article.title }}</p>
+              </div>
+              <div class="article-date">
+                <p class="text-justify">{{ changeDateFormat(article.created_at) }}</p>
+              </div>
+            </router-link>
+          </div>
+        </Slide>
+
+        <template #addons>
+          <Pagination />
+        </template>
+      </Carousel>
     </div>
     <Footer></Footer>
   </div>
@@ -152,19 +113,48 @@
 import axios from 'axios';
 import NavbarPortal from '@/components/NavbarPortal.vue';
 import Footer from '@/components/Footer.vue';
+import { Carousel, Pagination, Slide } from 'vue3-carousel'
+import 'vue3-carousel/dist/carousel.css'
 
 export default {
   name: "HomePage",
   components: {
     NavbarPortal,
-    Footer
+    Footer,
+    Carousel,
+    Pagination,
+    Slide
   },
   data () {
     return {
       backendHost: process.env.VUE_APP_BACKENDHOST,
       transparentNavbar: true,
+      statistic: {
+        fungsional: null,
+        struktural: null,
+        satker: null,
+      },
+      statisticLoaded: false,
       articles: null,
-      articlesLoaded: false
+      articlesLoaded: false,
+      settings: {
+        itemsToShow: 1,
+        snapAlign: 'center',
+      },
+      breakpoints: {
+        1024: {
+          itemsToShow: 2,
+          snapAlign: 'center',
+        },
+        1300: {
+          itemsToShow: 3,
+          snapAlign: 'start',
+        },
+        1600: {
+          itemsToShow: 4,
+          snapAlign: 'start',
+        },
+      },
     }
   },
   created () {
@@ -174,7 +164,10 @@ export default {
     window.removeEventListener('scroll', this.handleScroll)
   },
   mounted () {
-    this.loadArticles()
+    Promise.all([
+      this.loadStatistic(),
+      this.loadArticles()
+    ])
   },
   methods: {
     handleScroll () {
@@ -192,6 +185,26 @@ export default {
         const months =  ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"]
         
         return (`${day} ${months[month]} ${year}`)
+    },
+
+    async loadStatistic () {
+      try {
+        const responseJabatan = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/master/fungsional/count`)
+        this.statistic.fungsional = responseJabatan.data.data.jabatan[0].fungsionalcount
+        this.statistic.struktural = responseJabatan.data.data.jabatan[0].strukturalcount
+
+        const responseSatker = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/master/satker/count`)
+        this.statistic.satker = responseSatker.data.data.satker[0].satkercount
+
+        this.statisticLoaded = true
+      } catch (error) {
+          this.$swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: error.response.data.message
+          })
+        
+      }
     },
 
     async loadArticles () {
@@ -233,7 +246,11 @@ export default {
   }
 
   .content {
-    padding: 50px 10px 0 10px;
+    padding: 30px 30px 100px 30px;
+  }
+
+  .title-content {
+    margin: 30px 0 30px 0;
   }
 
   .sub-title {
@@ -264,72 +281,79 @@ export default {
     font-weight: 600;
   }
 
+  .stat-container {
+    background-color: white;
+    padding: 50px;
+    border-radius: 10px;
+    border-style: solid;
+    border-color: rgb(216, 216, 216);
+    border-width: 1px;
+  }
+
+  .badge {
+    padding: 10px;
+    font-size: 15px;
+  }
+
+  .bg-pale-blue {
+    background-color: #e0e9fa;
+    color: #3f78e0;
+  }
+
+  .bg-pale-green {
+    background-color: #e1f6f0;
+    color: #3f78e0;
+  }
+
+  .bg-pale-grey {
+    background-color: #dfe0e3;
+    color: #343f52;
+  }
+
   .row {
     display: flex;
     flex-wrap: wrap;
     padding: 0 4px;
   }
 
-  .column {
-    flex: 35%;
-    max-width: 35%;
-    padding: 0 5px;
+  .process-steps, .articles {
+    background-color: #eff1ff;
   }
 
-  .column div {
-    margin-top: 10px;
-    vertical-align: middle;
-  }
-
-  .article-box {
+  .article-img {
     background-size: cover;
     background-position: center;
-    transition: transform 0.3s;
+    border-radius: 5px;
+    height: 50%;
+    width: 100%;
   }
 
-  .article-box:hover {
-    transform: scale(1.02);
+  .article-type {
+    margin: 20px 0;
+    font-size: 15px;
+    height: 5%;
+    color: #3f78e0;
+    font-weight: 600;
+    letter-spacing: 0.5px;
   }
+
+  .article-title {
+    line-height: 1.55;
+    height: 25%;
+    letter-spacing: 0.5px;
+    color: rgb(50, 50, 50);
+    font-weight: 600;
+  }
+
+  .article-date {
+    height: 20%;
+    color: rgb(105, 105, 105);
+  }
+
   .overlay {
     background-color: rgba(0, 0, 0, 0.4);
     position: relative;
     width: 100%;
     height: 100%;
-  }
-
-  .article-1 {
-    width: 100%;
-    height: 410px;
-  }
-
-  .article-2, .article-3, .article-4, .article-5 {
-    width: 100%;
-    height: 200px;
-  }
-
-  .article-content {
-    position: absolute;
-    bottom: 0;
-    padding: 5px 20px;
-  }
-
-  .article-content, .footer-link, router-link {
-    color: rgb(240, 240, 240);
-  }
-
-  .article-content .article-title {
-    font-weight: 500;
-  }
-
-  .article-content .separator {
-    border-bottom-style: solid;
-    border-bottom-width: 3px;
-    width: 40%;
-    margin-bottom: 10px;
-  }
-
-  .article-content .article-upload-time {
-    font-size: 14px;
-    margin: 0;
   }
 </style>

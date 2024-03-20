@@ -82,7 +82,7 @@
       <div class="title-content text-left">
         <p>Berita dan Artikel</p>
       </div>
-      <Carousel v-bind="settings" :autoplay="5000" :breakpoints="breakpoints">
+      <Carousel v-bind="settings" :autoplay="5000" :breakpoints="breakpoints" :wrap-around="true">
         <Slide v-for="article in articles" :key="article.id_article">
           <div class="carousel__item" style="width: 450px; height: 500px; vertical-align: top;">
             <router-link :to="{ name: 'ArticleDetail', params: { articleid: article.id_article } }" style="text-decoration: none;">

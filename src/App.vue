@@ -4,11 +4,10 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { useRecaptchaProvider } from 'vue-recaptcha'
 
-export default {
-	name: 'App',
-};
+useRecaptchaProvider()
 </script>
 
 <style>

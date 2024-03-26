@@ -34,6 +34,7 @@
                             <div class="invalid-feedback">Password harus diisi.</div>
                           </div>
 
+                          <Checkbox class="mb-3" v-model="response"></Checkbox>
                           <button type="submit" class="btn btn-primary btn-block align-self-end">Sign In</button>
                         </form>
                       </div>
@@ -51,13 +52,24 @@
 
 <script>
 import axios from 'axios';
+import { Checkbox } from 'vue-recaptcha';
 
 export default {
+  components: {
+    Checkbox
+  },
   data() {
     return {
+      token: localStorage.getItem('token'),
       username: '',
       password: '',
+      response: ''
     };
+  },
+  mounted () {
+    if (this.token !== null) {
+      this.$router.push('/dashboard');
+    }
   },
   methods: {
     async login() {
@@ -73,9 +85,17 @@ export default {
         localStorage.setItem('iduser', response.data.data.iduser);
         localStorage.setItem('role', response.data.data.role);
 
-        axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.data.accessToken}`;
+        if (this.response !== '') {
+          axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.data.accessToken}`
+          this.$router.push('/dashboard')
+        } else {
+          this.$swal.fire({
+              icon: 'warning',
+              title: 'Warning',
+              text: 'Captcha Wajib Diisi'
+          })
+        }
         
-        this.$router.push('/dashboard');
       } catch (error) {
           this.$swal.fire({
               icon: 'error',

@@ -9,6 +9,16 @@ import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
+import { createHead } from '@unhead/vue'
+import { VueRecaptchaPlugin } from 'vue-recaptcha'
 
+const head = createHead()
 const app = createApp(App);
-app.use(store).use(router).use(VueSweetalert2).mount('#app');
+app.use(store)
+    .use(router)
+    .use(VueSweetalert2)
+    .use(head)
+    .use(VueRecaptchaPlugin, {
+        v2SiteKey: '6LcKtKQpAAAAAFVTzUAzVyrwx_EPsW1QDaJDoIPQ'
+    })
+    .mount('#app');

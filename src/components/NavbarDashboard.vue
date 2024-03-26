@@ -13,7 +13,7 @@
         </div>
         <div @click="logout" class="logout">
           <button class="btn btn-danger btn-sm">
-            <router-link to="/">
+            <router-link :to="{ name: 'Home' }">
               <i class="fa fa-sign-out"></i><span> Logout</span>
             </router-link>
           </button>
@@ -32,12 +32,7 @@ export default {
   },
   methods: {
     logout() {
-      localStorage.removeItem('token');
-      localStorage.removeItem('satker');
-      localStorage.removeItem('idsatker');
-      localStorage.removeItem('role');
-      
-      this.$router.push('/login');
+      localStorage.clear()
     },
   },
 };

@@ -46,19 +46,9 @@ export default {
     }
   },
   mounted () {
-    this.checkAuthentication()
     this.loadLinks()
   },
   methods: {
-    async checkAuthentication () {
-      const token = localStorage.getItem('token');
-
-      if (!token) {
-          console.error('Token not available');
-          this.$router.push({ name: 'Home' })
-      }
-    },
-
     async loadLinks () {
       try {
         const response = await axios.get(`${process.env.VUE_APP_BACKENDHOST}/links`);

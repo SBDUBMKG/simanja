@@ -81,7 +81,7 @@ export default {
 
 <style scoped>
 .jumbotron {
-  background-image: url('@/assets/jumbotron-article.jpg');
+  background-image: url('@/assets/jumbotron-faq.jpg');
   background-size: cover;
   background-position: center;
   color: #fff;

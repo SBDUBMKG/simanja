@@ -24,6 +24,9 @@
           <li class="nav-item">
             <a class="nav-link" href="#">Regulasi</a>
           </li>
+          <li class="nav-item">
+            <router-link :to="{ name: 'FAQ' }" class="nav-link">FAQ</router-link>
+          </li>
         </ul>
         <div class="form-inline my-2 my-lg-0">
           <button class="btn btn-primary my-2 my-sm-0" @click="toLoginPage">

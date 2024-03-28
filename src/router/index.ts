@@ -5,7 +5,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HomePage from '@/views/portal/HomePage.vue';
 import ArticlesListPage from '@/views/portal/ArticlesListPage.vue';
 import ArticleDetailPage from '@/views/portal/ArticleDetailPage.vue';
-import FaqPage from '@/views/portal/FaqPage.vue';
+import FaqListPage from '@/views/portal/FaqPage.vue';
 import Redirect from '@/views/portal/RedirectPage.vue';
 import UserLoginPage from '@/views/login/UserLoginPage.vue';
 import DashBoard from '@/views/dashboard/DashBoard.vue';
@@ -20,6 +20,11 @@ import EditArticlePage from '@/views/manajemen_portal/artikel/EditArticlePage.vu
 import LinkPage from '@/views/manajemen_portal/tautan/LinkPage.vue';
 import AddLinkPage from '@/views/manajemen_portal/tautan/AddLinkPage.vue';
 import EditLinkPage from '@/views/manajemen_portal/tautan/EditLinkPage.vue';
+
+// FAQ
+import FaqPage from '@/views/manajemen_portal/faq/FaqPage.vue';
+import AddFaqPage from '@/views/manajemen_portal/faq/AddFaqPage.vue';
+import EditFaqPage from '@/views/manajemen_portal/faq/EditFaqPage.vue';
 
 // Master Menu Views
 import JabatanPage from '@/views/master/jabatan/JabatanPage.vue';
@@ -141,7 +146,7 @@ const routes = [
   {
     path: '/faq',
     name: 'FAQ',
-    component: FaqPage,
+    component: FaqListPage,
   },
 
   // Login
@@ -189,6 +194,23 @@ const routes = [
     path: '/backend-tautan/edit/:linkid',
     name: 'EditLink',
     component: EditLinkPage,
+  },
+
+  // FAQ
+  {
+    path: '/backend-faq',
+    name: 'Faq',
+    component: FaqPage,
+  },
+  {
+    path: '/backend-faq/add',
+    name: 'AddFaq',
+    component: AddFaqPage,
+  },
+  {
+    path: '/backend-faq/edit/:faqid',
+    name: 'EditFaq',
+    component: EditFaqPage,
   },
 
   // Master Menu Path

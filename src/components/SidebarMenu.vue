@@ -88,6 +88,10 @@ export default {
 							href: '/backend-tautan',
 							title: 'Kelola Tautan'
 						},
+						{
+							href: '/backend-faq',
+							title: 'Kelola FAQ'
+						}
 					]
 				},
 				{

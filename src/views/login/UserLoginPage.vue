@@ -34,7 +34,6 @@
                             <div class="invalid-feedback">Password harus diisi.</div>
                           </div>
                           <Checkbox class="mb-3" v-model="response"></Checkbox>
-                          <p>{{ response }}</p>
                           <button type="submit" class="btn btn-primary btn-block align-self-end">Sign In</button>
                         </form>
                       </div>

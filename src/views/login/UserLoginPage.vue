@@ -33,8 +33,8 @@
                             <input type="password" class="form-control" placeholder="Masukkan Password" v-model="password" required>
                             <div class="invalid-feedback">Password harus diisi.</div>
                           </div>
-
                           <Checkbox class="mb-3" v-model="response"></Checkbox>
+                          <p>{{ response }}</p>
                           <button type="submit" class="btn btn-primary btn-block align-self-end">Sign In</button>
                         </form>
                       </div>
@@ -63,7 +63,7 @@ export default {
       token: localStorage.getItem('token'),
       username: '',
       password: '',
-      response: ''
+      response: null
     };
   },
   mounted () {
@@ -85,7 +85,7 @@ export default {
         localStorage.setItem('iduser', response.data.data.iduser);
         localStorage.setItem('role', response.data.data.role);
 
-        if (this.response !== '') {
+        if (this.response !== null) {
           axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.data.accessToken}`
           this.$router.push('/dashboard')
         } else {
